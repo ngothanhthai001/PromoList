@@ -1,0 +1,13 @@
+<?php
+/** @var $block Toolbar */
+
+use Marvelic\PromoLists\Block\Promotion\PromotionList\Toolbar;
+
+?>
+<?php if ($block->getCollection()->getSize()): ?>
+    <div class="toolbar blog-promotion-list__toolbar">
+        <?php include($block->getTemplateFile('promotion/list/toolbar/amount.phtml')) ?>
+
+        <?= $block->getPagerHtml() ?>
+    </div>
+<?php endif ?>

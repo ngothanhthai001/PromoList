@@ -1,0 +1,16 @@
+<?php
+//@codingStandardsIgnoreFile
+
+/** @var Result $block */
+
+use Marvelic\PromoLists\Block\Search\Result;
+
+?>
+
+<?php if ($block->getPromotionCollection()->count() > 0): ?>
+    <?= $block->getChildHtml('promolist.promotion.list') ?>
+<?php else: ?>
+    <div class="message notice">
+        <div><?= __('Your search returned no results.') ?></div>
+    </div>
+<?php endif ?>

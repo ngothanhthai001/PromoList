@@ -1,0 +1,19 @@
+<?php
+//@codingStandardsIgnoreFile
+
+/** @var Meta $block */
+
+use Marvelic\PromoLists\Block\Promotion\Meta;
+
+$promotion = $block->getPromotion();
+?>
+
+<footer class="promotion-footer">
+    <span class="promotion-footer-categories">
+            <i class="fa fa-fw fa-folder-open"></i>
+        <?php foreach ($promotion->getCategories() as $category): ?>
+            <a href="<?= $category->getUrl() ?>" rel="category tag"><?= $category->getName() ?></a>
+        <?php endforeach ?>
+    </span>
+
+</footer>

@@ -1,0 +1,558 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="promolist_promotion_entity" resource="default" engine="innodb" comment="Promolist Promotion Table">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true"
+                comment="Entity ID"/>
+        <column xsi:type="smallint" name="attribute_set_id" unsigned="true" nullable="false"
+                identity="false" default="0" comment="Attribute Set ID"/>
+<!--        <column xsi:type="varchar" name="type_id" nullable="false" length="32" default="simple" comment="Type ID"/>-->
+<!--        <column xsi:type="varchar" name="sku" nullable="true" length="64" comment="SKU"/>-->
+<!--        <column xsi:type="smallint" name="has_options" unsigned="false" nullable="false" identity="false"-->
+<!--                default="0" comment="Has Options"/>-->
+<!--        <column xsi:type="smallint" name="required_options" unsigned="true" nullable="false"-->
+<!--                identity="false" default="0" comment="Required Options"/>-->
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Creation Time"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Update Time"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <index referenceId="PROMOLIST_PROMOTION_ENTITY_ATTRIBUTE_SET_ID" indexType="btree">
+            <column name="attribute_set_id"/>
+        </index>
+<!--        <index referenceId="PROMOLIST_PROMOTION_ENTITY_SKU" indexType="btree">-->
+<!--            <column name="sku"/>-->
+<!--        </index>-->
+    </table>
+    <table name="promolist_promotion_entity_datetime" resource="default" engine="innodb"
+           comment="Promolist Promotion Datetime Attribute Backend Table">
+        <column xsi:type="int" name="value_id" unsigned="false" nullable="false" identity="true"
+                comment="Value ID"/>
+        <column xsi:type="smallint" name="attribute_id" unsigned="true" nullable="false" identity="false"
+                default="0" comment="Attribute ID"/>
+        <column xsi:type="smallint" name="store_id" unsigned="true" nullable="false" identity="false"
+                default="0" comment="Store ID"/>
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="false"
+                default="0" comment="Entity ID"/>
+        <column xsi:type="datetime" name="value" on_update="false" nullable="true" comment="Value"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="value_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="PML_PROMO_ENTT_DTIME_ATTR_ID_EAV_ATTR_ATTR_ID"
+                    table="promolist_promotion_entity_datetime" column="attribute_id" referenceTable="eav_attribute"
+                    referenceColumn="attribute_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="PML_PROMO_ENTT_DTIME_ENTT_ID_PML_PROMO_ENTT_ENTT_ID"
+                    table="promolist_promotion_entity_datetime" column="entity_id" referenceTable="promolist_promotion_entity"
+                    referenceColumn="entity_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="PROMOLIST_PROMOTION_ENTITY_DATETIME_STORE_ID_STORE_STORE_ID"
+                    table="promolist_promotion_entity_datetime" column="store_id" referenceTable="store"
+                    referenceColumn="store_id" onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="PROMOLIST_PROMOTION_ENTITY_DATETIME_ENTITY_ID_ATTRIBUTE_ID_STORE_ID">
+            <column name="entity_id"/>
+            <column name="attribute_id"/>
+            <column name="store_id"/>
+        </constraint>
+        <index referenceId="PROMOLIST_PROMOTION_ENTITY_DATETIME_ATTRIBUTE_ID" indexType="btree">
+            <column name="attribute_id"/>
+        </index>
+        <index referenceId="PROMOLIST_PROMOTION_ENTITY_DATETIME_STORE_ID" indexType="btree">
+            <column name="store_id"/>
+        </index>
+    </table>
+    <table name="promolist_promotion_entity_decimal" resource="default" engine="innodb"
+           comment="Promolist Promotion Decimal Attribute Backend Table">
+        <column xsi:type="int" name="value_id" unsigned="false" nullable="false" identity="true"
+                comment="Value ID"/>
+        <column xsi:type="smallint" name="attribute_id" unsigned="true" nullable="false" identity="false"
+                default="0" comment="Attribute ID"/>
+        <column xsi:type="smallint" name="store_id" unsigned="true" nullable="false" identity="false"
+                default="0" comment="Store ID"/>
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="false"
+                default="0" comment="Entity ID"/>
+        <column xsi:type="decimal" name="value" scale="6" precision="20" unsigned="false" nullable="true"
+                comment="Value"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="value_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="PML_PROMO_ENTT_DEC_ATTR_ID_EAV_ATTR_ATTR_ID"
+                    table="promolist_promotion_entity_decimal" column="attribute_id" referenceTable="eav_attribute"
+                    referenceColumn="attribute_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="PML_PROMO_ENTT_DEC_ENTT_ID_PML_PROMO_ENTT_ENTT_ID"
+                    table="promolist_promotion_entity_decimal" column="entity_id" referenceTable="promolist_promotion_entity"
+                    referenceColumn="entity_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="PROMOLIST_PROMOTION_ENTITY_DECIMAL_STORE_ID_STORE_STORE_ID"
+                    table="promolist_promotion_entity_decimal" column="store_id" referenceTable="store"
+                    referenceColumn="store_id" onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="PROMOLIST_PROMOTION_ENTITY_DECIMAL_ENTITY_ID_ATTRIBUTE_ID_STORE_ID">
+            <column name="entity_id"/>
+            <column name="attribute_id"/>
+            <column name="store_id"/>
+        </constraint>
+        <index referenceId="PROMOLIST_PROMOTION_ENTITY_DECIMAL_STORE_ID" indexType="btree">
+            <column name="store_id"/>
+        </index>
+        <index referenceId="PROMOLIST_PROMOTION_ENTITY_DECIMAL_ATTRIBUTE_ID" indexType="btree">
+            <column name="attribute_id"/>
+        </index>
+    </table>
+    <table name="promolist_promotion_entity_int" resource="default" engine="innodb"
+           comment="Promolist Promotion Integer Attribute Backend Table">
+        <column xsi:type="int" name="value_id" unsigned="false" nullable="false" identity="true"
+                comment="Value ID"/>
+        <column xsi:type="smallint" name="attribute_id" unsigned="true" nullable="false" identity="false"
+                default="0" comment="Attribute ID"/>
+        <column xsi:type="smallint" name="store_id" unsigned="true" nullable="false" identity="false"
+                default="0" comment="Store ID"/>
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="false"
+                default="0" comment="Entity ID"/>
+        <column xsi:type="int" name="value" unsigned="false" nullable="true" identity="false"
+                comment="Value"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="value_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="PML_PROMO_ENTT_INT_ATTR_ID_EAV_ATTR_ATTR_ID"
+                    table="promolist_promotion_entity_int" column="attribute_id" referenceTable="eav_attribute"
+                    referenceColumn="attribute_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="PML_PROMO_ENTT_INT_ENTT_ID_PML_PROMO_ENTT_ENTT_ID"
+                    table="promolist_promotion_entity_int" column="entity_id" referenceTable="promolist_promotion_entity"
+                    referenceColumn="entity_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="PROMOLIST_PROMOTION_ENTITY_INT_STORE_ID_STORE_STORE_ID"
+                    table="promolist_promotion_entity_int" column="store_id" referenceTable="store"
+                    referenceColumn="store_id" onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="PROMOLIST_PROMOTION_ENTITY_INT_ENTITY_ID_ATTRIBUTE_ID_STORE_ID">
+            <column name="entity_id"/>
+            <column name="attribute_id"/>
+            <column name="store_id"/>
+        </constraint>
+        <index referenceId="PROMOLIST_PROMOTION_ENTITY_INT_ATTRIBUTE_ID" indexType="btree">
+            <column name="attribute_id"/>
+        </index>
+        <index referenceId="PROMOLIST_PROMOTION_ENTITY_INT_STORE_ID" indexType="btree">
+            <column name="store_id"/>
+        </index>
+        <index referenceId="PROMOLIST_PROMOTION_ENTITY_INT_ATTRIBUTE_ID_STORE_ID_VALUE" indexType="btree">
+            <column name="attribute_id"/>
+            <column name="store_id"/>
+            <column name="value"/>
+        </index>
+    </table>
+    <table name="promolist_promotion_entity_text" resource="default" engine="innodb"
+           comment="Promolist Promotion Text Attribute Backend Table">
+        <column xsi:type="int" name="value_id" unsigned="false" nullable="false" identity="true"
+                comment="Value ID"/>
+        <column xsi:type="smallint" name="attribute_id" unsigned="true" nullable="false" identity="false"
+                default="0" comment="Attribute ID"/>
+        <column xsi:type="smallint" name="store_id" unsigned="true" nullable="false" identity="false"
+                default="0" comment="Store ID"/>
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="false"
+                default="0" comment="Entity ID"/>
+        <column xsi:type="mediumtext" name="value" nullable="true" comment="Value"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="value_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="PML_PROMO_ENTT_TEXT_ATTR_ID_EAV_ATTR_ATTR_ID"
+                    table="promolist_promotion_entity_text" column="attribute_id" referenceTable="eav_attribute"
+                    referenceColumn="attribute_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="PML_PROMO_ENTT_TEXT_ENTT_ID_PML_PROMO_ENTT_ENTT_ID"
+                    table="promolist_promotion_entity_text" column="entity_id" referenceTable="promolist_promotion_entity"
+                    referenceColumn="entity_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="PROMOLIST_PROMOTION_ENTITY_TEXT_STORE_ID_STORE_STORE_ID"
+                    table="promolist_promotion_entity_text" column="store_id" referenceTable="store"
+                    referenceColumn="store_id" onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="PROMOLIST_PROMOTION_ENTITY_TEXT_ENTITY_ID_ATTRIBUTE_ID_STORE_ID">
+            <column name="entity_id"/>
+            <column name="attribute_id"/>
+            <column name="store_id"/>
+        </constraint>
+        <index referenceId="PROMOLIST_PROMOTION_ENTITY_TEXT_ATTRIBUTE_ID" indexType="btree">
+            <column name="attribute_id"/>
+        </index>
+        <index referenceId="PROMOLIST_PROMOTION_ENTITY_TEXT_STORE_ID" indexType="btree">
+            <column name="store_id"/>
+        </index>
+    </table>
+    <table name="promolist_promotion_entity_varchar" resource="default" engine="innodb"
+           comment="Promolist Promotion Varchar Attribute Backend Table">
+        <column xsi:type="int" name="value_id" unsigned="false" nullable="false" identity="true"
+                comment="Value ID"/>
+        <column xsi:type="smallint" name="attribute_id" unsigned="true" nullable="false" identity="false"
+                default="0" comment="Attribute ID"/>
+        <column xsi:type="smallint" name="store_id" unsigned="true" nullable="false" identity="false"
+                default="0" comment="Store ID"/>
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="false"
+                default="0" comment="Entity ID"/>
+        <column xsi:type="varchar" name="value" nullable="true" length="255" comment="Value"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="value_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="PML_PROMO_ENTT_VCHR_ATTR_ID_EAV_ATTR_ATTR_ID"
+                    table="promolist_promotion_entity_varchar" column="attribute_id" referenceTable="eav_attribute"
+                    referenceColumn="attribute_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="PML_PROMO_ENTT_VCHR_ENTT_ID_PML_PROMO_ENTT_ENTT_ID"
+                    table="promolist_promotion_entity_varchar" column="entity_id" referenceTable="promolist_promotion_entity"
+                    referenceColumn="entity_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="PROMOLIST_PROMOTION_ENTITY_VARCHAR_STORE_ID_STORE_STORE_ID"
+                    table="promolist_promotion_entity_varchar" column="store_id" referenceTable="store"
+                    referenceColumn="store_id" onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="PROMOLIST_PROMOTION_ENTITY_VARCHAR_ENTITY_ID_ATTRIBUTE_ID_STORE_ID">
+            <column name="entity_id"/>
+            <column name="attribute_id"/>
+            <column name="store_id"/>
+        </constraint>
+        <index referenceId="PROMOLIST_PROMOTION_ENTITY_VARCHAR_ATTRIBUTE_ID" indexType="btree">
+            <column name="attribute_id"/>
+        </index>
+        <index referenceId="PROMOLIST_PROMOTION_ENTITY_VARCHAR_STORE_ID" indexType="btree">
+            <column name="store_id"/>
+        </index>
+    </table>
+    <table name="promolist_promotion_entity_gallery" resource="default" engine="innodb"
+           comment="Promolist Promotion Gallery Attribute Backend Table">
+        <column xsi:type="int" name="value_id" unsigned="false" nullable="false" identity="true"
+                comment="Value ID"/>
+        <column xsi:type="smallint" name="attribute_id" unsigned="true" nullable="false" identity="false"
+                default="0" comment="Attribute ID"/>
+        <column xsi:type="smallint" name="store_id" unsigned="true" nullable="false" identity="false"
+                default="0" comment="Store ID"/>
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="false"
+                default="0" comment="Entity ID"/>
+        <column xsi:type="int" name="position" unsigned="false" nullable="false" identity="false"
+                default="0" comment="Position"/>
+        <column xsi:type="varchar" name="value" nullable="true" length="255" comment="Value"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="value_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="PML_PROMO_ENTT_GLR_ATTR_ID_EAV_ATTR_ATTR_ID"
+                    table="promolist_promotion_entity_gallery" column="attribute_id" referenceTable="eav_attribute"
+                    referenceColumn="attribute_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="PML_PROMO_ENTT_GLR_ENTT_ID_PML_PROMO_ENTT_ENTT_ID"
+                    table="promolist_promotion_entity_gallery" column="entity_id" referenceTable="promolist_promotion_entity"
+                    referenceColumn="entity_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="PROMOLIST_PROMOTION_ENTITY_GALLERY_STORE_ID_STORE_STORE_ID"
+                    table="promolist_promotion_entity_gallery" column="store_id" referenceTable="store"
+                    referenceColumn="store_id" onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="PROMOLIST_PROMOTION_ENTITY_GALLERY_ENTITY_ID_ATTRIBUTE_ID_STORE_ID">
+            <column name="entity_id"/>
+            <column name="attribute_id"/>
+            <column name="store_id"/>
+        </constraint>
+        <index referenceId="PROMOLIST_PROMOTION_ENTITY_GALLERY_ENTITY_ID" indexType="btree">
+            <column name="entity_id"/>
+        </index>
+        <index referenceId="PROMOLIST_PROMOTION_ENTITY_GALLERY_ATTRIBUTE_ID" indexType="btree">
+            <column name="attribute_id"/>
+        </index>
+        <index referenceId="PROMOLIST_PROMOTION_ENTITY_GALLERY_STORE_ID" indexType="btree">
+            <column name="store_id"/>
+        </index>
+    </table>
+    <table name="promolist_category_entity" resource="default" engine="innodb" comment="Promolist Category Table">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true"
+                comment="Entity ID"/>
+        <column xsi:type="smallint" name="attribute_set_id" unsigned="true" nullable="false"
+                identity="false" default="0" comment="Attribute Set ID"/>
+        <column xsi:type="int" name="parent_id" unsigned="true" nullable="false" identity="false"
+                default="0" comment="Parent Category ID"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Creation Time"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Update Time"/>
+        <column xsi:type="varchar" name="path" nullable="false" length="255" comment="Tree Path"/>
+        <column xsi:type="int" name="position" unsigned="false" nullable="false" identity="false"
+                comment="Position"/>
+        <column xsi:type="int" name="level" unsigned="false" nullable="false" identity="false" default="0"
+                comment="Tree Level"/>
+        <column xsi:type="int" name="children_count" unsigned="false" nullable="false" identity="false"
+                comment="Child Count"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <index referenceId="PROMOLIST_CATEGORY_ENTITY_LEVEL" indexType="btree">
+            <column name="level"/>
+        </index>
+        <index referenceId="PROMOLIST_CATEGORY_ENTITY_PATH" indexType="btree">
+            <column name="path"/>
+        </index>
+    </table>
+    <table name="promolist_category_entity_datetime" resource="default" engine="innodb"
+           comment="Promolist Category Datetime Attribute Backend Table">
+        <column xsi:type="int" name="value_id" unsigned="false" nullable="false" identity="true"
+                comment="Value ID"/>
+        <column xsi:type="smallint" name="attribute_id" unsigned="true" nullable="false" identity="false"
+                default="0" comment="Attribute ID"/>
+        <column xsi:type="smallint" name="store_id" unsigned="true" nullable="false" identity="false"
+                default="0" comment="Store ID"/>
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="false"
+                default="0" comment="Entity ID"/>
+        <column xsi:type="datetime" name="value" on_update="false" nullable="true" comment="Value"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="value_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="PML_CTGR_ENTT_DTIME_ATTR_ID_EAV_ATTR_ATTR_ID"
+                    table="promolist_category_entity_datetime" column="attribute_id" referenceTable="eav_attribute"
+                    referenceColumn="attribute_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="PML_CTGR_ENTT_DTIME_ENTT_ID_PML_CTGR_ENTT_ENTT_ID"
+                    table="promolist_category_entity_datetime" column="entity_id" referenceTable="promolist_category_entity"
+                    referenceColumn="entity_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="PROMOLIST_CATEGORY_ENTITY_DATETIME_STORE_ID_STORE_STORE_ID"
+                    table="promolist_category_entity_datetime" column="store_id" referenceTable="store"
+                    referenceColumn="store_id" onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="PROMOLIST_CATEGORY_ENTITY_DATETIME_ENTITY_ID_ATTRIBUTE_ID_STORE_ID">
+            <column name="entity_id"/>
+            <column name="attribute_id"/>
+            <column name="store_id"/>
+        </constraint>
+        <index referenceId="PROMOLIST_CATEGORY_ENTITY_DATETIME_ENTITY_ID" indexType="btree">
+            <column name="entity_id"/>
+        </index>
+        <index referenceId="PROMOLIST_CATEGORY_ENTITY_DATETIME_ATTRIBUTE_ID" indexType="btree">
+            <column name="attribute_id"/>
+        </index>
+        <index referenceId="PROMOLIST_CATEGORY_ENTITY_DATETIME_STORE_ID" indexType="btree">
+            <column name="store_id"/>
+        </index>
+    </table>
+    <table name="promolist_category_entity_int" resource="default" engine="innodb"
+           comment="Promolist Category Integer Attribute Backend Table">
+        <column xsi:type="int" name="value_id" unsigned="true" nullable="false" identity="true"
+                comment="Value ID"/>
+        <column xsi:type="smallint" name="attribute_id" unsigned="true" nullable="false" identity="false"
+                default="0" comment="Attribute ID"/>
+        <column xsi:type="smallint" name="store_id" unsigned="true" nullable="false" identity="false"
+                default="0" comment="Store ID"/>
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="false"
+                default="0" comment="Entity ID"/>
+        <column xsi:type="int" name="value" unsigned="false" nullable="true" identity="false"
+                comment="Value"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="value_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="PML_CTGR_ENTT_INT_ATTR_ID_EAV_ATTR_ATTR_ID"
+                    table="promolist_category_entity_int" column="attribute_id" referenceTable="eav_attribute"
+                    referenceColumn="attribute_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="PML_CTGR_ENTT_INT_ENTT_ID_PML_CTGR_ENTT_ENTT_ID"
+                    table="promolist_category_entity_int" column="entity_id" referenceTable="promolist_category_entity"
+                    referenceColumn="entity_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="PROMOLIST_CATEGORY_ENTITY_INT_STORE_ID_STORE_STORE_ID"
+                    table="promolist_category_entity_int" column="store_id" referenceTable="store"
+                    referenceColumn="store_id" onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="PROMOLIST_CATEGORY_ENTITY_INT_ENTITY_ID_ATTRIBUTE_ID_STORE_ID">
+            <column name="entity_id"/>
+            <column name="attribute_id"/>
+            <column name="store_id"/>
+        </constraint>
+        <index referenceId="PROMOLIST_CATEGORY_ENTITY_INT_ENTITY_ID" indexType="btree">
+            <column name="entity_id"/>
+        </index>
+        <index referenceId="PROMOLIST_CATEGORY_ENTITY_INT_ATTRIBUTE_ID" indexType="btree">
+            <column name="attribute_id"/>
+        </index>
+        <index referenceId="PROMOLIST_CATEGORY_ENTITY_INT_STORE_ID" indexType="btree">
+            <column name="store_id"/>
+        </index>
+    </table>
+    <table name="promolist_category_entity_text" resource="default" engine="innodb"
+           comment="Promolist Category Text Attribute Backend Table">
+        <column xsi:type="int" name="value_id" unsigned="false" nullable="false" identity="true"
+                comment="Value ID"/>
+        <column xsi:type="smallint" name="attribute_id" unsigned="true" nullable="false" identity="false"
+                default="0" comment="Attribute ID"/>
+        <column xsi:type="smallint" name="store_id" unsigned="true" nullable="false" identity="false"
+                default="0" comment="Store ID"/>
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="false"
+                default="0" comment="Entity ID"/>
+        <column xsi:type="mediumtext" name="value" nullable="true" comment="Value"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="value_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="CTGR_ENTT_TEXT_ATTR_ID_EAV_ATTR_ATTR_ID"
+                    table="promolist_category_entity_text" column="attribute_id" referenceTable="eav_attribute"
+                    referenceColumn="attribute_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="CTGR_ENTT_TEXT_ENTT_ID_PML_CTGR_ENTT_ENTT_ID"
+                    table="promolist_category_entity_text" column="entity_id" referenceTable="promolist_category_entity"
+                    referenceColumn="entity_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="PROMOLIST_CATEGORY_ENTITY_TEXT_STORE_ID_STORE_STORE_ID"
+                    table="promolist_category_entity_text" column="store_id" referenceTable="store"
+                    referenceColumn="store_id" onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="PROMOLIST_CATEGORY_ENTITY_TEXT_ENTITY_ID_ATTRIBUTE_ID_STORE_ID">
+            <column name="entity_id"/>
+            <column name="attribute_id"/>
+            <column name="store_id"/>
+        </constraint>
+        <index referenceId="PROMOLIST_CATEGORY_ENTITY_TEXT_ENTITY_ID" indexType="btree">
+            <column name="entity_id"/>
+        </index>
+        <index referenceId="PROMOLIST_CATEGORY_ENTITY_TEXT_ATTRIBUTE_ID" indexType="btree">
+            <column name="attribute_id"/>
+        </index>
+        <index referenceId="PROMOLIST_CATEGORY_ENTITY_TEXT_STORE_ID" indexType="btree">
+            <column name="store_id"/>
+        </index>
+    </table>
+    <table name="promolist_category_entity_varchar" resource="default" engine="innodb"
+           comment="Promolist Category Varchar Attribute Backend Table">
+        <column xsi:type="int" name="value_id" unsigned="false" nullable="false" identity="true"
+                comment="Value ID"/>
+        <column xsi:type="smallint" name="attribute_id" unsigned="true" nullable="false" identity="false"
+                default="0" comment="Attribute ID"/>
+        <column xsi:type="smallint" name="store_id" unsigned="true" nullable="false" identity="false"
+                default="0" comment="Store ID"/>
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="false"
+                default="0" comment="Entity ID"/>
+        <column xsi:type="varchar" name="value" nullable="true" length="255" comment="Value"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="value_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="PML_CTGR_ENTT_VCHR_ATTR_ID_EAV_ATTR_ATTR_ID"
+                    table="promolist_category_entity_varchar" column="attribute_id" referenceTable="eav_attribute"
+                    referenceColumn="attribute_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="PML_CTGR_ENTT_VCHR_ENTT_ID_PML_CTGR_ENTT_ENTT_ID"
+                    table="promolist_category_entity_varchar" column="entity_id" referenceTable="promolist_category_entity"
+                    referenceColumn="entity_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="PROMOLIST_CATEGORY_ENTITY_VARCHAR_STORE_ID_STORE_STORE_ID"
+                    table="promolist_category_entity_varchar" column="store_id" referenceTable="store"
+                    referenceColumn="store_id" onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="PROMOLIST_CATEGORY_ENTITY_VARCHAR_ENTITY_ID_ATTRIBUTE_ID_STORE_ID">
+            <column name="entity_id"/>
+            <column name="attribute_id"/>
+            <column name="store_id"/>
+        </constraint>
+        <index referenceId="PROMOLIST_CATEGORY_ENTITY_VARCHAR_ENTITY_ID" indexType="btree">
+            <column name="entity_id"/>
+        </index>
+        <index referenceId="PROMOLIST_CATEGORY_ENTITY_VARCHAR_ATTRIBUTE_ID" indexType="btree">
+            <column name="attribute_id"/>
+        </index>
+        <index referenceId="PROMOLIST_CATEGORY_ENTITY_VARCHAR_STORE_ID" indexType="btree">
+            <column name="store_id"/>
+        </index>
+    </table>
+    <table name="promolist_category_promotion" resource="default" engine="innodb"
+           comment="Promolist Promotion To Category Linkage Table">
+<!--        <column xsi:type="int" name="entity_id" unsigned="false" nullable="false" identity="true"-->
+<!--                comment="Entity ID"/>-->
+        <column xsi:type="int" name="category_id" unsigned="true" nullable="false" identity="false"
+                default="0" comment="Category ID"/>
+        <column xsi:type="int" name="promotion_id" unsigned="true" nullable="false" identity="false"
+                default="0" comment="Promotion ID"/>
+<!--        <column xsi:type="int" name="position" unsigned="false" nullable="false" identity="false"-->
+<!--                default="0" comment="Position"/>-->
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+<!--            <column name="entity_id"/>-->
+            <column name="category_id"/>
+            <column name="promotion_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="PML_CTGR_PROMO_PROMO_ID_PML_PROMO_ENTT_ENTT_ID" table="promolist_category_promotion"
+                    column="promotion_id" referenceTable="promolist_promotion_entity" referenceColumn="entity_id"
+                    onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="PML_CTGR_PROMO_CTGR_ID_PML_CTGR_ENTT_ENTT_ID"
+                    table="promolist_category_promotion" column="category_id" referenceTable="promolist_category_entity"
+                    referenceColumn="entity_id" onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="PROMOLIST_CATEGORY_PROMOTION_CATEGORY_ID_PROMOTION_ID">
+            <column name="category_id"/>
+            <column name="promotion_id"/>
+        </constraint>
+        <index referenceId="PROMOLIST_CATEGORY_PROMOTION_PROMOTION_ID" indexType="btree">
+            <column name="promotion_id"/>
+        </index>
+    </table>
+
+    <table name="promolist_promotion_product" resource="default" engine="innodb"
+           comment="Promolist Promotion To product Linkage Table">
+        <column xsi:type="int" name="promotion_id" unsigned="true" nullable="false" identity="false"
+                default="0" comment="Promotion ID"/>
+        <column xsi:type="int" name="product_id" unsigned="true" nullable="false" identity="false"
+                default="0" comment="Product ID"/>
+        <column xsi:type="int" name="position" unsigned="false" nullable="false" identity="false"
+                default="0" comment="Position"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="promotion_id"/>
+            <column name="product_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="PML_PROMO_PRD_PROMO_ID_PML_PROMO_ENTT_ENTT_ID" table="promolist_promotion_product"
+                    column="promotion_id" referenceTable="promolist_promotion_entity" referenceColumn="entity_id"
+                    onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="PML_PROMO_PRD_PROMO_ID_CAT_PRD_ENTT_ENTT_ID"
+                    table="promolist_promotion_product" column="promotion_id" referenceTable="catalog_product_entity"
+                    referenceColumn="entity_id" onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="PROMOLIST_PROMOTION_PRODUCT_PROMOTION_ID_PRODUCT_ID">
+            <column name="promotion_id"/>
+            <column name="product_id"/>
+        </constraint>
+        <index referenceId="PROMOLIST_PROMOTION_PRODUCT_PRODUCT_ID" indexType="btree">
+            <column name="product_id"/>
+        </index>
+    </table>
+
+    <table name="promolist_promotion_rule" resource="default" engine="innodb"
+           comment="Promolist Promotion To rule Linkage Table">
+        <column xsi:type="int" name="promotion_id" unsigned="true" nullable="false" identity="false"
+                default="0" comment="Promotion ID"/>
+        <column xsi:type="int" name="rule_id" unsigned="true" nullable="false" identity="false"
+                default="0" comment="Rule ID"/>
+        <column xsi:type="int" name="position" unsigned="false" nullable="false" identity="false"
+                default="0" comment="Position"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="promotion_id"/>
+            <column name="rule_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="PML_PROMO_RULE_PROMO_ID_PML_PROMO_ENTT_ENTT_ID" table="promolist_promotion_rule"
+                    column="promotion_id" referenceTable="promolist_promotion_entity" referenceColumn="entity_id"
+                    onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="PML_PROMO_RULE_PROMO_ID_SALE_RULR_RULE_ID"
+                    table="promolist_promotion_rule" column="promotion_id" referenceTable="salesrule"
+                    referenceColumn="rule_id" onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="PROMOLIST_PROMOTION_RULE_PROMOTION_ID_RULE_ID">
+            <column name="promotion_id"/>
+            <column name="rule_id"/>
+        </constraint>
+        <index referenceId="PROMOLIST_PROMOTION_PRODUCT_RULE_ID" indexType="btree">
+            <column name="rule_id"/>
+        </index>
+    </table>
+
+    <table name="promolist_promotion_store" resource="default" engine="innodb" comment="Promolist Promotion To Store Linkage Table">
+        <column xsi:type="int" name="promotion_id" unsigned="true" nullable="false" identity="false"/>
+        <column xsi:type="smallint" name="store_id" unsigned="true" nullable="false" identity="false" comment="Store ID"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="promotion_id"/>
+            <column name="store_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="PML_PROMO_STORE_PROMO_ID_PML_PROMO_ENTT_ENTT_ID" table="promolist_promotion_store"
+                    column="promotion_id" referenceTable="promolist_promotion_entity" referenceColumn="entity_id"
+                    onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="PML_PROMO_STORE_STORE_ID_STORE_STORE_ID" table="promolist_promotion_store"
+                    column="store_id" referenceTable="store" referenceColumn="store_id" onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="PROMOLIST_PROMOTION_STORE_PROMOTION_ID_STORE_ID">
+            <column name="promotion_id"/>
+            <column name="store_id"/>
+        </constraint>
+        <index referenceId="PROMOLIST_PROMOTION_STORE_STORE_ID" indexType="btree">
+            <column name="store_id"/>
+        </index>
+    </table>
+
+    <table name="promolist_category_store" resource="default" engine="innodb" comment="Promolist Category To Store Linkage Table">
+        <column xsi:type="int" name="category_id" unsigned="true" nullable="false" identity="false"/>
+        <column xsi:type="smallint" name="store_id" unsigned="true" nullable="false" identity="false" comment="Store ID"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="category_id"/>
+            <column name="store_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="PML_CAT_STORE_CAT_ID_PML_CAT_ENTT_ENTT_ID" table="promolist_category_store"
+                    column="category_id" referenceTable="promolist_category_entity" referenceColumn="entity_id"
+                    onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="PML_CAT_STORE_STORE_ID_STORE_STORE_ID" table="promolist_category_store"
+                    column="store_id" referenceTable="store" referenceColumn="store_id" onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="PROMOLIST_CAT_STORE_CAT_ID_STORE_ID">
+            <column name="category_id"/>
+            <column name="store_id"/>
+        </constraint>
+        <index referenceId="PROMOLIST_CAT_STORE_STORE_ID" indexType="btree">
+            <column name="store_id"/>
+        </index>
+    </table>
+    
+</schema>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd"
+      layout="2columns-left">
+
+    <update handle="marvelic_promolists_default"/>
+
+    <body>
+        <referenceContainer name="content">
+            <block name="promolist.promotion.view" class="Marvelic\PromoLists\Block\Promotion\View" template="promotion/view.phtml"
+                   cacheable="true">
+                <block name="promolist.promotion.related.products" class="Marvelic\PromoLists\Block\Promotion\View\RelatedProducts"
+                       template="promotion/view/related_products.phtml"/>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

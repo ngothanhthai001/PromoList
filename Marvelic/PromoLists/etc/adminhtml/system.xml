@@ -1,0 +1,57 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+	<system>
+		<tab id="marvelic" translate="label" sortOrder="999">
+			<label>Marvelic</label>
+		</tab>
+		<section id="promo_lists" sortOrder="10" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+			<label>Promo Lists</label>
+			<tab>marvelic</tab>
+			<resource>Marvelic_PromoLists::config_marvelic_promolists</resource>
+			<group id="appearance" sortOrder="10" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+				<label>Appearance</label>
+				<field id="main_menu" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Visible Navigation Menu</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+				<field id="menu_title" type="text" sortOrder="10" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+					<label>Top Menu Title</label>
+					<depends>
+						<field id="main_menu">1</field>
+					</depends>
+				</field>
+				<field id="browser_page_title" type="text" sortOrder="10" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+					<label>Browser Page Title</label>
+				</field>
+				<field id="coupon_style" type="select" sortOrder="10" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+					<label>Coupon Style</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+			</group>
+			<group id="seo" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30">
+				<label>Search Engine Optimization</label>
+
+				<field id="base_route" translate="label" type="text" sortOrder="10" showInDefault="1">
+					<label>Base URL</label>
+				</field>
+
+				<field id="base_meta_description" translate="label" type="textarea" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Base Meta Description</label>
+				</field>
+
+				<field id="url_suffix" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>URL Suffix</label>
+				</field>
+			</group>
+			<group id="attributes_filter" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30">
+				<label>Attributes Filter</label>
+				<field id="apply_to" translate="label comment" type="multiselect" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Attributes allow to filter</label>
+					<source_model>Marvelic\PromoLists\Model\Source\AttributeFilter</source_model>
+					<frontend_model>Marvelic\PromoLists\Block\System\Chosen</frontend_model>
+					<can_be_empty>1</can_be_empty>
+				</field>
+			</group>
+		</section>
+	</system>
+</config>

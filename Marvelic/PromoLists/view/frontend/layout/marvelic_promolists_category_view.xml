@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd"
+      layout="2columns-left">
+
+    <update handle="marvelic_promolists_default"/>
+
+    <body>
+        <referenceBlock name="page.main.title" remove="true"/>
+        <attribute name="class" value="page-with-filter"/>
+        <referenceContainer name="content">
+            <block name="promolist.category.view" class="Marvelic\PromoLists\Block\Category\View" template="category/view.phtml">
+
+                <block class="Marvelic\PromoLists\Block\Promotion\PromotionList" name="promolist.promotion.list" template="promotion/list.phtml">
+                    <container name="promolist.promotion.list.additional"/>
+
+                    <block class="Marvelic\PromoLists\Block\Promotion\PromotionList\Toolbar" name="promolist.promotion.list.toolbar"
+                           template="promotion/list/toolbar.phtml">
+                        <block class="Marvelic\PromoLists\Block\Html\Pager" name="pager"/>
+                    </block>
+
+                    <action method="setToolbarBlockName">
+                        <argument name="name" xsi:type="string">promolist.promotion.list.toolbar</argument>
+                    </action>
+                </block>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

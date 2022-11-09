@@ -1,0 +1,211 @@
+<?php
+    //$helper = $this->helper('OnDemand\Catalog\Helper\Category');
+
+    //@codingStandardsIgnoreFile
+
+    /** @var PromotionList $block */
+
+    use Magento\Framework\App\ObjectManager;
+    use Magento\Framework\UrlInterface;
+    use Marvelic\PromoLists\Api\Data\PromotionInterface;
+    use Marvelic\PromoLists\Block\Promotion\PromotionList;
+
+    $collection = $block->getPromotionCollection();
+    $collection->setOrder('expire_at', 'ASC');
+    $objectManager = ObjectManager::getInstance();
+    $storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+    $testBaseUrl = $storeManager->getStore()->getBaseUrl(UrlInterface::URL_TYPE_WEB);
+    /** get id category of promotion current  */
+    $cate = $objectManager->get('Magento\Framework\Registry')->registry('current_promolist_category');//get current product
+
+    $entity_id = 1;
+    if ($cate != null) {
+        $cateCurr = $cate->getData();
+        $entity_id = $cateCurr['entity_id'];
+    }
+    /** end get id category of promotion current  */
+
+    $currentUrl = urldecode($this->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true]));
+
+    $parsedCurrentUrl = explode('?', $currentUrl);
+
+    $isFilterSubject = false;
+//    $collection_arr = [];
+    $isPromotionUrl = substr_count($currentUrl, "ondemand_promotion");
+    $isCategoryUrl = substr_count($currentUrl, "category_ids");
+    $isSubjectUrl = substr_count($currentUrl, "?subject");
+    $isAllSubject = substr_count($currentUrl, "subject=all-subject");
+    if (isset($parsedCurrentUrl[1])) {
+        if ($isPromotionUrl == 0 && $isCategoryUrl == 0) {
+
+            foreach ($parsedCurrentUrl as $key => $fruitsArr) {
+                if ($key != 0) {
+                    $attributeUrl = explode('=', $fruitsArr);
+                    $attribute_codeUrl = $attributeUrl[0];
+                    $attribute_valueUrl = $attributeUrl[1];
+                    if ($attribute_codeUrl == "expire_date") {
+
+                        if ($attribute_valueUrl == "asc") {
+                            $collection->setOrder('expire_at', 'ASC');
+                        } else {
+                            $collection->setOrder('expire_at', 'des');
+                        }
+                    } else {
+                        if ($attribute_codeUrl == "subject") {
+                            if ($attribute_valueUrl == "all-subject") {
+                                $arrAllSubject = [];
+                                foreach ($collection as $promo) {
+                                    $promotion = $promo->getSubject();
+                                    if ($promotion == null) {
+                                        $arrAllSubject[] = $promo;
+                                    }
+                                }
+                                $collection = $arrAllSubject;
+                            } else {
+                                $arrSubject = [];
+                                foreach ($collection as $promo) {
+                                    $promotion = $promo->getSubject();
+                                    if ($promotion == $attribute_valueUrl) {
+                                        $arrSubject[] = $promo;
+                                    }
+                                }
+                                $collection = $arrSubject;
+                            }
+                        }
+                    }
+                }
+            }
+
+        } else {
+            foreach ($parsedCurrentUrl as $key => $fruitsArr) {
+                if ($key != 0) {
+                    $attributeUrl = explode('=', $fruitsArr);
+                    $attribute_codeUrl = $attributeUrl[0];
+                    $attribute_valueUrl = $attributeUrl[1];
+                    if ($attribute_codeUrl == 'ondemand_promotion') {
+                        $parsedCurrentUrl[] = $fruitsArr;
+                        unset($parsedCurrentUrl[$key]);
+                    }
+                    if ($attribute_codeUrl == 'category_ids') {
+                        $parsedCurrentUrl[] = $fruitsArr;
+                        unset($parsedCurrentUrl[$key]);
+                    }
+                }
+            }
+            foreach ($parsedCurrentUrl as $key => $fruitsArr) {
+                if ($key != 0) {
+                    $attributeUrl = explode('=', $fruitsArr);
+                    $attribute_codeUrl = $attributeUrl[0];
+                    $attribute_valueUrl = $attributeUrl[1];
+                    if ($attribute_codeUrl == 'ondemand_promotion' && $attribute_codeUrl == 'category_ids') {
+                        $collection = $collection->addFieldToFilter($attribute_codeUrl, $attribute_valueUrl);
+                    } else {
+                        if ($attribute_codeUrl == "subject") {
+                            if ($attribute_valueUrl == "all-subject") {
+                                $arrAllSubject = [];
+                                foreach ($collection as $promo) {
+                                    $promotion = $promo->getSubject();
+                                    if ($promotion == null) {
+                                        $arrAllSubject[] = $promo;
+                                    }
+                                }
+                                $collection = $arrAllSubject;
+                            } else {
+                                $arrSubject = [];
+                                foreach ($collection as $promo) {
+                                    $promotion = $promo->getSubject();
+                                    if ($promotion == $attribute_valueUrl) {
+                                        $arrSubject[] = $promo;
+                                    }
+                                }
+                                $collection = $arrSubject;
+                            }
+                        } else {
+                            if ($attribute_codeUrl == "expire_date") {
+                                if ($attribute_valueUrl == "asc") {
+                                    $collection->setOrder('expire_at', 'ASC');
+                                } else {
+                                    $collection->setOrder('expire_at', 'des');
+                                }
+                            } else {
+                                if ($attribute_codeUrl == 'category_ids') {
+                                    $arr3 = [];
+                                    foreach ($collection as $promo) {
+                                        $promotion = $promo->getPromoClass(); /*will return promotion array*/
+                                        if ($promotion == $attribute_valueUrl) {
+                                            $arr3[] = $promo;
+                                        }
+                                    }
+                                    $collection = $arr3;
+                                } else {
+                                    if ($attribute_codeUrl == 'ondemand_promotion') {
+                                        $arr4 = [];
+                                        foreach ($collection as $promo) {
+                                            $a = count($collection);
+                                            $promotion = $promo->getPromotion(); /*will return promotion array*/
+                                            if ($promotion == $attribute_valueUrl) {
+                                                $arr4[] = $promo;
+                                            }
+                                        }
+                                        $collection = $arr4;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+    $objectManager = ObjectManager::getInstance();
+    $attr_groups = [];
+    $attr_groups["ondemand_promotion"] = [];
+    $attr_groups["category_ids"] = [];
+    $attr_groups["subject"] = [];
+?>
+
+<!-- container -->
+<div class="home-blog-section container px-md-0 pt-4 pb-4">
+<?php if ($collection->count()): ?>
+    <div class="row">
+        <div class="main-forth-title col-12 col-md-7 ribbon order-1">
+            <div class="my-0">ข่าวสารและบทความ</div>
+        </div>
+        <div class="content col-12 order-2 order-md-3 row mx-0">
+            <?php /** @var PromotionInterface $promotion */ ?>
+            <?php foreach ($collection as $promotion): ?>
+            <div class="col-lg-6 mb-3">
+                <div class="blog-item">
+                    <div class="col-lg-4 col-4">
+                        <?php if ($promotion->getFeaturedImageUrl() && $promotion->getFeaturedShowOnHome()): ?>
+                            <a class="blog-img" href="<?= $promotion->getUrl() ?>">
+                            <img src="<?= $promotion->getFeaturedImageUrl() ?>" alt="<?= $block->getFeaturedAlt($promotion) ?>" >
+                            </a>
+                        <?php endif ?>
+                    </div>
+                    <div class="col-lg-8 col-8">
+                        <h4 class='max-line-3'>
+                            <a class ="text-secondary" href="<?= $promotion->getUrl() ?>" rel="bookmark">
+                                <?= $promotion->getName() ?>
+                            </a>
+                        </h4>
+                        <p>
+                        <?php  $dayUpdate = $promotion['updated_at'];
+		                    //echo $helper->DateThai("D/M/Y", $dayUpdate);
+                        ?>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <?php endforeach ?>
+        </div>
+    </div>
+<?php else: ?>
+    <div class="message notice">
+        <div><?= __('There are no promotions available for this category.') ?></div>
+    </div>
+<?php endif ?>
+</div>
+<!-- end container -->

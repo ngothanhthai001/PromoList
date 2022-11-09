@@ -1,0 +1,17 @@
+<?php
+//@codingStandardsIgnoreFile
+
+/** @var Meta $block */
+
+$promotion = $block->getPromotion();
+
+use Marvelic\PromoLists\Block\Promotion\Meta; ?>
+<p class="promotion-meta">
+    <time class="promotion-meta-time" itemprop="datePublished">
+        <i class="fa fa-fw fa-calendar"></i>
+        <?= $block->toDateFormat($promotion->getCreatedAt()) ?>
+    </time>
+    <?php if ($block->isAddThisEnabled() && !$block->getCategory()): ?>
+        <span class="addthis_sharing_toolbox promotion-meta-sharing"></span>
+    <?php endif ?>
+</p>

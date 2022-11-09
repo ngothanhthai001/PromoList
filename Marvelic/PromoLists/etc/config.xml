@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <promo_lists>
+            <appearance>
+                <main_menu>1</main_menu>
+                <menu_title>Promotion</menu_title>
+                <browser_page_title>Promotion</browser_page_title>
+                <coupon_style>1</coupon_style>
+            </appearance>
+
+            <seo>
+                <base_route>promotion</base_route>
+                <base_meta_description>Promotion Lists</base_meta_description>
+                <url_suffix>.html</url_suffix>
+            </seo>
+
+            <attributes_filter>
+                <apply_to>1</apply_to>
+            </attributes_filter>
+        </promo_lists>
+    </default>
+</config>

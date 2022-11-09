@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Marvelic_PromoLists::promolist" title="Promotion" module="Marvelic_PromoLists" sortOrder="20" resource="Marvelic_PromoLists::promolist" parent="Magento_Backend::content"/>
+        <add id="Marvelic_PromoLists::promolist_promotion" title="Manage Promotions" module="Marvelic_PromoLists" sortOrder="10" resource="Marvelic_PromoLists::promolist_promotion" parent="Marvelic_PromoLists::promolist" action="marvelic_promolists/promotion"/>
+        <add id="Marvelic_PromoLists::promolist_category" title="Categories" module="Marvelic_PromoLists" sortOrder="20" resource="Marvelic_PromoLists::promolist_category" parent="Marvelic_PromoLists::promolist" action="marvelic_promolists/category"/>
+        <add id="Marvelic_PromoLists::configuration" title="Configuration" module="Marvelic_PromoLists" sortOrder="30" parent="Marvelic_PromoLists::promolist" action="adminhtml/system_config/edit/section/promo_lists" resource="Marvelic_PromoLists::configuration"/>
+    </menu>
+</config>

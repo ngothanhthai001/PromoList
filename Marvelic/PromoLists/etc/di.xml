@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <!--DATA-->
+    <preference for="Marvelic\PromoLists\Api\Data\PromotionInterface" type="Marvelic\PromoLists\Model\Promotion"/>
+    <preference for="Marvelic\PromoLists\Api\Data\CategoryInterface" type="Marvelic\PromoLists\Model\Category"/>
+
+    <!--REPOSITORY-->
+    <preference for="Marvelic\PromoLists\Api\PromotionRepositoryInterface" type="Marvelic\PromoLists\Model\PromotionRepository"/>
+    <preference for="Marvelic\PromoLists\Api\CategoryRepositoryInterface" type="Marvelic\PromoLists\Model\CategoryRepository"/>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="promolist_promotion_listing_data_source" xsi:type="string">Marvelic\PromoLists\Model\ResourceModel\Promotion\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Marvelic\PromoLists\Model\ResourceModel\Promotion\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">promolist_promotion_entity</argument>
+            <argument name="eventPrefix" xsi:type="string">promolist_promotion_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">promotion_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Marvelic\PromoLists\Model\ResourceModel\Promotion</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="promo_list_category_listing_data_source" xsi:type="string">Marvelic\PromoLists\Model\ResourceModel\Category\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Marvelic\PromoLists\Model\ResourceModel\Category\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">promolist_category_entity</argument>
+            <argument name="eventPrefix" xsi:type="string">promolist_category_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">category_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Marvelic\PromoLists\Model\ResourceModel\Category</argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Eav\Model\Entity\AttributeCache">
+        <arguments>
+            <argument name="unsupportedTypes" xsi:type="array">
+                <item name="promolist_category" xsi:type="string">promolist_category</item>
+                <item name="promolist_promotion" xsi:type="string">promolist_promotion</item>
+            </argument>
+        </arguments>
+    </type>
+
+</config>

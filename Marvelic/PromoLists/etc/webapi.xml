@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+    <route url="/V1/promolist" method="GET">
+        <service class="Marvelic\PromoLists\Api\PromotionRepositoryInterface" method="getList"/>
+        <resources>
+            <resource ref="Marvelic_PromoLists::promo"/>
+        </resources>
+    </route>
+    <route url="/V1/promolist/:id" method="GET">
+        <service class="Marvelic\PromoLists\Api\PromotionRepositoryInterface" method="get"/>
+        <resources>
+            <resource ref="Marvelic_PromoLists::promo"/>
+        </resources>
+    </route>
+
+    <route url="/V1/promolist" method="POST">
+        <service class="Marvelic\PromoLists\Api\PromotionRepositoryInterface" method="save"/>
+        <resources>
+            <resource ref="Marvelic_PromoLists::promo"/>
+        </resources>
+    </route>
+
+    <route url="/V1/promolist/:id" method="PUT">
+        <service class="Marvelic\PromoLists\Api\PromotionRepositoryInterface" method="update"/>
+        <resources>
+            <resource ref="Marvelic_PromoLists::promo"/>
+        </resources>
+    </route>
+
+    <route url="/V1/promolist/:id" method="DELETE">
+        <service class="Marvelic\PromoLists\Api\PromotionRepositoryInterface" method="apiDelete"/>
+        <resources>
+            <resource ref="Marvelic_PromoLists::promo"/>
+        </resources>
+    </route>
+</routes>
