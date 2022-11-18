@@ -7,6 +7,7 @@ use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Filesystem;
 use Magento\Framework\Filesystem\Directory\WriteInterface;
+use Magento\Framework\Filesystem\Driver\File;
 use Magento\Framework\UrlInterface;
 use Magento\MediaStorage\Model\File\UploaderFactory;
 use Magento\Store\Model\StoreManagerInterface;
@@ -26,18 +27,33 @@ class FileProcessor
     private $mediaDirectory;
 
     /**
+     * Media Directory object (writable).
+     * @var WriteInterface
+     */
+    private $foldermediaDirectory;
+
+    /**
      * @var StoreManagerInterface
      */
     private $storeManager;
 
+    /**
+     * @var File
+     */
+
+    private $file;
+
     public function __construct(
         UploaderFactory $uploaderFactory,
         Filesystem $filesystem,
+        File $file,
         StoreManagerInterface $storeManager
     ) {
         $this->uploaderFactory = $uploaderFactory;
+        $this->file            = $file;
         $this->storeManager    = $storeManager;
         $this->mediaDirectory  = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
+        $this->foldermediaDirectory = $filesystem->getDirectoryRead(DirectoryList::MEDIA);
     }
 
     /**
@@ -93,5 +109,18 @@ class FileProcessor
     {
         return $this->storeManager->getStore()->getBaseUrl(UrlInterface::URL_TYPE_MEDIA)
             . Config::MEDIA_FOLDER . '/' . $file;
+    }
+
+    /**
+     * @param string $fileName
+     *
+     */
+    public function deleteFile($fileName)
+    {
+        $mediaDirectory =  $this->foldermediaDirectory;
+        $mediaRootDir = $mediaDirectory->getAbsolutePath();
+        if ($this->file->isExists($mediaRootDir . Config::MEDIA_FOLDER . '/' . $fileName)) {
+            $this->file->deleteFile($mediaRootDir . Config::MEDIA_FOLDER . '/' . $fileName);
+        }
     }
 }

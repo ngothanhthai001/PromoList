@@ -145,7 +145,7 @@ class General extends Form
         $this->wysiwygConfig = $wysiwygConfig;
         $this->config = $config;
         $this->categoryTree = $categoryTree;
-        
+
         parent::__construct($context, $data);
     }
 
@@ -168,29 +168,29 @@ class General extends Form
 
         if ($promotion->getId()) {
             $fieldset->addField('entity_id', 'hidden', [
-                'name'  => 'promotion[entity_id]',
+                'name'  => 'entity_id',
                 'value' => $promotion->getId(),
             ]);
         }
 
         $fieldset->addField('name', 'text', [
             'label'    => __('Title'),
-            'name'     => 'promotion[name]',
+            'name'     => 'name',
             'value'    => $promotion->getName(),
             'required' => true,
         ]);
 
         $fieldset->addField('status', 'select', [
             'label'  => __('Status'),
-            'name'   => 'promotion[status]',
+            'name'   => 'status',
             'value'  => $promotion->getStatus(),
             'options' => [0 => __('Disabled'), 1 => __('Enabled')],
         ]);
 
-        $fieldset->addField('order', 'text', [
+        $fieldset->addField('position', 'text', [
             'label'    => __('Order'),
-            'name'     => 'promotion[order]',
-            'value'    => $promotion->getOrder(),
+            'name'     => 'position',
+            'value'    => $promotion->getPosition(),
         ]);
 
         if (!$this->_storeManager->isSingleStoreMode()) {
@@ -201,6 +201,7 @@ class General extends Form
                 'label' => __('Store Views'),
                 'title' => __('Store Views'),
                 'required' => true,
+                'value' => $promotion->getStoreIds(),
                 'values' => $this->_systemStore->getStoreValuesForForm(false, true)
             ])->setRenderer($rendererBlock);
         } else {
@@ -212,7 +213,7 @@ class General extends Form
 
         $fieldset->addField('published_on', 'date', [
             'label'       => __('Published on'),
-            'name'        => 'promotion[published_on]',
+            'name'        => 'published_on',
             'value'       => $promotion->getPublishedOn(),
             'date_format' => 'MMM d, y',
             'time_format' => 'h:mm a',
@@ -220,7 +221,7 @@ class General extends Form
 
         $fieldset->addField('expiration_on', 'date', [
             'label'       => __('Expiration on'),
-            'name'        => 'promotion[expiration_on]',
+            'name'        => 'expiration_on',
             'value'       => $promotion->getExpirationOn(),
             'date_format' => 'MMM d, y',
             'time_format' => 'h:mm a',
@@ -230,13 +231,15 @@ class General extends Form
             ->addAttributeToSelect(['name']);
 
         $fieldset->addField('category_ids', 'checkboxes', [
-            'name'   => 'promotion[category_ids][]',
+            'label'       => __('Categories'),
+            'name'   => 'category_ids[]',
             'value'  => $promotion->getCategoryIds(),
             'values' => $categoryCollection->toOptionArray(),
             'options' => $categoryCollection->toOptionArray(),
         ]);
 
         $fieldset->addField('cover_image', Image::class, [
+            'label'       => __('Cover Image'),
             'required' => false,
             'name'     => 'cover_image',
             'value'    => $promotion->getCoverImageUrl(),
@@ -246,7 +249,8 @@ class General extends Form
         $editorConfig = $this->wysiwygConfig->getConfig(['tab_id' => $this->getTabId()]);
 
         $fieldset->addField('content', 'editor', [
-            'name'    => 'promotion[content]',
+            'label'       => __('Content'),
+            'name'    => 'content',
             'value'   => $promotion->getContent(),
             'wysiwyg' => true,
             'style'   => 'height:35em',
@@ -255,7 +259,7 @@ class General extends Form
 
         $fieldset->addField('short_content', 'editor', [
             'label'   => __('Excerpt'),
-            'name'    => 'promotion[short_content]',
+            'name'    => 'short_content',
             'value'   => $promotion->getShortContent(),
             'wysiwyg' => true,
             'style'   => 'height:5em',

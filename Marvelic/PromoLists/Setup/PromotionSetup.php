@@ -161,6 +161,14 @@ class PromotionSetup extends EavSetup
                         'required' => false,
                         'global' => ScopedAttributeInterface::SCOPE_STORE,
                     ],
+                    'position' => [
+                        'type' => 'static',
+                        'label' => 'Position',
+                        'required' => false,
+                        'sort_order' => 13,
+                        'visible' => false,
+                        'group' => 'General Information',
+                    ],
                 ],
             ],
         ];

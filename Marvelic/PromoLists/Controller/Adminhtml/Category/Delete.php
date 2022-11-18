@@ -20,51 +20,51 @@ class Delete extends Category
             try {
 /**---------------------------------------------delete img of category news -------------------------------------------------*/
                 $id = $model->getId();
-                $modelGa = $this->initModelGallery();
-                $collGa = $modelGa->getCollection()->getData();
-                foreach($collGa as $item){
-                    if($item['entity_id'] == $id){
-                        $img_desktop = $item['img_desktop'];
-                        $img_mobile = $item['img_mobile'];
-                    }
-                }
-                $flag_desktop = false;
-                $flag_mobile = false;
-                $path = $this->_filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem\DirectoryList::MEDIA)->getAbsolutePath('marvelic_promolists/images/');
+//                $modelGa = $this->initModelGallery();
+//                $collGa = $modelGa->getCollection()->getData();
+//                foreach($collGa as $item){
+//                    if($item['entity_id'] == $id){
+//                        $img_desktop = $item['img_desktop'];
+//                        $img_mobile = $item['img_mobile'];
+//                    }
+//                }
+//                $flag_desktop = false;
+//                $flag_mobile = false;
+//                $path = $this->_filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem\DirectoryList::MEDIA)->getAbsolutePath('marvelic_promolists/images/');
+//
+//                foreach($collGa as $item){
+//                    if($item['entity_id'] != $id){
+//                        if($item['img_desktop'] == $img_desktop || $item['img_mobile'] == $img_desktop){
+//                            $flag_desktop = true;  break;
+//                        }
+//                    }
+//                }
+//                foreach($collGa as $item){
+//                    if($item['entity_id'] != $id){
+//                        if($item['img_mobile'] == $img_mobile || $item['img_desktop'] == $img_mobile){
+//                            $flag_mobile = true; break;
+//
+//                        }
+//                    }
+//                }
+//                if(!$flag_desktop){
+//
+//                    $fileNamePath = $path . $img_desktop;
+//                    if($this->_fileDriver->isExists($fileNamePath))
+//                    $this->_fileDriver->deleteFile($fileNamePath);
+//
+//                }
+//                if(!$flag_mobile){
+//                    $fileNamePath = $path . $img_mobile;
+//                    if($this->_fileDriver->isExists($fileNamePath))
+//                    $this->_fileDriver->deleteFile($fileNamePath);
+//
+//                }
+//
+//                $modelGa->load($id);
+//                $modelGa->delete();
 
-                foreach($collGa as $item){
-                    if($item['entity_id'] != $id){
-                        if($item['img_desktop'] == $img_desktop || $item['img_mobile'] == $img_desktop){
-                            $flag_desktop = true;  break;
-                        }
-                    }
-                }
-                foreach($collGa as $item){
-                    if($item['entity_id'] != $id){
-                        if($item['img_mobile'] == $img_mobile || $item['img_desktop'] == $img_mobile){
-                            $flag_mobile = true; break;
 
-                        }
-                    }
-                }
-                if(!$flag_desktop){
-                 
-                    $fileNamePath = $path . $img_desktop;
-                    if($this->_fileDriver->isExists($fileNamePath))
-                    $this->_fileDriver->deleteFile($fileNamePath);
-
-                } 
-                if(!$flag_mobile){
-                    $fileNamePath = $path . $img_mobile;
-                    if($this->_fileDriver->isExists($fileNamePath))
-                    $this->_fileDriver->deleteFile($fileNamePath);
-
-                }
-                
-                $modelGa->load($id);
-                $modelGa->delete();
-                
-                
 /**--------------------------------------------end delete img of category news ----------------------------------------------*/
                 $model->delete();
 

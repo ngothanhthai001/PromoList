@@ -14,9 +14,16 @@
         <arguments>
             <argument name="collections" xsi:type="array">
                 <item name="promolist_promotion_listing_data_source" xsi:type="string">Marvelic\PromoLists\Model\ResourceModel\Promotion\Grid\Collection</item>
+                <item name="promolist_promotion_form_coupon_listing_data_source" xsi:type="string">Marvelic\PromoLists\Model\ResourceModel\Coupon\Grid\Collection</item>
             </argument>
         </arguments>
     </type>
+    <virtualType name="Marvelic\PromoLists\Model\ResourceModel\Coupon\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">salesrule</argument>
+            <argument name="resourceModel" xsi:type="string">Magento\SalesRule\Model\ResourceModel\Rule</argument>
+        </arguments>
+    </virtualType>
     <type name="Marvelic\PromoLists\Model\ResourceModel\Promotion\Grid\Collection">
         <arguments>
             <argument name="mainTable" xsi:type="string">promolist_promotion_entity</argument>
@@ -49,5 +56,4 @@
             </argument>
         </arguments>
     </type>
-
 </config>

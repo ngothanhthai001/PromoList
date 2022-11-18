@@ -12,6 +12,8 @@
 <!--                default="0" comment="Has Options"/>-->
 <!--        <column xsi:type="smallint" name="required_options" unsigned="true" nullable="false"-->
 <!--                identity="false" default="0" comment="Required Options"/>-->
+        <column xsi:type="int" name="position" unsigned="false" nullable="false" identity="false"
+                comment="Position"/>
         <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
                 comment="Creation Time"/>
         <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP"
@@ -554,5 +556,5 @@
             <column name="store_id"/>
         </index>
     </table>
-    
+
 </schema>

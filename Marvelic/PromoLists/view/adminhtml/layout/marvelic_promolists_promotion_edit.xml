@@ -8,12 +8,14 @@
 <!--        <referenceContainer name="left">-->
 <!--            <block class="Marvelic\PromoLists\Block\Adminhtml\Category\Edit\Tabs"/>-->
 <!--        </referenceContainer>-->
-
-        <referenceContainer name="content">
+        <!-- <referenceContainer name="content">
             <block class="Marvelic\PromoLists\Block\Adminhtml\Promotion\Edit"/>
         </referenceContainer>
         <referenceContainer name="left">
             <block class="Marvelic\PromoLists\Block\Adminhtml\Promotion\Edit\Tabs"/>
+        </referenceContainer> -->
+        <referenceContainer name="content">
+            <uiComponent name="promolist_promotion_form"/>
         </referenceContainer>
     </body>
 </page>

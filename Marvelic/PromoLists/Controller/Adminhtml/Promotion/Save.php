@@ -14,7 +14,7 @@ use Marvelic\PromoLists\Controller\Adminhtml\Promotion;
 
 class Save extends Promotion
 {
-    
+
     /**
      * @var JsonFactory
      */
@@ -38,6 +38,7 @@ class Save extends Promotion
         $id             = $this->getRequest()->getParam(PromotionInterface::ID);
         $resultRedirect = $this->resultRedirectFactory->create();
         $data           = $this->filterPromotionData($this->getRequest()->getParams());
+
         if ($data) {
             /** @var \Marvelic\PromoLists\Model\Promotion $model */
             $model = $this->initModel();
@@ -47,11 +48,9 @@ class Save extends Promotion
                 return $resultRedirect->setPath('*/*/');
             }
             $model->addData($data);
-
-//            if (!$data['is_short_content']) {
-//                $model->setShortContent('');
-//            }
-
+            if(is_array($data['cover_image'])){
+                $model->setCoverImage($data['cover_image'][0]['result']['name']);
+            }
             try {
                 if ($this->getRequest()->getParam('isAjax')) {
                     return $this->handlePreviewRequest($model);
@@ -91,7 +90,7 @@ class Save extends Promotion
         foreach ([PromotionInterface::COVER_IMAGE] as $key) {
             if (isset($data[$key]) && is_array($data[$key])) {
                 if (!empty($data[$key]['delete'])) {
-                    $data[$key] = null;
+                    $data[$key] = 'delete';
                 } else {
                     if (isset($data[$key][0]['name'])) {
                         $data[$key] = $data[$key][0]['name'];

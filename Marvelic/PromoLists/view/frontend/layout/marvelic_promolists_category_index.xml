@@ -8,7 +8,7 @@
 
     <body>
         <referenceBlock name="page.main.title" remove="true"/>
-        <referenceContainer name="sidebar.main">
+        <referenceContainer name="sidebar.main" remove="true">
             <block class="Marvelic\PromoLists\Block\Navigation\Category" name="catalog.leftnav" before="-" template="Marvelic_PromoLists::layer/view.phtml">
                 <block class="Magento\LayeredNavigation\Block\Navigation\State" name="catalog.navigation.state" as="state" />
                 <block class="Magento\LayeredNavigation\Block\Navigation\FilterRenderer" name="catalog.navigation.renderer" as="renderer" template="Magento_LayeredNavigation::layer/filter.phtml">

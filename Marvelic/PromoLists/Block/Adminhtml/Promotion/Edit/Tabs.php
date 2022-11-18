@@ -30,14 +30,22 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
             'content' => $this->getLayout()
                 ->createBlock('\Marvelic\PromoLists\Block\Adminhtml\Promotion\Edit\Tab\General')->toHtml(),
         ]);
-
-//        $this->addTab('meta_section', [
-//            'label'   => __('Search Engine Optimization'),
-//            'content' => $this->getLayout()
-//                ->createBlock('\Mirasvit\Blog\Block\Adminhtml\Category\Edit\Tab\Meta')->toHtml(),
-//        ]);
+        $this->addTab('related_product_section', [
+            'label'   => __('Related Product'),
+            'content' => $this->getLayout()
+                ->createBlock('\Marvelic\PromoLists\Block\Adminhtml\Promotion\Edit\Tab\Products')->toHtml(),
+        ]);
+        $this->addTab('meta_section', [
+            'label'   => __('Search Engine Optimization'),
+            'content' => $this->getLayout()
+                ->createBlock('\Marvelic\PromoLists\Block\Adminhtml\Promotion\Edit\Tab\Meta')->toHtml(),
+        ]);
+        $this->addTab('coupon_code', [
+            'label'   => __('Coupon Code'),
+            'content' => $this->getLayout()
+                ->createBlock('\Marvelic\PromoLists\Block\Adminhtml\Promotion\Edit\Tab\Coupons')->toHtml(),
+        ]);
 
         return parent::_beforeToHtml();
     }
-
 }

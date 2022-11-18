@@ -5,9 +5,11 @@ namespace Marvelic\PromoLists\Model\ResourceModel;
 use Magento\Eav\Model\Entity\AbstractEntity;
 use Magento\Eav\Model\Entity\Context;
 use Magento\Framework\DataObject;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Filter\FilterManager;
 use Marvelic\PromoLists\Api\Data\PromotionInterface;
 use Marvelic\PromoLists\Model\Config;
+use Marvelic\PromoLists\Model\Config\FileProcessor;
 
 class Promotion extends AbstractEntity
 {
@@ -21,15 +23,21 @@ class Promotion extends AbstractEntity
      */
     protected $filter;
 
+    /**
+     * @var FileProcessor
+     */
+    protected $fileProcessor;
+
     public function __construct(
         Config $config,
         FilterManager $filter,
+        FileProcessor $fileProcessor,
         Context $context,
         $data = []
     ) {
         $this->config     = $config;
         $this->filter     = $filter;
-
+        $this->fileProcessor = $fileProcessor;
         parent::__construct($context, $data);
     }
 
@@ -53,7 +61,6 @@ class Promotion extends AbstractEntity
         $promotion->setStoreIds($this->getStoreIds($promotion));
         $promotion->setProductIds($this->getProductIds($promotion));
         $promotion->setcouponIds($this->getCouponIds($promotion));
-
         return parent::_afterLoad($promotion);
     }
 
@@ -136,7 +143,6 @@ class Promotion extends AbstractEntity
 
         return $connection->fetchCol($select);
     }
-
     /**
      * {@inheritdoc}
      */
@@ -147,9 +153,41 @@ class Promotion extends AbstractEntity
         $this->saveStoreIds($promotion);
         $this->saveProductIds($promotion);
         $this->saveCouponIds($promotion);
-
         return parent::_afterSave($promotion);
     }
+
+//    /**
+//     * @param PromotionInterface $model
+//     *
+//     * @return $this
+//     * @throws LocalizedException
+//     */
+//    private function saveCoverImage(PromotionInterface $model)
+//    {
+//        /** @var PromotionInterface $model */
+//        $connection = $this->getConnection();
+//        $table = $this->getTable('promolist_promotion_entity_gallery');
+//        $attributeId = $this->getAttribute(\Marvelic\PromoLists\Model\Promotion::COVER_IMAGE)->getAttributeId();
+//        if ($model->getCoverImage() == 'delete') {
+//            $fileName = $this->getCoverImage($model);
+//            $this->fileProcessor->deleteFile(reset($fileName));
+//            $where = ['entity_id = ?' => (int)$model->getId()];
+//            $connection->delete($table, $where);
+//        } elseif ($_FILES[key($_FILES)]['name']) {
+//            $fileName =  $this->fileProcessor->save(key($_FILES));
+//            $model->setCoverImage($fileName['name']);
+//            $categoryIds   = $model->getCoverImage();
+//            $data[] = [
+//                'attribute_id' => $attributeId,
+//                'store_id'     => 0,
+//                'entity_id'   => (int)$model->getId(),
+//                'position'     => 0,
+//                'value'        => $categoryIds
+//            ];
+//            $connection->insertMultiple($table, $data);
+//        }
+//        return $this;
+//    }
 
     /**
      * @param PromotionInterface $model
@@ -200,7 +238,6 @@ class Promotion extends AbstractEntity
         return $this;
     }
 
-
     /**
      * @param PromotionInterface $model
      *
@@ -228,9 +265,9 @@ class Promotion extends AbstractEntity
         if (!empty($insert)) {
             $data = [];
             foreach ($insert as $storeId) {
-                if (empty($storeId)) {
-                    continue;
-                }
+//                if (empty($storeId)) {
+//                    continue;
+//                }
                 $data[] = [
                     'store_id' => (int)$storeId,
                     'promotion_id'  => (int)$model->getId(),
@@ -346,5 +383,4 @@ class Promotion extends AbstractEntity
 
         return $this;
     }
-
 }

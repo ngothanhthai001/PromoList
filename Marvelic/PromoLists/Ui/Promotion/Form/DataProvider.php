@@ -71,7 +71,7 @@ class DataProvider extends AbstractDataProvider
                 PromotionInterface::STORE_IDS           => $promotion->getStoreIds(),
                 PromotionInterface::PUBLISHED_ON        => $promotion->getPublishedOn(),
                 PromotionInterface::EXPIRATION_ON       => $promotion->getExpirationOn(),
-
+                PromotionInterface::ORDER               => $promotion->getPosition(),
 //                'is_short_content' => $promotion->getShortContent() ? true : false,
             ];
 
@@ -97,17 +97,20 @@ class DataProvider extends AbstractDataProvider
                 ];
             }
 
-//            $result[$promotion->getId()]['links']['coupons'] = [];
-//            foreach ($promotion->getRelatedCoupons() as $coupon) {
-//                $result[$promotion->getId()]['links']['coupons'][] = [
-//                    'id'        => $coupon->getId(),
-//                    'name'      => $coupon->getName(),
-//                    'from_date'      => $coupon->getFromDate(),
-//                    'to_date'      => $coupon->getToDate(),
-//                    'coupon_code'      => $coupon->getCode(),
-//                ];
-//            }
+            $result[$promotion->getId()]['links']['coupons'] = [];
+
+            foreach ($promotion->getRelatedCoupons() as $coupon) {
+                $result[$promotion->getId()]['links']['coupons'][] = [
+                    'id'        => $coupon->getId(),
+                    'name'      => $coupon->getName(),
+                    'from_date'      => $coupon->getFromDate(),
+                    'to_date'      => $coupon->getToDate(),
+                    'coupon_code'      => $coupon->getCode(),
+                ];
+            }
         }
+//        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+//        $objrules = $objectManager->create('Magento\SalesRule\Model\RuleFactory')->create();
 
         return $result;
     }

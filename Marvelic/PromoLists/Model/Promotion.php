@@ -502,6 +502,15 @@ class Promotion extends AbstractExtensibleModel implements IdentityInterface, Pr
         return $this->getData(self::COUPON_IDS);
     }
 
+    public function getPosition()
+    {
+        return $this->getData(self::ORDER);
+    }
+
+    public function setPosition($value)
+    {
+        return $this->setData(self::ORDER, $value);
+    }
     /**
      * {@inheritdoc}
      */
@@ -509,4 +518,6 @@ class Promotion extends AbstractExtensibleModel implements IdentityInterface, Pr
     {
         $this->_init('Marvelic\PromoLists\Model\ResourceModel\Promotion');
     }
+
+
 }

@@ -194,7 +194,6 @@
                 </argument>
             </field>
 
-
 <!--            <field name="content">-->
 <!--                <argument name="data" xsi:type="array">-->
 <!--                    <item name="config" xsi:type="array">-->
@@ -270,62 +269,61 @@
 <!--                </argument>-->
 <!--            </field>-->
         </fieldset>
+<!--        <fieldset name="seo">-->
+<!--            <argument name="data" xsi:type="array">-->
+<!--                <item name="config" xsi:type="array">-->
+<!--                    <item name="label" xsi:type="string">Search Engine Optimization</item>-->
+<!--                    <item name="collapsible" xsi:type="boolean">true</item>-->
+<!--                    <item name="opened" xsi:type="boolean">false</item>-->
+<!--                </item>-->
+<!--            </argument>-->
 
-        <fieldset name="seo">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="label" xsi:type="string">Search Engine Optimization</item>
-                    <item name="collapsible" xsi:type="boolean">true</item>
-                    <item name="opened" xsi:type="boolean">false</item>
-                </item>
-            </argument>
+<!--            <field name="url_key">-->
+<!--                <argument name="data" xsi:type="array">-->
+<!--                    <item name="config" xsi:type="array">-->
+<!--                        <item name="label" xsi:type="string" translate="true">URL Key</item>-->
+<!--                        <item name="dataType" xsi:type="string">text</item>-->
+<!--                        <item name="formElement" xsi:type="string">input</item>-->
+<!--                    </item>-->
+<!--                </argument>-->
+<!--            </field>-->
 
-            <field name="url_key">
-                <argument name="data" xsi:type="array">
-                    <item name="config" xsi:type="array">
-                        <item name="label" xsi:type="string" translate="true">URL Key</item>
-                        <item name="dataType" xsi:type="string">text</item>
-                        <item name="formElement" xsi:type="string">input</item>
-                    </item>
-                </argument>
-            </field>
+<!--            <field name="meta_title">-->
+<!--                <argument name="data" xsi:type="array">-->
+<!--                    <item name="config" xsi:type="array">-->
+<!--                        <item name="label" xsi:type="string" translate="true">Meta Title</item>-->
+<!--                        <item name="dataType" xsi:type="string">text</item>-->
+<!--                        <item name="formElement" xsi:type="string">textarea</item>-->
+<!--                        <item name="min" xsi:type="number">50</item>-->
+<!--                        <item name="max" xsi:type="number">170</item>-->
+<!--                    </item>-->
+<!--                </argument>-->
+<!--            </field>-->
 
-            <field name="meta_title">
-                <argument name="data" xsi:type="array">
-                    <item name="config" xsi:type="array">
-                        <item name="label" xsi:type="string" translate="true">Meta Title</item>
-                        <item name="dataType" xsi:type="string">text</item>
-                        <item name="formElement" xsi:type="string">textarea</item>
-                        <item name="min" xsi:type="number">50</item>
-                        <item name="max" xsi:type="number">170</item>
-                    </item>
-                </argument>
-            </field>
+<!--            <field name="meta_description">-->
+<!--                <argument name="data" xsi:type="array">-->
+<!--                    <item name="config" xsi:type="array">-->
+<!--                        <item name="label" xsi:type="string" translate="true">Meta Description</item>-->
+<!--                        <item name="dataType" xsi:type="string">text</item>-->
+<!--                        <item name="formElement" xsi:type="string">textarea</item>-->
+<!--                        <item name="min" xsi:type="number">100</item>-->
+<!--                        <item name="max" xsi:type="number">170</item>-->
+<!--                    </item>-->
+<!--                </argument>-->
+<!--            </field>-->
 
-            <field name="meta_description">
-                <argument name="data" xsi:type="array">
-                    <item name="config" xsi:type="array">
-                        <item name="label" xsi:type="string" translate="true">Meta Description</item>
-                        <item name="dataType" xsi:type="string">text</item>
-                        <item name="formElement" xsi:type="string">textarea</item>
-                        <item name="min" xsi:type="number">100</item>
-                        <item name="max" xsi:type="number">170</item>
-                    </item>
-                </argument>
-            </field>
-
-            <field name="meta_keywords">
-                <argument name="data" xsi:type="array">
-                    <item name="config" xsi:type="array">
-                        <item name="label" xsi:type="string" translate="true">Meta Keywords</item>
-                        <item name="dataType" xsi:type="string">text</item>
-                        <item name="formElement" xsi:type="string">textarea</item>
-                        <item name="min" xsi:type="number">0</item>
-                        <item name="max" xsi:type="number">255</item>
-                    </item>
-                </argument>
-            </field>
-        </fieldset>
+<!--            <field name="meta_keywords">-->
+<!--                <argument name="data" xsi:type="array">-->
+<!--                    <item name="config" xsi:type="array">-->
+<!--                        <item name="label" xsi:type="string" translate="true">Meta Keywords</item>-->
+<!--                        <item name="dataType" xsi:type="string">text</item>-->
+<!--                        <item name="formElement" xsi:type="string">textarea</item>-->
+<!--                        <item name="min" xsi:type="number">0</item>-->
+<!--                        <item name="max" xsi:type="number">255</item>-->
+<!--                    </item>-->
+<!--                </argument>-->
+<!--            </field>-->
+<!--        </fieldset>-->
 
         <fieldset name="products">
             <argument name="data" xsi:type="array">
@@ -333,8 +331,8 @@
                     <item name="label" xsi:type="string" translate="true">Related Products</item>
                     <item name="collapsible" xsi:type="boolean">true</item>
                     <item name="opened" xsi:type="boolean">false</item>
-                    <item name="additionalClasses" xsi:type="string">admin__fieldset-section</item>
-                    <item name="sortOrder" xsi:type="number">20</item>
+                    <!-- <item name="additionalClasses" xsi:type="string">admin__fieldset-section</item>
+                    <item name="sortOrder" xsi:type="number">20</item> -->
                 </item>
             </argument>
 
@@ -440,6 +438,7 @@
                         <item name="map" xsi:type="array">
                             <item name="id" xsi:type="string">entity_id</item>
                             <item name="name" xsi:type="string">name</item>
+                            <item name="sku" xsi:type="string">sku</item>
                             <item name="status" xsi:type="string">status_text</item>
                             <item name="thumbnail" xsi:type="string">thumbnail_src</item>
                         </item>
@@ -535,281 +534,334 @@
                 </container>
             </dynamicRows>
         </fieldset>
-
-
-        <fieldset name="coupons">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="label" xsi:type="string">Coupon code items</item>
-                    <item name="collapsible" xsi:type="boolean">true</item>
-                    <item name="opened" xsi:type="boolean">true</item>
-                    <item name="area" xsi:type="string">main</item>
-                </item>
-            </argument>
-            <field name="coupon_title">
-                <argument name="data" xsi:type="array">
-                    <item name="config" xsi:type="array">
-                        <item name="label" xsi:type="string" translate="true">Coupon Title</item>
-                        <item name="dataType" xsi:type="string">text</item>
-                        <item name="formElement" xsi:type="string">input</item>
-                        <item name="validation" xsi:type="array">
-                            <item name="required-entry" xsi:type="boolean">true</item>
+        <fieldset name="seo">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="label" xsi:type="string">Search Engine Optimization</item>
+                            <item name="collapsible" xsi:type="boolean">true</item>
+                            <item name="opened" xsi:type="boolean">false</item>
                         </item>
-                    </item>
-                </argument>
-            </field>
-            <field name="coupon_description">
-                <argument name="data" xsi:type="array">
-                    <item name="config" xsi:type="array">
-                        <item name="label" xsi:type="string" translate="true">Coupon Description</item>
-                        <item name="dataType" xsi:type="string">text</item>
-                        <item name="formElement" xsi:type="string">textarea</item>
-                        <item name="min" xsi:type="number">100</item>
-                        <item name="max" xsi:type="number">170</item>
-                    </item>
-                </argument>
-            </field>
-            <field name="coupon_code" sortOrder="60" formElement="select">
-                <settings>
-                    <notice translate="true">If no value is specified, the system default is used. The system default may be modified by third-party extensions.</notice>
-                    <dataType>text</dataType>
-                    <label translate="true">Add Coupon Code</label>
-                    <dataScope>coupon_code</dataScope>
-                </settings>
-                <formElements>
-                    <select>
-                        <settings>
-                            <options class="Marvelic\PromoLists\Model\OptionProvider\Provider\RulesOptionProvider"/>
-                        </settings>
-                    </select>
-                </formElements>
-            </field>
-        </fieldset>
+                    </argument>
+
+                    <field name="url_key">
+                        <argument name="data" xsi:type="array">
+                            <item name="config" xsi:type="array">
+                                <item name="label" xsi:type="string" translate="true">URL Key</item>
+                                <item name="dataType" xsi:type="string">text</item>
+                                <item name="formElement" xsi:type="string">input</item>
+                            </item>
+                        </argument>
+                    </field>
+
+                    <field name="meta_title">
+                        <argument name="data" xsi:type="array">
+                            <item name="config" xsi:type="array">
+                                <item name="label" xsi:type="string" translate="true">Meta Title</item>
+                                <item name="dataType" xsi:type="string">text</item>
+                                <item name="formElement" xsi:type="string">textarea</item>
+                                <item name="min" xsi:type="number">50</item>
+                                <item name="max" xsi:type="number">170</item>
+                            </item>
+                        </argument>
+                    </field>
+
+                    <field name="meta_description">
+                        <argument name="data" xsi:type="array">
+                            <item name="config" xsi:type="array">
+                                <item name="label" xsi:type="string" translate="true">Meta Description</item>
+                                <item name="dataType" xsi:type="string">text</item>
+                                <item name="formElement" xsi:type="string">textarea</item>
+                                <item name="min" xsi:type="number">100</item>
+                                <item name="max" xsi:type="number">170</item>
+                            </item>
+                        </argument>
+                    </field>
+
+                    <field name="meta_keywords">
+                        <argument name="data" xsi:type="array">
+                            <item name="config" xsi:type="array">
+                                <item name="label" xsi:type="string" translate="true">Meta Keywords</item>
+                                <item name="dataType" xsi:type="string">text</item>
+                                <item name="formElement" xsi:type="string">textarea</item>
+                                <item name="min" xsi:type="number">0</item>
+                                <item name="max" xsi:type="number">255</item>
+                            </item>
+                        </argument>
+                    </field>
+                </fieldset>
+
 <!--        <fieldset name="coupons">-->
 <!--            <argument name="data" xsi:type="array">-->
 <!--                <item name="config" xsi:type="array">-->
-<!--                    <item name="label" xsi:type="string" translate="true">Coupon code items</item>-->
+<!--                    <item name="label" xsi:type="string">Coupon code items</item>-->
 <!--                    <item name="collapsible" xsi:type="boolean">true</item>-->
-<!--                    <item name="opened" xsi:type="boolean">false</item>-->
-<!--                    <item name="additionalClasses" xsi:type="string">admin__fieldset-section</item>-->
-<!--                    <item name="sortOrder" xsi:type="number">30</item>-->
+<!--                    <item name="opened" xsi:type="boolean">true</item>-->
+<!--                    <item name="area" xsi:type="string">main</item>-->
 <!--                </item>-->
 <!--            </argument>-->
-
-<!--            <container name="button_set">-->
+<!--            <field name="coupon_title">-->
 <!--                <argument name="data" xsi:type="array">-->
 <!--                    <item name="config" xsi:type="array">-->
-<!--                        <item name="label" xsi:type="boolean">false</item>-->
-<!--                        <item name="content" xsi:type="string" translate="true">-->
-<!--                            Add coupon code to display on front-end. The coupon code will display related from Websites and Customer Groups of rule code setting.-->
-<!--                        </item>-->
-<!--                        <item name="template" xsi:type="string">ui/form/components/complex</item>-->
-<!--                    </item>-->
-<!--                </argument>-->
-<!--                <container name="button_coupon">-->
-<!--                    <argument name="data" xsi:type="array">-->
-<!--                        <item name="config" xsi:type="array">-->
-<!--                            <item name="title" xsi:type="string" translate="true">Add Coupon Code</item>-->
-<!--                            <item name="component" xsi:type="string">Magento_Ui/js/form/components/button</item>-->
-<!--                            <item name="actions" xsi:type="array">-->
-<!--                                <item name="0" xsi:type="array">-->
-<!--                                    <item name="targetName" xsi:type="string">promolist_promotion_form.promolist_promotion_form.main.coupons.modal</item>-->
-<!--                                    <item name="actionName" xsi:type="string">toggleModal</item>-->
-<!--                                </item>-->
-<!--                                <item name="1" xsi:type="array">-->
-<!--                                    <item name="targetName" xsi:type="string">promolist_promotion_form.promolist_promotion_form.main.coupons.modal.promolist_promotion_form_coupon_listing</item>-->
-<!--                                    <item name="actionName" xsi:type="string">render</item>-->
-<!--                                </item>-->
-<!--                            </item>-->
-<!--                            <item name="provider" xsi:type="boolean">false</item>-->
-<!--                        </item>-->
-<!--                    </argument>-->
-<!--                </container>-->
-<!--            </container>-->
-
-<!--            <modal name="modal">-->
-<!--                <argument name="data" xsi:type="array">-->
-<!--                    <item name="config" xsi:type="array">-->
-<!--                        <item name="component" xsi:type="string">Magento_Ui/js/modal/modal-component</item>-->
-<!--                        <item name="options" xsi:type="array">-->
-<!--                            <item name="title" xsi:type="string" translate="true">Add Coupons Code</item>-->
-<!--                            <item name="buttons" xsi:type="array">-->
-<!--                                <item name="0" xsi:type="array">-->
-<!--                                    <item name="text" xsi:type="string" translate="true">Cancel</item>-->
-<!--                                    <item name="actions" xsi:type="array">-->
-<!--                                        <item name="0" xsi:type="string">closeModal</item>-->
-<!--                                    </item>-->
-<!--                                </item>-->
-<!--                                <item name="1" xsi:type="array">-->
-<!--                                    <item name="text" xsi:type="string" translate="true">Add Selected Coupons</item>-->
-<!--                                    <item name="class" xsi:type="string">action-primary</item>-->
-<!--                                    <item name="actions" xsi:type="array">-->
-<!--                                        <item name="0" xsi:type="array">-->
-<!--                                            <item name="targetName" xsi:type="string">index=promolist_promotion_form_coupon_listing</item>-->
-<!--                                            <item name="actionName" xsi:type="string">save</item>-->
-<!--                                        </item>-->
-<!--                                        <item name="1" xsi:type="string">closeModal</item>-->
-<!--                                    </item>-->
-<!--                                </item>-->
-<!--                            </item>-->
+<!--                        <item name="label" xsi:type="string" translate="true">Coupon Title</item>-->
+<!--                        <item name="dataType" xsi:type="string">text</item>-->
+<!--                        <item name="formElement" xsi:type="string">input</item>-->
+<!--                        <item name="validation" xsi:type="array">-->
+<!--                            <item name="required-entry" xsi:type="boolean">true</item>-->
 <!--                        </item>-->
 <!--                    </item>-->
 <!--                </argument>-->
-<!--                <insertListing name="promolist_promotion_form_coupon_listing">-->
-<!--                    <argument name="data" xsi:type="array">-->
-<!--                        <item name="config" xsi:type="array">-->
-<!--                            <item name="autoRender" xsi:type="boolean">false</item>-->
-<!--                            <item name="dataScope" xsi:type="string">promolist_promotion_form_coupon_listing</item>-->
-<!--                            <item name="externalProvider" xsi:type="string">promolist_promotion_form_coupon_listing.promolist_promotion_form_coupon_listing_data_source</item>-->
-<!--                            <item name="selectionsProvider" xsi:type="string">promolist_promotion_form_coupon_listing.promolist_promotion_form_coupon_listing.coupons_columns.ids</item>-->
-<!--                            <item name="ns" xsi:type="string">promolist_promotion_form_coupon_listing</item>-->
-<!--                            <item name="render_url" xsi:type="url" path="mui/index/render"/>-->
-<!--                            <item name="realTimeLink" xsi:type="boolean">true</item>-->
-<!--                            <item name="dataLinks" xsi:type="array">-->
-<!--                                <item name="imports" xsi:type="boolean">false</item>-->
-<!--                                <item name="exports" xsi:type="boolean">true</item>-->
-<!--                            </item>-->
-<!--                            <item name="behaviourType" xsi:type="string">simple</item>-->
-<!--                            <item name="externalFilterMode" xsi:type="boolean">true</item>-->
-<!--                            <item name="imports" xsi:type="array">-->
-<!--                                <item name="entity_id" xsi:type="string">${ $.provider }:data.rule_id</item>-->
-<!--                            </item>-->
-<!--                            <item name="exports" xsi:type="array">-->
-<!--                                <item name="entity_id" xsi:type="string">${ $.externalProvider }:data.rule_id</item>-->
-<!--                            </item>-->
-<!--                            <item name="component" xsi:type="string">Magento_Ui/js/form/components/insert-listing</item>-->
-<!--                        </item>-->
-<!--                    </argument>-->
-<!--                </insertListing>-->
-<!--            </modal>-->
-
-<!--            <dynamicRows name="coupons">-->
+<!--            </field>-->
+<!--            <field name="coupon_description">-->
 <!--                <argument name="data" xsi:type="array">-->
 <!--                    <item name="config" xsi:type="array">-->
-<!--                        <item name="componentType" xsi:type="string">dynamicRows</item>-->
-<!--                        <item name="columnsHeader" xsi:type="boolean">false</item>-->
-<!--                        <item name="columnsHeaderAfterRender" xsi:type="boolean">true</item>-->
-<!--                        <item name="renderDefaultRecord" xsi:type="boolean">false</item>-->
-<!--                        <item name="template" xsi:type="string">ui/dynamic-rows/templates/grid</item>-->
-<!--                        <item name="component" xsi:type="string">Magento_Ui/js/dynamic-rows/dynamic-rows-grid</item>-->
-<!--                        <item name="addButton" xsi:type="boolean">false</item>-->
-<!--                        <item name="recordTemplate" xsi:type="string">record</item>-->
-<!--                        <item name="dataScope" xsi:type="string">links</item>-->
-<!--                        <item name="deleteButtonLabel" xsi:type="string" translate="true">Remove</item>-->
-<!--                        <item name="dataProvider" xsi:type="string">data.promolist_promotion_form_coupon_listing</item>-->
-<!--                        <item name="map" xsi:type="array">-->
-<!--                            <item name="id" xsi:type="string">rule_id</item>-->
-<!--                            <item name="name" xsi:type="string">name</item>-->
-<!--                            <item name="from_date" xsi:type="string">from_date</item>-->
-<!--                            <item name="to_date" xsi:type="string">to_date</item>-->
-<!--                            <item name="coupon_code" xsi:type="string">coupon_code</item>-->
-<!--                        </item>-->
-<!--                        <item name="links" xsi:type="array">-->
-<!--                            <item name="insertData" xsi:type="string">${ $.provider }:${ $.dataProvider }</item>-->
-<!--                        </item>-->
+<!--                        <item name="label" xsi:type="string" translate="true">Coupon Description</item>-->
+<!--                        <item name="dataType" xsi:type="string">text</item>-->
+<!--                        <item name="formElement" xsi:type="string">textarea</item>-->
+<!--                        <item name="min" xsi:type="number">100</item>-->
+<!--                        <item name="max" xsi:type="number">170</item>-->
 <!--                    </item>-->
 <!--                </argument>-->
+<!--            </field>-->
+<!--            <field name="coupon_code" sortOrder="60" formElement="select">-->
 <!--                <settings>-->
-<!--                    <additionalClasses>-->
-<!--                        <class name="admin__field-wide">true</class>-->
-<!--                    </additionalClasses>-->
-<!--                    <componentType>dynamicRows</componentType>-->
+<!--                    <notice translate="true">If no value is specified, the system default is used. The system default may be modified by third-party extensions.</notice>-->
+<!--                    <dataType>text</dataType>-->
+<!--                    <label translate="true">Add Coupon Code</label>-->
+<!--                    <dataScope>coupon_code</dataScope>-->
 <!--                </settings>-->
-<!--                <container name="record">-->
-<!--                    <argument name="data" xsi:type="array">-->
-<!--                        <item name="config" xsi:type="array">-->
-<!--                            <item name="additionalClasses" xsi:type="string">message message-error</item>-->
-<!--                            <item name="isTemplate" xsi:type="boolean">true</item>-->
-<!--                            <item name="is_collection" xsi:type="boolean">true</item>-->
-<!--                            <item name="component" xsi:type="string">Magento_Ui/js/dynamic-rows/record</item>-->
-<!--                            <item name="componentType" xsi:type="string">container</item>-->
-<!--                        </item>-->
-<!--                    </argument>-->
-<!--                    <field name="id">-->
-<!--                        <argument name="data" xsi:type="array">-->
-<!--                            <item name="config" xsi:type="array">-->
-<!--                                <item name="formElement" xsi:type="string">input</item>-->
-<!--                                <item name="elementTmpl" xsi:type="string">ui/dynamic-rows/cells/text</item>-->
-<!--                                <item name="component" xsi:type="string">Magento_Ui/js/form/element/text</item>-->
-<!--                                <item name="dataType" xsi:type="string">text</item>-->
-<!--                                <item name="dataScope" xsi:type="string">id</item>-->
-<!--                                <item name="label" xsi:type="string" translate="true">ID</item>-->
-<!--                            </item>-->
-<!--                        </argument>-->
-<!--                    </field>-->
-<!--                    <field name="name">-->
-<!--                        <argument name="data" xsi:type="array">-->
-<!--                            <item name="config" xsi:type="array">-->
-<!--                                <item name="formElement" xsi:type="string">input</item>-->
-<!--                                <item name="elementTmpl" xsi:type="string">ui/dynamic-rows/cells/text</item>-->
-<!--                                <item name="component" xsi:type="string">Magento_Ui/js/form/element/text</item>-->
-<!--                                <item name="dataType" xsi:type="string">text</item>-->
-<!--                                <item name="dataScope" xsi:type="string">name</item>-->
-<!--                                <item name="label" xsi:type="string" translate="true">Name</item>-->
-<!--                            </item>-->
-<!--                        </argument>-->
-<!--                    </field>-->
-<!--                    <field name="coupon_code">-->
-<!--                        <argument name="data" xsi:type="array">-->
-<!--                            <item name="config" xsi:type="array">-->
-<!--                                <item name="formElement" xsi:type="string">input</item>-->
-<!--                                <item name="elementTmpl" xsi:type="string">ui/dynamic-rows/cells/text</item>-->
-<!--                                <item name="component" xsi:type="string">Magento_Ui/js/form/element/text</item>-->
-<!--                                <item name="dataType" xsi:type="string">text</item>-->
-<!--                                <item name="dataScope" xsi:type="string">coupon_code</item>-->
-<!--                                <item name="label" xsi:type="string" translate="true">coupon_code</item>-->
-<!--                            </item>-->
-<!--                        </argument>-->
-<!--                    </field>-->
-
-<!--                    <field name="from_date">-->
-<!--                        <argument name="data" xsi:type="array">-->
-<!--                            <item name="config" xsi:type="array">-->
-<!--                                <item name="formElement" xsi:type="string">input</item>-->
-<!--                                <item name="elementTmpl" xsi:type="string">ui/dynamic-rows/cells/text</item>-->
-<!--                                <item name="component" xsi:type="string">Magento_Ui/js/form/element/text</item>-->
-<!--                                <item name="dataType" xsi:type="string">text</item>-->
-<!--                                <item name="dataScope" xsi:type="string">from_date</item>-->
-<!--                                <item name="label" xsi:type="string" translate="true">from date</item>-->
-<!--                            </item>-->
-<!--                        </argument>-->
-<!--                    </field>-->
-
-<!--                    <field name="to_date">-->
-<!--                        <argument name="data" xsi:type="array">-->
-<!--                            <item name="config" xsi:type="array">-->
-<!--                                <item name="formElement" xsi:type="string">input</item>-->
-<!--                                <item name="elementTmpl" xsi:type="string">ui/dynamic-rows/cells/text</item>-->
-<!--                                <item name="component" xsi:type="string">Magento_Ui/js/form/element/text</item>-->
-<!--                                <item name="dataType" xsi:type="string">text</item>-->
-<!--                                <item name="dataScope" xsi:type="string">to_date</item>-->
-<!--                                <item name="label" xsi:type="string" translate="true">To date</item>-->
-<!--                            </item>-->
-<!--                        </argument>-->
-<!--                    </field>-->
-
-<!--                    <actionDelete name="actionDelete">-->
-<!--                        <argument name="data" xsi:type="array">-->
-<!--                            <item name="config" xsi:type="array">-->
-<!--                                <item name="actionDelete" xsi:type="string">data-grid-actions-cell</item>-->
-<!--                                <item name="dataType" xsi:type="string">text</item>-->
-<!--                                <item name="label" xsi:type="string" translate="true">Actions</item>-->
-<!--                            </item>-->
-<!--                        </argument>-->
-<!--                    </actionDelete>-->
-<!--                    <field name="position">-->
-<!--                        <argument name="data" xsi:type="array">-->
-<!--                            <item name="config" xsi:type="array">-->
-<!--                                <item name="formElement" xsi:type="string">input</item>-->
-<!--                                <item name="dataType" xsi:type="string">number</item>-->
-<!--                                <item name="dataScope" xsi:type="string">position</item>-->
-<!--                                <item name="visible" xsi:type="boolean">false</item>-->
-<!--                            </item>-->
-<!--                        </argument>-->
-<!--                    </field>-->
-<!--                </container>-->
-<!--            </dynamicRows>-->
+<!--                <formElements>-->
+<!--                    <select>-->
+<!--                        <settings>-->
+<!--                            <options class="Marvelic\PromoLists\Model\OptionProvider\Provider\RulesOptionProvider"/>-->
+<!--                        </settings>-->
+<!--                    </select>-->
+<!--                </formElements>-->
+<!--            </field>-->
 <!--        </fieldset>-->
+        <fieldset name="coupons">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Coupon code items</item>
+                    <item name="collapsible" xsi:type="boolean">true</item>
+                    <item name="opened" xsi:type="boolean">false</item>
+                    <item name="additionalClasses" xsi:type="string">admin__fieldset-section</item>
+                    <item name="sortOrder" xsi:type="number">30</item>
+                </item>
+            </argument>
+
+            <container name="button_set">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="label" xsi:type="boolean">false</item>
+                        <item name="content" xsi:type="string" translate="true">
+                            Add coupon code to display on front-end. The coupon code will display related from Websites and Customer Groups of rule code setting.
+                        </item>
+                        <item name="template" xsi:type="string">ui/form/components/complex</item>
+                    </item>
+                </argument>
+                <container name="button_coupon">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="title" xsi:type="string" translate="true">Add Coupon Code</item>
+                            <item name="component" xsi:type="string">Magento_Ui/js/form/components/button</item>
+                            <item name="actions" xsi:type="array">
+                                <item name="0" xsi:type="array">
+                                    <item name="targetName" xsi:type="string">promolist_promotion_form.promolist_promotion_form.main.coupons.modal</item>
+                                    <item name="actionName" xsi:type="string">toggleModal</item>
+                                </item>
+                                <item name="1" xsi:type="array">
+                                    <item name="targetName" xsi:type="string">promolist_promotion_form.promolist_promotion_form.main.coupons.modal.promolist_promotion_form_coupon_listing</item>
+                                    <item name="actionName" xsi:type="string">render</item>
+                                </item>
+                            </item>
+                            <item name="provider" xsi:type="boolean">false</item>
+                        </item>
+                    </argument>
+                </container>
+            </container>
+
+            <modal name="modal">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="component" xsi:type="string">Magento_Ui/js/modal/modal-component</item>
+                        <item name="options" xsi:type="array">
+                            <item name="title" xsi:type="string" translate="true">Add Coupons Code</item>
+                            <item name="buttons" xsi:type="array">
+                                <item name="0" xsi:type="array">
+                                    <item name="text" xsi:type="string" translate="true">Cancel</item>
+                                    <item name="actions" xsi:type="array">
+                                        <item name="0" xsi:type="string">closeModal</item>
+                                    </item>
+                                </item>
+                                <item name="1" xsi:type="array">
+                                    <item name="text" xsi:type="string" translate="true">Add Selected Coupons</item>
+                                    <item name="class" xsi:type="string">action-primary</item>
+                                    <item name="actions" xsi:type="array">
+                                        <item name="0" xsi:type="array">
+                                            <item name="targetName" xsi:type="string">index=promolist_promotion_form_coupon_listing</item>
+                                            <item name="actionName" xsi:type="string">save</item>
+                                        </item>
+                                        <item name="1" xsi:type="string">closeModal</item>
+                                    </item>
+                                </item>
+                            </item>
+                        </item>
+                    </item>
+                </argument>
+                <insertListing name="promolist_promotion_form_coupon_listing">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="autoRender" xsi:type="boolean">false</item>
+                            <item name="dataScope" xsi:type="string">promolist_promotion_form_coupon_listing</item>
+                            <item name="externalProvider" xsi:type="string">promolist_promotion_form_coupon_listing.promolist_promotion_form_coupon_listing_data_source</item>
+                            <item name="selectionsProvider" xsi:type="string">promolist_promotion_form_coupon_listing.promolist_promotion_form_coupon_listing.columns.ids</item>
+                            <item name="ns" xsi:type="string">promolist_promotion_form_coupon_listing</item>
+                            <item name="render_url" xsi:type="url" path="mui/index/render"/>
+                            <item name="realTimeLink" xsi:type="boolean">true</item>
+                            <item name="dataLinks" xsi:type="array">
+                                <item name="imports" xsi:type="boolean">false</item>
+                                <item name="exports" xsi:type="boolean">true</item>
+                            </item>
+                            <item name="behaviourType" xsi:type="string">simple</item>
+                            <item name="externalFilterMode" xsi:type="boolean">true</item>
+                            <item name="imports" xsi:type="array">
+                                <item name="rule_id" xsi:type="string">${ $.provider }:data.rule_id</item>
+                            </item>
+                            <item name="exports" xsi:type="array">
+                                <item name="rule_id" xsi:type="string">${ $.externalProvider }:data.rule_id</item>
+                            </item>
+                            <item name="component" xsi:type="string">Magento_Ui/js/form/components/insert-listing</item>
+                        </item>
+                    </argument>
+                </insertListing>
+            </modal>
+            <dynamicRows name="coupons">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="componentType" xsi:type="string">dynamicRows</item>
+                        <item name="columnsHeader" xsi:type="boolean">false</item>
+                        <item name="columnsHeaderAfterRender" xsi:type="boolean">true</item>
+                        <item name="renderDefaultRecord" xsi:type="boolean">false</item>
+                        <item name="template" xsi:type="string">ui/dynamic-rows/templates/grid</item>
+                        <item name="component" xsi:type="string">Magento_Ui/js/dynamic-rows/dynamic-rows-grid</item>
+                        <item name="addButton" xsi:type="boolean">false</item>
+                        <item name="recordTemplate" xsi:type="string">record</item>
+                        <item name="dataScope" xsi:type="string">links</item>
+                        <item name="deleteButtonLabel" xsi:type="string" translate="true">Remove</item>
+                        <item name="dataProvider" xsi:type="string">data.promolist_promotion_form_coupon_listing</item>
+                        <item name="map" xsi:type="array">
+                            <item name="id" xsi:type="string">rule_id</item>
+                            <item name="name" xsi:type="string">name</item>
+                            <item name="from_date" xsi:type="string">from_date</item>
+                            <item name="to_date" xsi:type="string">to_date</item>
+                            <item name="code" xsi:type="string">code</item>
+                        </item>
+                        <item name="links" xsi:type="array">
+                            <item name="insertData" xsi:type="string">${ $.provider }:${ $.dataProvider }</item>
+                        </item>
+                    </item>
+                </argument>
+                <settings>
+                    <additionalClasses>
+                        <class name="admin__field-wide">true</class>
+                    </additionalClasses>
+                    <componentType>dynamicRows</componentType>
+                </settings>
+                <container name="record">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="additionalClasses" xsi:type="string">message message-error</item>
+                            <item name="isTemplate" xsi:type="boolean">true</item>
+                            <item name="is_collection" xsi:type="boolean">true</item>
+                            <item name="component" xsi:type="string">Magento_Ui/js/dynamic-rows/record</item>
+                            <item name="componentType" xsi:type="string">container</item>
+                        </item>
+                    </argument>
+                    <field name="id">
+                        <argument name="data" xsi:type="array">
+                            <item name="config" xsi:type="array">
+                                <item name="formElement" xsi:type="string">input</item>
+                                <item name="elementTmpl" xsi:type="string">ui/dynamic-rows/cells/text</item>
+                                <item name="component" xsi:type="string">Magento_Ui/js/form/element/text</item>
+                                <item name="dataType" xsi:type="string">text</item>
+                                <item name="dataScope" xsi:type="string">id</item>
+                                <item name="label" xsi:type="string" translate="true">ID</item>
+                            </item>
+                        </argument>
+                    </field>
+                    <field name="name">
+                        <argument name="data" xsi:type="array">
+                            <item name="config" xsi:type="array">
+                                <item name="formElement" xsi:type="string">input</item>
+                                <item name="elementTmpl" xsi:type="string">ui/dynamic-rows/cells/text</item>
+                                <item name="component" xsi:type="string">Magento_Ui/js/form/element/text</item>
+                                <item name="dataType" xsi:type="string">text</item>
+                                <item name="dataScope" xsi:type="string">name</item>
+                                <item name="label" xsi:type="string" translate="true">Name</item>
+                            </item>
+                        </argument>
+                    </field>
+                    <field name="code">
+                        <argument name="data" xsi:type="array">
+                            <item name="config" xsi:type="array">
+                                <item name="formElement" xsi:type="string">input</item>
+                                <item name="elementTmpl" xsi:type="string">ui/dynamic-rows/cells/text</item>
+                                <item name="component" xsi:type="string">Magento_Ui/js/form/element/text</item>
+                                <item name="dataType" xsi:type="string">text</item>
+                                <item name="dataScope" xsi:type="string">code</item>
+                                <item name="label" xsi:type="string" translate="true">Coupon Code</item>
+                            </item>
+                        </argument>
+                    </field>
+
+                    <field name="from_date">
+                        <argument name="data" xsi:type="array">
+                            <item name="config" xsi:type="array">
+                                <item name="formElement" xsi:type="string">input</item>
+                                <item name="elementTmpl" xsi:type="string">ui/dynamic-rows/cells/text</item>
+                                <item name="component" xsi:type="string">Magento_Ui/js/form/element/text</item>
+                                <item name="dataType" xsi:type="string">text</item>
+                                <item name="dataScope" xsi:type="string">from_date</item>
+                                <item name="label" xsi:type="string" translate="true">from date</item>
+                            </item>
+                        </argument>
+                    </field>
+
+                    <field name="to_date">
+                        <argument name="data" xsi:type="array">
+                            <item name="config" xsi:type="array">
+                                <item name="formElement" xsi:type="string">input</item>
+                                <item name="elementTmpl" xsi:type="string">ui/dynamic-rows/cells/text</item>
+                                <item name="component" xsi:type="string">Magento_Ui/js/form/element/text</item>
+                                <item name="dataType" xsi:type="string">text</item>
+                                <item name="dataScope" xsi:type="string">to_date</item>
+                                <item name="label" xsi:type="string" translate="true">To date</item>
+                            </item>
+                        </argument>
+                    </field>
+
+                    <actionDelete name="actionDelete">
+                        <argument name="data" xsi:type="array">
+                            <item name="config" xsi:type="array">
+                                <item name="actionDelete" xsi:type="string">data-grid-actions-cell</item>
+                                <item name="dataType" xsi:type="string">text</item>
+                                <item name="label" xsi:type="string" translate="true">Actions</item>
+                            </item>
+                        </argument>
+                    </actionDelete>
+                    <field name="position">
+                        <argument name="data" xsi:type="array">
+                            <item name="config" xsi:type="array">
+                                <item name="formElement" xsi:type="string">input</item>
+                                <item name="dataType" xsi:type="string">number</item>
+                                <item name="dataScope" xsi:type="string">position</item>
+                                <item name="visible" xsi:type="boolean">false</item>
+                            </item>
+                        </argument>
+                    </field>
+                </container>
+            </dynamicRows>
+        </fieldset>
 
     </container>
 </form>

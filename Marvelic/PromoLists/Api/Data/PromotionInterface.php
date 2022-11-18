@@ -37,7 +37,7 @@ interface PromotionInterface
 
     const PUBLISHED_ON = 'published_on';
     const EXPIRATION_ON = 'expiration_on';
-
+    const ORDER = 'position';
 
     /**
      * @return int
@@ -284,5 +284,17 @@ interface PromotionInterface
      * @return mixed|CouponCollection
      */
     public function getRelatedCoupons();
+
+    /**
+     * @return int
+     */
+    public function getPosition();
+
+    /**
+     * @param int $value
+     *
+     * @return $this
+     */
+    public function setPosition($value);
 
 }
