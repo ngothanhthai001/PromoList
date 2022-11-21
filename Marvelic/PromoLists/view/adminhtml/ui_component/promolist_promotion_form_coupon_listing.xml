@@ -13,14 +13,14 @@
         <argument name="dataProvider" xsi:type="configurableObject">
             <argument name="class" xsi:type="string">Marvelic\PromoLists\Ui\Promotion\Form\CouponDataProvider</argument>
             <argument name="name" xsi:type="string">promolist_promotion_form_coupon_listing_data_source</argument>
-            <argument name="primaryFieldName" xsi:type="string">rule_id</argument>
+            <argument name="primaryFieldName" xsi:type="string">coupon_id</argument>
             <argument name="requestFieldName" xsi:type="string">id</argument>
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>
                     <item name="update_url" xsi:type="url" path="mui/index/render"/>
                     <item name="storageConfig" xsi:type="array">
-                        <item name="indexField" xsi:type="string">rule_id</item>
+                        <item name="indexField" xsi:type="string">coupon_id</item>
                     </item>
                 </item>
             </argument>
@@ -64,13 +64,13 @@
         <selectionsColumn name="ids">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="indexField" xsi:type="string">rule_id</item>
+                    <item name="indexField" xsi:type="string">coupon_id</item>
                     <item name="preserveSelectionsOnFilter" xsi:type="boolean">false</item>
                 </item>
             </argument>
         </selectionsColumn>
 
-        <column name="rule_id">
+        <column name="coupon_id">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="filter" xsi:type="string">textRange</item>
@@ -80,19 +80,15 @@
             </argument>
         </column>
 
-<!--        <column name="thumbnail" class="Magento\Catalog\Ui\Component\Listing\Columns\Thumbnail">-->
-<!--            <argument name="data" xsi:type="array">-->
-<!--                <item name="config" xsi:type="array">-->
-<!--                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/thumbnail</item>-->
-<!--                    <item name="add_field" xsi:type="boolean">true</item>-->
-<!--                    <item name="sortable" xsi:type="boolean">false</item>-->
-<!--                    <item name="altField" xsi:type="string">name</item>-->
-<!--                    <item name="has_preview" xsi:type="string">1</item>-->
-<!--                    <item name="align" xsi:type="string">left</item>-->
-<!--                    <item name="label" xsi:type="string" translate="true">Thumbnail</item>-->
-<!--                </item>-->
-<!--            </argument>-->
-<!--        </column>-->
+        <column name="rule_name">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="sortable" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true">Rule Name</item>
+                </item>
+            </argument>
+        </column>
+
         <column name="code">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
@@ -100,35 +96,48 @@
                 </item>
             </argument>
         </column>
-
-        <column name="name">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="label" xsi:type="string" translate="true">Name</item>
-                </item>
-            </argument>
-        </column>
-
-        <column name="description">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
+<!--        <column name="rule_name" class="Marvelic\PromoLists\Ui\Component\Listing\Column\RuleName">-->
+<!--            <argument name="data" xsi:type="array">-->
+<!--                <item name="config" xsi:type="array">-->
 <!--                    <item name="add_field" xsi:type="boolean">true</item>-->
-                    <item name="label" xsi:type="string" translate="true">Description</item>
-                </item>
-            </argument>
-        </column>
+<!--                    <item name="sortable" xsi:type="boolean">false</item>-->
+<!--                    <item name="altField" xsi:type="string">rule_name</item>-->
+<!--                    <item name="has_preview" xsi:type="string">1</item>-->
+<!--                    <item name="align" xsi:type="string">left</item>-->
+<!--                    <item name="label" xsi:type="string" translate="true">Rule Name</item>-->
+<!--                </item>-->
+<!--            </argument>-->
+<!--        </column>-->
+        <!--        <column name="name">-->
+<!--            <argument name="data" xsi:type="array">-->
+<!--                <item name="config" xsi:type="array">-->
+<!--                    <item name="label" xsi:type="string" translate="true">Name</item>-->
+<!--                </item>-->
+<!--            </argument>-->
+<!--        </column>-->
+
+<!--        <column name="description">-->
+<!--            <argument name="data" xsi:type="array">-->
+<!--                <item name="config" xsi:type="array">-->
+<!--&lt;!&ndash;                    <item name="add_field" xsi:type="boolean">true</item>&ndash;&gt;-->
+<!--                    <item name="label" xsi:type="string" translate="true">Description</item>-->
+<!--                </item>-->
+<!--            </argument>-->
+<!--        </column>-->
 
         <column name="to_date">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="label" xsi:type="string" translate="true">Code</item>
+                    <item name="sortable" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true">To</item>
                 </item>
             </argument>
         </column>
         <column name="from_date">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="label" xsi:type="string" translate="true">Code</item>
+                    <item name="sortable" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true">From</item>
                 </item>
             </argument>
         </column>
