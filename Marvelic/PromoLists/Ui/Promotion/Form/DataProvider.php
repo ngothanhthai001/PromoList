@@ -5,6 +5,7 @@ namespace Marvelic\PromoLists\Ui\Promotion\Form;
 use Magento\Catalog\Helper\Image as ImageHelper;
 use Magento\Catalog\Model\Product\Attribute\Source\Status;
 use Magento\Ui\DataProvider\AbstractDataProvider;
+use Magento\SalesRule\Api\RuleRepositoryInterface;
 use Marvelic\PromoLists\Api\Data\PromotionInterface;
 use Marvelic\PromoLists\Api\PromotionRepositoryInterface;
 use Marvelic\PromoLists\Model\Config;
@@ -21,9 +22,16 @@ class DataProvider extends AbstractDataProvider
      */
     private $config;
 
+    /**
+     * @var RuleRepositoryInterface
+     */
+    private $ruleRepositoryInterface;
+
+
     public function __construct(
         PromotionRepositoryInterface $promotionRepository,
         Config $config,
+        RuleRepositoryInterface $ruleRepositoryInterface,
         Status $status,
         ImageHelper $imageHelper,
         $name,
@@ -35,12 +43,12 @@ class DataProvider extends AbstractDataProvider
         $this->promotionRepository = $promotionRepository;
         $this->collection     = $this->promotionRepository->getCollection();
         $this->config         = $config;
+        $this->ruleRepositoryInterface = $ruleRepositoryInterface;
         $this->status         = $status;
         $this->imageHelper    = $imageHelper;
 
         parent::__construct($name, $primaryFieldName, $requestFieldName, $meta, $data);
     }
-
 
     /**
      * {@inheritdoc}
@@ -57,22 +65,23 @@ class DataProvider extends AbstractDataProvider
                 PromotionInterface::STATUS           => $promotion->getStatus(),
                 PromotionInterface::CREATED_AT       => $promotion->getCreatedAt(),
                 PromotionInterface::NAME             => $promotion->getName(),
-//                PromotionInterface::SHORT_CONTENT    => $promotion->getShortContent(),
-//                PromotionInterface::CONTENT          => $promotion->getContent(),
+                PromotionInterface::SHORT_CONTENT    => $promotion->getShortContent(),
+                PromotionInterface::CONTENT          => $promotion->getContent(),
                 PromotionInterface::URL_KEY          => $promotion->getUrlKey(),
                 PromotionInterface::META_TITLE       => $promotion->getMetaTitle(),
 
                 PromotionInterface::META_KEYWORDS       => $promotion->getMetaKeywords(),
                 PromotionInterface::META_DESCRIPTION    => $promotion->getMetaDescription(),
-                PromotionInterface::COUPON_TITLE        => $promotion->getcouponTitle(),
-                PromotionInterface::COUPON_DESCRIPTION  => $promotion->getCouponDescription(),
+//                PromotionInterface::COUPON_TITLE        => $promotion->getcouponTitle(),
+//                PromotionInterface::COUPON_DESCRIPTION  => $promotion->getCouponDescription(),
                 PromotionInterface::COUPON_CODE         => $promotion->getCouponCode(),
                 PromotionInterface::CATEGORY_IDS        => $promotion->getCategoryIds(),
                 PromotionInterface::STORE_IDS           => $promotion->getStoreIds(),
                 PromotionInterface::PUBLISHED_ON        => $promotion->getPublishedOn(),
                 PromotionInterface::EXPIRATION_ON       => $promotion->getExpirationOn(),
                 PromotionInterface::ORDER               => $promotion->getPosition(),
-//                'is_short_content' => $promotion->getShortContent() ? true : false,
+                PromotionInterface::ATTRIBUTE_ALLOW     => json_decode($promotion->getAttributeAllow()),
+                'is_short_content' => $promotion->getShortContent() ? 0 : 1,
             ];
 
             if ($promotion->getCoverImage()) {
@@ -98,20 +107,21 @@ class DataProvider extends AbstractDataProvider
             }
 
             $result[$promotion->getId()]['links']['coupons'] = [];
-
+            $index= $promotion->getRelatedCoupons()->count() - 1;
             foreach ($promotion->getRelatedCoupons() as $coupon) {
+                $rule =  $this->ruleRepositoryInterface->getById($coupon->getRuleId());
                 $result[$promotion->getId()]['links']['coupons'][] = [
                     'id'        => $coupon->getId(),
-                    'name'      => $coupon->getName(),
-                    'from_date'      => $coupon->getFromDate(),
-                    'to_date'      => $coupon->getToDate(),
-                    'coupon_code'      => $coupon->getCode(),
+                    'rule_name'      => $rule->getName(),
+                    'code'      => $coupon->getCode(),
+                    'to_date'      => $rule->getToDate(),
+                    'from_date'      => $rule->getFromDate(),
+                    'coupon_title' => $promotion->getCouponTitle()[$index],
+                    'coupon_description' => $promotion->getCouponDescription()[$index]
                 ];
+                $index--;
             }
         }
-//        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-//        $objrules = $objectManager->create('Magento\SalesRule\Model\RuleFactory')->create();
-
         return $result;
     }
 }

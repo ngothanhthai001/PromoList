@@ -494,24 +494,32 @@
                 default="0" comment="Promotion ID"/>
         <column xsi:type="int" name="rule_id" unsigned="true" nullable="false" identity="false"
                 default="0" comment="Rule ID"/>
+        <column xsi:type="int" name="coupon_id" unsigned="true" nullable="false" identity="false"
+                default="0" comment="Coupon ID"/>
         <column xsi:type="int" name="position" unsigned="false" nullable="false" identity="false"
                 default="0" comment="Position"/>
+        <column xsi:type="varchar" name="coupon_title" nullable="true" length="255" comment="Coupon Title"/>
+        <column xsi:type="varchar" name="coupon_description" nullable="true" length="255" comment="Coupon Description"/>
+
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="promotion_id"/>
-            <column name="rule_id"/>
+            <column name="coupon_id"/>
         </constraint>
         <constraint xsi:type="foreign" referenceId="PML_PROMO_RULE_PROMO_ID_PML_PROMO_ENTT_ENTT_ID" table="promolist_promotion_rule"
                     column="promotion_id" referenceTable="promolist_promotion_entity" referenceColumn="entity_id"
                     onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="PML_PROMO_RULE_PROMO_ID_SALE_RULR_COUPON_ID"
+                    table="promolist_promotion_rule" column="coupon_id" referenceTable="salesrule_coupon"
+                    referenceColumn="coupon_id" onDelete="CASCADE"/>
+
         <constraint xsi:type="foreign" referenceId="PML_PROMO_RULE_PROMO_ID_SALE_RULR_RULE_ID"
-                    table="promolist_promotion_rule" column="promotion_id" referenceTable="salesrule"
+                    table="promolist_promotion_rule" column="rule_id" referenceTable="salesrule"
                     referenceColumn="rule_id" onDelete="CASCADE"/>
-        <constraint xsi:type="unique" referenceId="PROMOLIST_PROMOTION_RULE_PROMOTION_ID_RULE_ID">
-            <column name="promotion_id"/>
-            <column name="rule_id"/>
-        </constraint>
+<!--        <constraint xsi:type="unique" referenceId="PROMOLIST_PROMOTION_RULE_PROMOTION_ID_RULE_ID">-->
+<!--            <column name="promotion_id"/>-->
+<!--        </constraint>-->
         <index referenceId="PROMOLIST_PROMOTION_PRODUCT_RULE_ID" indexType="btree">
-            <column name="rule_id"/>
+            <column name="coupon_id"/>
         </index>
     </table>
 

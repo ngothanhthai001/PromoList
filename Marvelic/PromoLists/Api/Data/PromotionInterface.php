@@ -39,6 +39,8 @@ interface PromotionInterface
     const EXPIRATION_ON = 'expiration_on';
     const ORDER = 'position';
 
+    const ATTRIBUTE_ALLOW = 'attribute_allow';
+
     /**
      * @return int
      */
@@ -68,7 +70,6 @@ interface PromotionInterface
      */
     public function setStatus($value);
 
-
     /**
      * @return string
      */
@@ -80,7 +81,6 @@ interface PromotionInterface
      * @return $this
      */
     public function setName($value);
-
 
     /**
      * @return string
@@ -99,7 +99,6 @@ interface PromotionInterface
      */
     public function getMetaTitle();
 
-
     /**
      * @param string $value
      *
@@ -108,7 +107,7 @@ interface PromotionInterface
     public function setMetaTitle($value);
 
     /**
-     * @param string $value
+     * @param string|array $value
      *
      * @return $this
      */
@@ -157,7 +156,7 @@ interface PromotionInterface
      */
     public function setMetaKeywords($value);
     /**
-     * @param string $value
+     * @param string|array $value
      *
      * @return $this
      */
@@ -295,6 +294,18 @@ interface PromotionInterface
      *
      * @return $this
      */
+
     public function setPosition($value);
 
+    /**
+     * @return mixed
+     */
+    public function getAttributeAllow();
+
+    /**
+     * @param array $value
+     *
+     * @return $this
+     */
+    public function setAttributeAllow($value);
 }

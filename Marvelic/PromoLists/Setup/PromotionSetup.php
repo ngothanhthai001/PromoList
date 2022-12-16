@@ -125,16 +125,22 @@ class PromotionSetup extends EavSetup
                         'input'  => 'textarea',
                         'global' => ScopedAttributeInterface::SCOPE_STORE,
                     ],
-                    'coupon_title'      => [
-                        'type'   => 'varchar',
-                        'label'  => 'Coupon Title',
-                        'input'  => 'text',
-                        'global' => ScopedAttributeInterface::SCOPE_STORE,
-                    ],
-                    'coupon_description'      => [
-                        'type'   => 'varchar',
-                        'label'  => 'Coupon Description',
-                        'input'  => 'textarea',
+//                    'coupon_title'      => [
+//                        'type'   => 'varchar',
+//                        'label'  => 'Coupon Title',
+//                        'input'  => 'text',
+//                        'global' => ScopedAttributeInterface::SCOPE_STORE,
+//                    ],
+//                    'coupon_description'      => [
+//                        'type'   => 'varchar',
+//                        'label'  => 'Coupon Description',
+//                        'input'  => 'textarea',
+//                        'global' => ScopedAttributeInterface::SCOPE_STORE,
+//                    ],
+                    'attribute_allow' => [
+                        'type' => 'varchar',
+                        'label' => 'Attribute Allow',
+                        'input' => 'text',
                         'global' => ScopedAttributeInterface::SCOPE_STORE,
                     ],
                     'coupon_code' => [

@@ -48,7 +48,12 @@ class Save extends Promotion
                 return $resultRedirect->setPath('*/*/');
             }
             $model->addData($data);
-            if(is_array($data['cover_image'])){
+            $model->setAttributeAllow(json_encode($data['attribute_allow']));
+            if (!empty($data['links']['coupons'])) {
+                $model->setCouponTitle($data['links']['coupons']);
+                $model->setCouponDescription($data['links']['coupons']);
+            }
+            if (is_array($data['cover_image'])) {
                 $model->setCoverImage($data['cover_image'][0]['result']['name']);
             }
             try {
@@ -118,7 +123,7 @@ class Save extends Promotion
         if (isset($data['promolist_promotion_form_coupon_listing'])) {
             $couponIds = [];
             foreach ($data['promolist_promotion_form_coupon_listing'] as $item) {
-                $couponIds[] = $item['rule_id'];
+                $couponIds[] = $item['coupon_id'];
             }
             $data[PromotionInterface::COUPON_IDS] = $couponIds;
         } else {

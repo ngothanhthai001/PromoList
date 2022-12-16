@@ -31,7 +31,7 @@ class CouponDataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
                         'code' => $coupon->getCode(),
                         'rule_name' => $rule->getData('name'),
                         'to_date' => $rule->getData('to_date'),
-                        'from_date' => $rule->getData('from_date')
+                        'from_date' => $rule->getData('from_date'),
                     ];
                     $result['items'][] = $data;
                 }

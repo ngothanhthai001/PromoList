@@ -4,8 +4,6 @@ namespace Marvelic\PromoLists\Model;
 
 use Magento\Catalog\Model\ResourceModel\Product\Collection as ProductCollection;
 use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory as ProductCollectionFactory;
-use Magento\SalesRule\Model\ResourceModel\Rule\Collection as CouponCollection;
-use Magento\SalesRule\Model\ResourceModel\Rule\CollectionFactory as CouponCollectionFactory;
 use Magento\Framework\Api\AttributeValueFactory;
 use Magento\Framework\Api\ExtensionAttributesFactory;
 use Magento\Framework\App\ObjectManager;
@@ -15,11 +13,12 @@ use Magento\Framework\Image\Factory as ImageFactory;
 use Magento\Framework\Model\AbstractExtensibleModel;
 use Magento\Framework\Model\Context;
 use Magento\Framework\Registry;
+use Magento\SalesRule\Model\ResourceModel\Coupon\CollectionFactory as CouponCollectionFactory;
+use Magento\SalesRule\Model\ResourceModel\Rule\Collection as CouponCollection;
 use Magento\Store\Model\StoreManagerInterface;
 use Marvelic\PromoLists\Api\CategoryRepositoryInterface;
 use Marvelic\PromoLists\Api\Data\CategoryInterface;
 use Marvelic\PromoLists\Api\Data\PromotionInterface;
-
 
 class Promotion extends AbstractExtensibleModel implements IdentityInterface, PromotionInterface
 {
@@ -64,7 +63,6 @@ class Promotion extends AbstractExtensibleModel implements IdentityInterface, Pr
      * @var CouponCollectionFactory
      */
     protected $couponCollectionFactory;
-
 
     public function __construct(
         CategoryRepositoryInterface $categoryRepository,
@@ -310,7 +308,6 @@ class Promotion extends AbstractExtensibleModel implements IdentityInterface, Pr
     public function getCoverImageUrl()
     {
         return $this->config->getMediaUrl($this->getCoverImage());
-
     }
 
     /**
@@ -483,7 +480,7 @@ class Promotion extends AbstractExtensibleModel implements IdentityInterface, Pr
         $ids[] = 0;
 
         return $this->couponCollectionFactory->create()
-            ->addFieldToFilter('rule_id', $ids);
+            ->addFieldToFilter('coupon_id', $ids)->setOrder("coupon_id", "DESC");
     }
 
     /**
@@ -511,6 +508,15 @@ class Promotion extends AbstractExtensibleModel implements IdentityInterface, Pr
     {
         return $this->setData(self::ORDER, $value);
     }
+    public function getAttributeAllow()
+    {
+        return $this->getData(self::ATTRIBUTE_ALLOW);
+    }
+    public function setAttributeAllow($value)
+    {
+        return $this->setData(self::ATTRIBUTE_ALLOW, $value);
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -518,6 +524,4 @@ class Promotion extends AbstractExtensibleModel implements IdentityInterface, Pr
     {
         $this->_init('Marvelic\PromoLists\Model\ResourceModel\Promotion');
     }
-
-
 }

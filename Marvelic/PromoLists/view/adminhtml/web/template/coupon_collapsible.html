@@ -1,0 +1,114 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<div class="admin__field" css="element.setClasses(element)">
+    <label if="element.label" class="admin__field-label" attr="for: element.uid">
+        <span translate="element.label"></span>
+    </label>
+    <div class="admin__field-control" data-role="grid-wrapper">
+        <div class="admin__control-table-pagination" visible="!!element.getRecordCount()">
+            <div class="admin__data-grid-pager">
+                <button class="action-previous" type="button" data-bind="attr: {title: $t('Previous Page')}, click: previousPage, disable: isFirst()"></button>
+                <input class="admin__control-text" type="number" data-bind="attr: {id: ++ko.uid}, value: currentPage">
+                <label class="admin__control-support-text" data-bind="attr: {for: ko.uid}, text: 'of ' + pages()"></label>
+                <button class="action-next" type="button" data-bind="attr: {title: $t('Next Page')}, click: nextPage, disable: isLast()"></button>
+            </div>
+        </div>
+        <table class="admin__dynamic-rows admin__control-collapsible" data-role="grid" attr="'data-index': index">
+            <tbody data-bind="foreach: elems">
+            <tr class="data-row" data-bind="foreach: {data: elems, as: 'elem'}">
+                <!-- ko if: (index === "code") -->
+                <td css="$parents[1].setClasses(elem)">
+                    <div class="fieldset-wrapper admin__collapsible-block-wrapper "
+                         data-bind="class: 'coupon_' + $parent.index"
+                         collapsible="openClass: '', closeOnOuter: false, opened: $parents[1].opened()" >
+                        <div class="fieldset-wrapper-title">
+                            <div class="admin__collapsible-title" data-role="collapsible-title" click="function(){
+                                            $parents[1].collapsibleCoupon($parent.index)
+                                        }">
+                                <span data-bind="text: value,
+                            css: {_disabled: disabled}
+                            , attr: {'data-index': index}"></span>
+                            </div>
+                            <button class="action-delete"
+                                    data-index="delete_button"
+                                    type="button"
+                                    title="'Delete'"
+                                    click="function(){
+                                            $parents[1].deleteHandler($parent.index, $parent.recordId)
+                                        }">
+                                <span translate="'Delete'"></span>
+                            </button>
+                        </div>
+                        <div class="admin__collapsible-content admin__fieldset-wrapper-content" data-bind="class: 'coupon_content_' + $parent.index"  data-role="collapsible-content" style="border: 1px solid #cccccc;">
+                            <div class="admin__field" data-index="meta_description" style="display: flex; margin-top: 2.5rem;">
+                                <div class="admin__field-label" style="width: calc((100%) * 0.25 - 30px);float: left;margin-left: 30px;">
+                                    <label for="title">
+                                        <span>Coupon Title</span>
+                                    </label>
+                                </div>
+                                <div class="admin__field-control" style="width: calc((100%) * 0.5 - 30px);float: left;margin-left: 30px;">
+                                    <input type="text" class="admin__control-text"
+                                           data-bind="attr : {name: 'coupon_title_' + $parent.index },
+                                           value: $parents[1].getCouponTitle($parent.index,$parent.recordId) ,
+                                           event: {change :  $parents[1].sendDataTitle($parent.index,$parent.recordId)}">
+                                </div>
+                            </div>
+                            <div class="admin__field" data-index="meta_description" style="display: flex; margin-top: 2.5rem;">
+                            <div class="admin__field-label" style="width: calc((100%) * 0.25 - 30px);float: left;margin-left: 30px;">
+                                <label for="description">
+                                    <span>Coupon Description</span>
+                                </label>
+                            </div>
+                            <div class="admin__field-control" style="width: calc((100%) * 0.5 - 30px);float: left;margin-left: 30px;">
+                                <input type="text"  class="admin__control-text"
+                                       data-bind="attr : {name: 'coupon_description_' + $parent.index },
+                                       value: $parents[1].getCouponDescription($parent.index,$parent.recordId),
+                                       event: {change :  $parents[1].sendDataTitle($parent.index,$parent.recordId)}">
+                            </div>
+                        </div>
+                            <div class="table_coupon" style="padding: 2rem 4rem">
+                                <table class="admin__dynamic-rows admin__control-table" data-role="grid" attr="{'data-index': index}" style="margin-top: 2.5rem">
+                                <thead>
+                                    <tr>
+                                        <!-- ko foreach: {data: $parents[1].getLabelsCustom(), as: 'item'} -->
+                                            <!-- ko if: item['label'] -->
+                                        <th>
+                                            <span data-bind="text: item['label']"></span>
+                                        </th>
+                                            <!-- /ko -->
+                                        <!-- /ko -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <!-- ko foreach: {data: $parents[1].getDataRecordCustom($parent.recordId)} -->
+                                    <td>
+                                        <span data-bind="text: $data"></span>
+                                    </td>
+                                    <!-- /ko -->
+                                </tr>
+                                </tbody>
+                            </table>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <!-- /ko -->
+            </tr>
+            </tbody>
+        </table>
+        <div class="admin__control-table-action" if="element.addButton">
+            <button attr="{disabled: disabled}"
+                    type="button"
+                    click="addChild.bind($data, false, false)">
+                <span translate="addButtonLabel"></span>
+            </button>
+        </div>
+    </div>
+
+</div>
+
