@@ -48,7 +48,8 @@ class Save extends Promotion
                 return $resultRedirect->setPath('*/*/');
             }
             $model->addData($data);
-            $model->setAttributeAllow(json_encode($data['attribute_allow']));
+            $attributeData = implode(',', $data['attribute_allow']);
+            $model->setAttributeAllow((!empty($attributeData) ? $attributeData : ''));
             if (!empty($data['links']['coupons'])) {
                 $model->setCouponTitle($data['links']['coupons']);
                 $model->setCouponDescription($data['links']['coupons']);

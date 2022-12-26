@@ -5,6 +5,7 @@ namespace Marvelic\PromoLists\Block\Promotion;
 use Magento\Framework\DataObject\IdentityInterface;
 use Magento\Framework\Registry;
 use Magento\Framework\View\Element\Template\Context;
+use Marvelic\PromoLists\Api\Data\PromotionInterface;
 use Marvelic\PromoLists\Api\PromotionRepositoryInterface;
 use Marvelic\PromoLists\Model\Category;
 use Marvelic\PromoLists\Model\Config;
@@ -89,9 +90,8 @@ class PromotionList extends AbstractBlock implements IdentityInterface
      */
     public function getFeaturedAlt($promotion)
     {
-        return $promotion->getFeaturedAlt() ? : $promotion->getName();
+        return $promotion->getFeaturedAlt() ?: $promotion->getName();
     }
-
 
     /**
      * @return $this
@@ -121,7 +121,7 @@ class PromotionList extends AbstractBlock implements IdentityInterface
 
         $toolbar->setCollection($collection);
 
-        $this->setChild('toolbar', $toolbar);
+        $this->setChild('pager', $toolbar);
 
         $this->setCollection($toolbar->getCollection());
 
@@ -169,6 +169,9 @@ class PromotionList extends AbstractBlock implements IdentityInterface
             } elseif ($q = $this->getRequest()->getParam('q')) {
                 $collection->addSearchFilter($q);
             }
+            if ($attributeAllow = implode('%', $this->getAttributeParamsFilter())) {
+                $collection->addFieldToFilter(PromotionInterface::ATTRIBUTE_ALLOW, ['like' => '%' . $attributeAllow . '%' ]);
+            }
 
             $collection->setCurPage($this->getCurrentPage());
 
@@ -184,8 +187,9 @@ class PromotionList extends AbstractBlock implements IdentityInterface
 
             if ($order = $toolbar->getCurrentOrder()) {
                 $collection->setOrder($order, $toolbar->getCurrentDirection());
+            } else {
+                $collection->defaultOrder();
             }
-            $collection->defaultOrder();
 
             $this->collection = $collection;
         }
@@ -212,5 +216,31 @@ class PromotionList extends AbstractBlock implements IdentityInterface
         $this->collection = $collection;
 
         return $this;
+    }
+    public function getPagerHtml()
+    {
+        return $this->getChildHtml('pager');
+    }
+    public function getAttributeParamsFilter()
+    {
+        $attribute = [];
+        $param = $this->getRequest()->getParams();
+        foreach ($param as $key => $value) {
+            if (str_contains($key, "attr_")) {
+                $attribute[] = str_replace("attr_", "", $key);
+            }
+        }
+        return $attribute;
+    }
+    public function getAttributeKeyValueParams()
+    {
+        $attribute = [];
+        $param = $this->getRequest()->getParams();
+        foreach ($param as $key => $value) {
+            if (str_contains($key, "attr_")) {
+                $attribute[$key] = $value;
+            }
+        }
+        return $attribute;
     }
 }

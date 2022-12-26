@@ -17,9 +17,10 @@ interface CategoryInterface
     const META_TITLE       = 'meta_title';
     const META_DESCRIPTION = 'meta_description';
     const META_KEYWORDS    = 'meta_keywords';
-
     const STATUS = 'status';
     const STORE_IDS    = 'store_ids';
+
+    const CURRENT_PROMOTION_CATEGORY = "current_promolist_category";
 
     /**
      * @return mixed

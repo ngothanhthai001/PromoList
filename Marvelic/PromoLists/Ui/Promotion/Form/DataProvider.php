@@ -4,8 +4,8 @@ namespace Marvelic\PromoLists\Ui\Promotion\Form;
 
 use Magento\Catalog\Helper\Image as ImageHelper;
 use Magento\Catalog\Model\Product\Attribute\Source\Status;
-use Magento\Ui\DataProvider\AbstractDataProvider;
 use Magento\SalesRule\Api\RuleRepositoryInterface;
+use Magento\Ui\DataProvider\AbstractDataProvider;
 use Marvelic\PromoLists\Api\Data\PromotionInterface;
 use Marvelic\PromoLists\Api\PromotionRepositoryInterface;
 use Marvelic\PromoLists\Model\Config;
@@ -26,7 +26,6 @@ class DataProvider extends AbstractDataProvider
      * @var RuleRepositoryInterface
      */
     private $ruleRepositoryInterface;
-
 
     public function __construct(
         PromotionRepositoryInterface $promotionRepository,
@@ -80,7 +79,7 @@ class DataProvider extends AbstractDataProvider
                 PromotionInterface::PUBLISHED_ON        => $promotion->getPublishedOn(),
                 PromotionInterface::EXPIRATION_ON       => $promotion->getExpirationOn(),
                 PromotionInterface::ORDER               => $promotion->getPosition(),
-                PromotionInterface::ATTRIBUTE_ALLOW     => json_decode($promotion->getAttributeAllow()),
+                PromotionInterface::ATTRIBUTE_ALLOW     => explode(",", $promotion->getAttributeAllow()),
                 'is_short_content' => $promotion->getShortContent() ? 0 : 1,
             ];
 

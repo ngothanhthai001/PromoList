@@ -303,7 +303,7 @@ interface PromotionInterface
     public function getAttributeAllow();
 
     /**
-     * @param array $value
+     * @param string $value
      *
      * @return $this
      */

@@ -5,11 +5,15 @@
 
         <update handle="marvelic_promolists_default"/>
 
+    <head>
+        <css src="Marvelic_PromoLists/css/promotion.css" />
+    </head>
 
     <body>
-        <referenceBlock name="page.main.title" remove="true"/>
-        <referenceContainer name="sidebar.main" remove="true">
-            <block class="Marvelic\PromoLists\Block\Navigation\Category" name="catalog.leftnav" before="-" template="Marvelic_PromoLists::layer/view.phtml">
+        <referenceBlock name="page.main.title"/>
+        <referenceContainer name="sidebar.main">
+
+            <block class="Marvelic\PromoLists\Block\Navigation\Category" name="catalog.leftnav" before="-" template="Marvelic_PromoLists::sidebar/category_tree.phtml">
                 <block class="Magento\LayeredNavigation\Block\Navigation\State" name="catalog.navigation.state" as="state" />
                 <block class="Magento\LayeredNavigation\Block\Navigation\FilterRenderer" name="catalog.navigation.renderer" as="renderer" template="Magento_LayeredNavigation::layer/filter.phtml">
                     <arguments>
@@ -17,6 +21,7 @@
                     </arguments>
                 </block>
             </block>
+
         </referenceContainer>
         <referenceContainer name="content">
             <block name="promolist.category.view" class="Marvelic\PromoLists\Block\Category\View" template="category/view.phtml">

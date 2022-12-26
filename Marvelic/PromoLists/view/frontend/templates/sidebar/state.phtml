@@ -1,0 +1,46 @@
+<?php
+/**
+ * Category layered navigation state
+ *
+ * @var $block State
+ */
+use Marvelic\PromoLists\Block\Navigation\State;
+
+?>
+<?php $_filters = $block->getActiveFilters() ?>
+<?php if ($block->getParentCategory() || $_filters): ?>
+<div class="filter">
+    <div class="filter-current" data-collapsible="true" role="tablist">
+        <strong class="block-subtitle filter-current-subtitle" role="tab" aria-level="2" data-role="title" data-count="1" aria-selected="false" aria-expanded="false" tabindex="0">Now Shopping by</strong>
+        <ol class="items">
+            <?php if ($block->getParentCategory()): ?>
+            <li class="item">
+                <span class="filter-label">Category</span>
+                <span class="filter-value"><?= $this->getLayout()->getBlock('page.main.title')->getPageTitle() ?></span>
+                <a class="action remove" href="<?= $block->getParentCategory() ?>" title="Remove Category Tees">
+                    <span>Remove This Item</span>
+                </a>
+            </li>
+            <?php endif;?>
+            <?php if ($_filters): ?>
+            <?php foreach ($_filters as $filter): ?>
+            <?php /** @var Magento\Catalog\Model\ResourceModel\Eav\Attribute\ $filter*/ ?>
+            <li class="item">
+                <span class="filter-label">Attribute</span>
+                <span class="filter-value"><?= $filter->getStoreLabel() ?></span>
+                <a class="action remove" href="<?= $block->getUrlRemoveAttribute($filter) ?>" title="Remove Category Tees">
+                    <span>Remove This Item</span>
+                </a>
+            </li>
+            <?php endforeach; ?>
+            <?php endif; ?>
+
+        </ol>
+    </div>
+    <div class="block-actions filter-actions">
+        <a href="<?= $block->getUrlClearAll(); ?>" class="action clear filter-clear">
+            <span>Clear All</span>
+        </a>
+    </div>
+</div>
+<?php endif; ?>

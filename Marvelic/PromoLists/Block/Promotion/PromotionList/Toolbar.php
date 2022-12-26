@@ -3,6 +3,7 @@
 namespace Marvelic\PromoLists\Block\Promotion\PromotionList;
 
 use Magento\Catalog\Model\Session;
+use Magento\Framework\Data\Form\FormKey;
 use Magento\Framework\DataObject;
 use Magento\Framework\Registry;
 use Magento\Framework\Url\EncoderInterface;
@@ -15,7 +16,8 @@ use Marvelic\PromoLists\Model\Config;
 use Marvelic\PromoLists\Model\Promotion\PromotionList\Toolbar as ToolbarModel;
 use Marvelic\PromoLists\Model\ResourceModel\Promotion\Collection;
 use Marvelic\PromoLists\Model\UrlInterface;
-
+use Marvelic\PromoLists\Block\Promotion\PromotionList;
+use Marvelic\PromoLists\Helper\PromotionHelper;
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
@@ -76,12 +78,36 @@ class Toolbar extends Template
     protected $registry;
 
     /**
+     * @var FormKey
+     */
+    private FormKey $formKey;
+
+    /**
+     * @var Pager
+     */
+    private Pager $pager;
+
+    /**
+     * @var PromotionList
+     */
+    protected PromotionList $promotionList;
+
+    /**
+     * @var PromotionHelper
+     */
+    protected PromotionHelper $promotionHelper;
+
+    /**
      * @param Context          $context
      * @param Session          $session
      * @param ToolbarModel     $toolbarModel
      * @param EncoderInterface $urlEncoder
      * @param Config           $config
      * @param Registry         $registry
+     * @param FormKey          $formKey
+     * @param Pager            $pager
+     * @param PromotionList    $promotionList
+     * @param PromotionHelper  $promotionHelper
      */
     public function __construct(
         Context $context,
@@ -89,14 +115,21 @@ class Toolbar extends Template
         ToolbarModel $toolbarModel,
         EncoderInterface $urlEncoder,
         Config $config,
-        Registry $registry
+        Registry $registry,
+        FormKey $formKey,
+        Pager $pager,
+        PromotionList $promotionList,
+        PromotionHelper $promotionHelper
     ) {
         $this->session      = $session;
         $this->toolbarModel = $toolbarModel;
         $this->urlEncoder   = $urlEncoder;
         $this->config       = $config;
         $this->registry     = $registry;
-
+        $this->formKey      = $formKey;
+        $this->pager        = $pager;
+        $this->promotionList= $promotionList;
+        $this->promotionHelper = $promotionHelper;
         parent::__construct($context);
     }
 
@@ -225,7 +258,7 @@ class Toolbar extends Template
     {
         $urlParams                 = [];
         $urlParams['_current']     = true;
-        $urlParams['_escape']      = true;
+        $urlParams['_escape']      = false;
         $urlParams['_use_rewrite'] = true;
         $urlParams['_query']       = $params;
 
@@ -546,5 +579,31 @@ class Toolbar extends Template
     {
         return $this->registry->registry('current_promolist_category');
     }
-
+    public function getActiveFilters()
+    {
+        $filters = $this->getLayer()->getState()->getFilters();
+        if (!is_array($filters)) {
+            $filters = [];
+        }
+        return $filters;
+    }
+    public function getWidgetOptionsJson(array $customOptions = [])
+    {
+        $params = $this->promotionList->getAttributeKeyValueParams();
+        $urlSorter =  $this->pager->getUrlNotCurrent($params);
+        if ($this->getCategory()) {
+            $urlSorter = $this->promotionHelper->getParamsByUrl($urlSorter);
+        }
+        $options = [
+            'mode' => ToolbarModel::MODE_PARAM_NAME,
+            'direction' => ToolbarModel::DIRECTION_PARAM_NAME,
+            'order' => ToolbarModel::ORDER_PARAM_NAME,
+            'limit' => ToolbarModel::LIMIT_PARAM_NAME,
+            'orderDefault' => $this->getOrderField(),
+            'url' => $urlSorter,
+            'formKey' => $this->formKey->getFormKey(),
+        ];
+        $options = array_replace_recursive($options, $customOptions);
+        return json_encode(['promotionSort' => $options]);
+    }
 }

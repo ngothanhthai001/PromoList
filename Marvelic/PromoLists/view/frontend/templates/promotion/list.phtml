@@ -37,14 +37,12 @@
     $isAllSubject = substr_count($currentUrl, "subject=all-subject");
     if (isset($parsedCurrentUrl[1])) {
         if ($isPromotionUrl == 0 && $isCategoryUrl == 0) {
-
             foreach ($parsedCurrentUrl as $key => $fruitsArr) {
                 if ($key != 0) {
                     $attributeUrl = explode('=', $fruitsArr);
                     $attribute_codeUrl = $attributeUrl[0];
                     $attribute_valueUrl = $attributeUrl[1];
                     if ($attribute_codeUrl == "expire_date") {
-
                         if ($attribute_valueUrl == "asc") {
                             $collection->setOrder('expire_at', 'ASC');
                         } else {
@@ -75,7 +73,6 @@
                     }
                 }
             }
-
         } else {
             foreach ($parsedCurrentUrl as $key => $fruitsArr) {
                 if ($key != 0) {
@@ -158,7 +155,6 @@
         }
     }
 
-
     $objectManager = ObjectManager::getInstance();
     $attr_groups = [];
     $attr_groups["ondemand_promotion"] = [];
@@ -167,21 +163,19 @@
 ?>
 
 <!-- container -->
+
 <div class="home-blog-section container px-md-0 pt-4 pb-4">
 <?php if ($collection->count()): ?>
     <div class="row">
-        <div class="main-forth-title col-12 col-md-7 ribbon order-1">
-            <div class="my-0">ข่าวสารและบทความ</div>
-        </div>
-        <div class="content col-12 order-2 order-md-3 row mx-0">
+        <div class="content flex flex-wrap">
             <?php /** @var PromotionInterface $promotion */ ?>
             <?php foreach ($collection as $promotion): ?>
-            <div class="col-lg-6 mb-3">
-                <div class="blog-item">
+            <div class="col-6 pb-2">
+                <div class="blog-item flex ha-center va-center">
                     <div class="col-lg-4 col-4">
-                        <?php if ($promotion->getFeaturedImageUrl() && $promotion->getFeaturedShowOnHome()): ?>
+                        <?php if ($promotion->getCoverImageUrl()): ?>
                             <a class="blog-img" href="<?= $promotion->getUrl() ?>">
-                            <img src="<?= $promotion->getFeaturedImageUrl() ?>" alt="<?= $block->getFeaturedAlt($promotion) ?>" >
+                            <img src="<?= $promotion->getCoverImageUrl() ?>" alt="<?= $block->getFeaturedAlt($promotion) ?>" >
                             </a>
                         <?php endif ?>
                     </div>
@@ -192,8 +186,8 @@
                             </a>
                         </h4>
                         <p>
-                        <?php  $dayUpdate = $promotion['updated_at'];
-		                    //echo $helper->DateThai("D/M/Y", $dayUpdate);
+                        <?=  $dayUpdate = $promotion->getData('updated_at');
+                            //echo $helper->DateThai("D/M/Y", $dayUpdate);
                         ?>
                         </p>
                     </div>
@@ -202,6 +196,10 @@
             <?php endforeach ?>
         </div>
     </div>
+<?php if ($block->getPagerHtml()): ?>
+    <div class="order-products-toolbar toolbar bottom"><?php echo $block->getPagerHtml(); ?></div>
+<?php endif ?>
+
 <?php else: ?>
     <div class="message notice">
         <div><?= __('There are no promotions available for this category.') ?></div>

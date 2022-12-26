@@ -405,4 +405,18 @@ class Category extends AbstractEntity
 
         return $position;
     }
+
+    public function getCountPromotionById(CategoryInterface $model)
+    {
+        $connection = $this->getConnection();
+
+        $select = $connection->select()->from(
+            $this->getTable('promolist_category_promotion'),
+            'promotion_id'
+        )->where(
+            'category_id = ?',
+            (int)$model->getId()
+        );
+        return count($connection->fetchCol($select));
+    }
 }

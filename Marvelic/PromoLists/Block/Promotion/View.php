@@ -8,14 +8,11 @@ use Magento\Framework\Registry;
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Theme\Block\Html\Breadcrumbs;
 use Magento\Theme\Block\Html\Title;
+use Marvelic\PromoLists\Api\PromotionRepositoryInterface;
 use Marvelic\PromoLists\Model\Config;
 use Marvelic\PromoLists\Model\Promotion;
+
 use Marvelic\PromoLists\Model\ResourceModel\Category\CollectionFactory as CategoryCollectionFactory;
-
-
-
-use Marvelic\PromoLists\Api\PromotionRepositoryInterface;
-use Marvelic\PromoLists\Model\Category;
 
 use Marvelic\PromoLists\Model\ResourceModel\Promotion\Collection;
 
@@ -33,7 +30,7 @@ class View extends AbstractBlock implements IdentityInterface
      * @var string
      */
     protected $defaultToolbarBlock = 'Marvelic\PromoLists\Block\Promotion\PromotionList\Toolbar';
-        /**
+    /**
      * @var Collection
      */
     protected $collection;
@@ -94,7 +91,6 @@ class View extends AbstractBlock implements IdentityInterface
         );
     }
 
-  
     /**
      * {@inheritdoc}
      */
@@ -147,7 +143,8 @@ class View extends AbstractBlock implements IdentityInterface
     //     }
     // }
 
-    public function sortFunction( $a, $b ) {
+    public function sortFunction($a, $b)
+    {
         return strtotime($a["date"]) - strtotime($b["date"]);
     }
     public function getToolbarBlock()
@@ -175,9 +172,9 @@ class View extends AbstractBlock implements IdentityInterface
                 ->addAttributeToSelect([
                     '*',
                 ])
-                //->addStoreFilter($this->context->getStoreManager()->getStore()->getId())
+                ->addStoreFilter($this->context->getStoreManager()->getStore()->getId())
                 ->addVisibilityFilter()
-                ->addAttributeToSort('updated_at','DESC');
+                ->addAttributeToSort('updated_at', 'DESC');
 
             if ($category = $this->getCategory()) {
                 $collection->addCategoryFilter($category);

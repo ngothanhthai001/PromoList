@@ -6,6 +6,9 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Marvelic_PromoLists/css/promolist.css" />
+    </head>
     <body>
         <referenceBlock name="page.main.title" remove="true"/>
         <attribute name="class" value="page-with-filter"/>

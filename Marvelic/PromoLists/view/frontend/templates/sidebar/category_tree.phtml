@@ -1,22 +1,63 @@
 <?php
 //@codingStandardsIgnoreFile
+/** @var $block Category */
+use Marvelic\PromoLists\Block\Navigation\Category;
 
-/** @var $block CategoryTree */
-
-use Marvelic\PromoLists\Block\Sidebar\CategoryTree; ?>
-
-<div class="block block-collapsible-nav sidebar-category-tree">
-    <div class="title block-collapsible-nav-title"
-         data-mage-init='{"toggleAdvanced": {"toggleContainers": "#block-collapsible-nav-blog", "selectorsToggleClass": "active"}}'>
-        <strong><?= __('Categories') ?></strong>
+?>
+    <!-- Filter Current -->
+<?= $this->getLayout()
+    ->createBlock('Marvelic\PromoLists\Block\Navigation\State')
+    ->setTemplate('Marvelic_PromoLists::sidebar/state.phtml')
+    ->toHtml();?>
+<div class="filter-options mage-accordion-disabled mb-2" id="narrow-by-list" data-role="content" role="tablist"
+     data-mage-init='{"accordion":{"openedState": "active", "collapsible": true, "active": "0", "multipleCollapsible": true}}'
+>
+    <!-- Sidebar Category   -->
+    <?php if ($block->getCategoryPromotion()->count()): ?>
+    <div data-role="collapsible" class="filter-options-item allow" role="presentation" data-collapsible="true">
+        <div data-role="title" class="filter-options-title" role="tab" aria-selected="false" aria-expanded="false" tabindex="0">Category</div>
+        <div data-role="content" class="filter-options-content" role="tabpanel" aria-hidden="false" style="">
+            <ol class="items">
+                <?php foreach ($block->getCategoryPromotion() as $category): ?>
+                    <li class="item">
+                        <a href="<?= $category->getUrl() ?>" rel="nofollow"><?= $category->getName() ?><span class="count">
+                            <?= $category->getResource()->getCountPromotionById($category) ?><span class="filter-count-label">item</span></span>
+                        </a>
+                    </li>
+                <?php endforeach ?>
+            </ol>
+        </div>
     </div>
-    <div class="block-collapsible-content content" id="block-collapsible-nav-blog">
-        <ul class="nav items">
-            <?php foreach ($block->getTree() as $category): ?>
-                <li class="nav item level-<?= $category->getLevel() ?> <?php if ($block->isCurrent($category)): ?>current<?php endif ?>">
-                    <a href="<?= $category->getUrl() ?>"><?= $category->getName() ?></a>
-                </li>
-            <?php endforeach ?>
-        </ul>
+    <?php endif; ?>
+    <!-- Sidebar Attribute Allow   -->
+    <?php if ($block->isHiddenAttributeOption()): ?>
+    <div data-role="collapsible" class="filter-options-item allow" id="attribute_collapsible_hidden" role="presentation" data-collapsible="true">
+        <div data-role="title" class="filter-options-title" role="tab" aria-selected="false" aria-expanded="false" tabindex="0">Attribute Allow</div>
+        <div data-role="content" class="filter-options-content attribute_collapsible" role="tabpanel" aria-hidden="true" style="">
+            <ol class="items">
+                <?php foreach ($block->getAttributeAllow() as $attribute): ?>
+                    <?php if (!$block->isAttributeFilter($attribute) && !empty($block->getCountAttributeByItem($attribute))): ?>
+                    <li class="item">
+                        <a href="<?= $block->getUrlFilterAttribute($attribute); ?>"
+                           rel="nofollow"><?= $attribute->getFrontendLabel() ?><span class="count">
+                            <?= $block->getCountAttributeByItem($attribute) ?><span class="filter-count-label">item</span></span>
+                        </a>
+                    </li>
+                    <?php endif; ?>
+                <?php endforeach ?>
+            </ol>
+        </div>
     </div>
+    <?php endif; ?>
 </div>
+<!--<script>-->
+<!--    require(['jquery'], function($){-->
+<!--        if($("#narrow-by-list .attribute_collapsible ol.items").children().length === 0){-->
+<!--            $("#attribute_collapsible_hidden").addClass("hidden");-->
+<!--        }-->
+<!--    });-->
+<!--</script>-->
+<script>
+    require(['jquery', 'Marvelic_PromoLists/js/promotion'], function($) {
+    });
+</script>
