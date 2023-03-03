@@ -1,5 +1,5 @@
 
-.promolists{
+.marvelic_promolists-wishlist-index{
     .grid{
         display: grid;
     }
@@ -75,54 +75,54 @@
             }
         }
     }
-
-    .coupon-section{
-        .promotion-view-related-products{
-            .coupon-item{
-                position: relative;
-                padding: 0px 20px 10px;
-                background: #dedede;
-                border: 1px solid #dedede;
-                border-radius: 15px;
-                &_style{
-                    display: flex;
-                    justify-content: space-between;
-                    .coupon-item_code{
-                        background: white;
-                        border: 1px solid white;
-                        padding: 0px 10px;
-                        border-radius: 10px;
-                    }
-                    .prefix_date::after{
-                        content: " -";
-                    }
+    .promotion-view-related-products{
+        .coupon-item{
+            position: relative;
+            padding: 0px 20px 10px;
+            background: #dedede;
+            border: 1px solid #dedede;
+            border-radius: 15px;
+            &_style{
+                display: flex;
+                justify-content: space-between;
+                .coupon-item_code{
+                    background: white;
+                    border: 1px solid white;
+                    padding: 0px 10px;
+                    border-radius: 10px;
                 }
-                .product-item-actions{
-                    .actions-secondary{
-                        a{
-                            position: absolute;
-                            top: 0;
-                            right: 0;
-                            &:before{
-                                content: '\e600';
-                            }
+                .prefix_date::after{
+                    content: " -";
+                }
+            }
+            .product-item-actions{
+                .actions-secondary{
+                    a{
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        &:before{
+                            content: '\e604';
                         }
                     }
                 }
-                &:hover{
-                    .product-item-actions {
-                        visibility: visible;
-                        opacity: 1;
-                    }
-                }
+            }
+            &:hover{
                 .product-item-actions {
-                    visibility: hidden;
-                    opacity: 0;
-                    transition: 300ms all;
+                    visibility: visible;
+                    opacity: 1;
                 }
             }
-
+            .product-item-actions {
+                visibility: hidden;
+                opacity: 0;
+                transition: 300ms all;
+            }
         }
+
+    }
+    .coupon-section{
+
         .order-products-toolbar{
             .blog-promotion-list__toolbar{
                 .pages{
@@ -133,7 +133,7 @@
     }
 }
 @media only screen and (max-width: 639px){
-    .promolists{
+    .marvelic_promolists-wishlist-index{
         .coupon-section{
             .promotion-view-related-products{
                 .coupon-item{
@@ -173,7 +173,7 @@
     }
 }
 @media only screen and (max-width: 950px){
-    .promolists{
+    .marvelic_promolists-wishlist-index{
         .promotion-view-related-products{
             .coupon-item{
                 &_style{

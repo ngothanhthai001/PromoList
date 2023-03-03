@@ -4,11 +4,37 @@
       layout="2columns-left">
 
     <update handle="marvelic_promolists_default"/>
-
+    <head>
+        <css src="Marvelic_PromoLists/css/promotion.css" />
+    </head>
     <body>
+        <referenceBlock name="page.main.title"/>
+        <referenceContainer name="sidebar.main">
+            <block class="Marvelic\PromoLists\Block\Navigation\CategoryCoupon" before="promolist.category.coupon.view" name="catalog.leftnav"  template="Marvelic_PromoLists::sidebar/category_coupon.phtml">
+                <block class="Magento\LayeredNavigation\Block\Navigation\State" name="catalog.navigation.state" as="state" />
+                <block class="Magento\LayeredNavigation\Block\Navigation\FilterRenderer" name="catalog.navigation.renderer" as="renderer" template="Magento_LayeredNavigation::layer/filter.phtml">
+                    <arguments>
+                        <argument name="product_layer_view_model" xsi:type="object">Magento\LayeredNavigation\ViewModel\Layer\Filter</argument>
+                    </arguments>
+                </block>
+            </block>
+        </referenceContainer>
         <referenceContainer name="content">
-            <block name="promolist.promotion.view" class="Marvelic\PromoLists\Block\Promotion\View" template="promotion/view.phtml"
-                   cacheable="true">
+            <block name="promolist.promotion.view" class="Marvelic\PromoLists\Block\Promotion\View" template="promotion/view/items.phtml">
+
+                <block name="promolist.promotion.coupon" class="Marvelic\PromoLists\Block\Promotion\View\CouponPromotion"
+                       template="promotion/view/coupon_promotion.phtml" cacheable="false">
+
+                    <container name="promolist.promotion.list.additional"/>
+                    <block class="Marvelic\PromoLists\Block\Promotion\PromotionList\ToolbarCoupon" name="promolist.coupon.list.toolbar"
+                           template="promotion/list/toolbar.phtml">
+                        <block class="Marvelic\PromoLists\Block\Html\Pager" name="pager_coupon"/>
+                    </block>
+                    <action method="setToolbarBlockName">
+                        <argument name="name" xsi:type="string">promolist.coupon.list.toolbar</argument>
+                    </action>
+                </block>
+
                 <block name="promolist.promotion.related.products" class="Marvelic\PromoLists\Block\Promotion\View\RelatedProducts"
                        template="promotion/view/related_products.phtml"/>
             </block>

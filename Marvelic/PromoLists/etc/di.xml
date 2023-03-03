@@ -5,6 +5,7 @@
     <!--DATA-->
     <preference for="Marvelic\PromoLists\Api\Data\PromotionInterface" type="Marvelic\PromoLists\Model\Promotion"/>
     <preference for="Marvelic\PromoLists\Api\Data\CategoryInterface" type="Marvelic\PromoLists\Model\Category"/>
+    <preference for="Marvelic\PromoLists\Api\Data\WishlistInterface" type="Marvelic\PromoLists\Model\Wishlist"/>
 
     <!--REPOSITORY-->
     <preference for="Marvelic\PromoLists\Api\PromotionRepositoryInterface" type="Marvelic\PromoLists\Model\PromotionRepository"/>
@@ -55,5 +56,11 @@
                 <item name="promolist_promotion" xsi:type="string">promolist_promotion</item>
             </argument>
         </arguments>
+    </type>
+    <type name="Marvelic\PromoLists\Controller\Wishlist\Index">
+        <plugin name="authentication" type="Magento\Sales\Controller\Order\Plugin\Authentication"/>
+    </type>
+    <type name="Marvelic\PromoLists\Controller\MyCoupon\Index">
+        <plugin name="authentication" type="Magento\Sales\Controller\Order\Plugin\Authentication"/>
     </type>
 </config>

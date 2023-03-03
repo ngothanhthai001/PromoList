@@ -1,0 +1,55 @@
+<?php
+/**
+ * @var Marvelic\PromoLists\Block\Promotion\View\CouponPromotion $block
+ */
+$collection = $block->getCouponPromotion();
+?>
+<div class="toolbar toolbar-products">
+    <?= $block->getTotalAmountHtml($collection); ?>
+    <?= $block->getSorterHtml(); ?>
+</div>
+
+<div class="promotion-view-related-products products">
+    <div class="row">
+        <div class="content grid flex-wrap grid-column-2">
+            <?php foreach ($collection as $coupon): ?>
+                <?php $data = $block->getTitleDescriptionCoupon($coupon->getId()); ?>
+              <div class="coupon-item">
+                    <div class="counpon-item_detail">
+                        <h4 class='max-line-3'>
+                            <?= $data['coupon_title'] ?>
+                        </h4>
+                        <h4 class='max-line-3'>
+                            <?= $data['coupon_description'] ?>
+                        </h4>
+                        <div class="coupon-item_style flex-wrap">
+                            <div class="coupon_date">
+                                <span class="prefix_date"><?= date_format(date_create($block->getFromDate($coupon->getRuleId())), "Y/m/d") ?></span>
+                                <span><?= date_format(date_create($block->getToDate($coupon->getRuleId())), "Y/m/d")  ?></span>
+                            </div>
+
+                            <div class="coupon_code">
+                                <span class="coupon-item_code"><?= $coupon->getCode() ?></span>
+                            </div>
+                        </div>
+                    </div>
+                  <?php if ($block->isLoggin() && !$block->isFavoriteCoupon($coupon->getId())): ?>
+                  <?php $dataPostWishlist = ['coupon_id' => $coupon->getId(), 'promotion_id' => $block->getCurrentPromotion()->getId()]?>
+                  <div class="product actions product-item-actions">
+                      <div data-role="add-to-links" class="actions-secondary">
+                          <a href="#" class="action towishlist" title="Add to Wish List" aria-label="Add to Wish List"
+                             data-post='<?= $block->getUrlWishlist($dataPostWishlist); ?>'
+                             data-action="add-to-wishlist" role="button">
+                              <span>Add to Wish List</span>
+                          </a>
+                      </div>
+                  </div>
+                  <?php endif; ?>
+              </div>
+            <?php endforeach ?>
+        </div>
+    </div>
+</div>
+<?php if ($block->getPagerHtml()): ?>
+    <div class="order-products-toolbar toolbar bottom"><?= $block->getChildBlock('pager_coupon')->setIsBottom(true)->toHtml(); ?></div>
+<?php endif ?>

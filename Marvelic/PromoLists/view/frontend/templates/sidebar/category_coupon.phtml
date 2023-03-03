@@ -1,10 +1,10 @@
 <?php
 //@codingStandardsIgnoreFile
-/** @var $block Category */
-use Marvelic\PromoLists\Block\Navigation\Category;
+/** @var $block CategoryCoupon */
+use Marvelic\PromoLists\Block\Navigation\CategoryCoupon;
 
 ?>
-    <!-- Filter Current -->
+<!-- Filter Current -->
 <div class="block filter" id="layered-filter-block" data-mage-init='
     {
         "collapsible":
@@ -58,7 +58,7 @@ use Marvelic\PromoLists\Block\Navigation\Category;
                                 <li class="item">
                                     <a href="<?= $block->getUrlFilterAttribute($attribute); ?>"
                                        rel="nofollow"><?= $attribute->getFrontendLabel() ?><span class="count">
-                                <?= $block->getCountAttributeByItem($attribute) ?><span class="filter-count-label">item</span></span>
+                                <?= 0 //$block->getCountAttributeByItem($attribute) ?><span class="filter-count-label">item</span></span>
                                     </a>
                                 </li>
                             <?php endif; ?>

@@ -9,7 +9,7 @@
     use Magento\Framework\UrlInterface;
     use Marvelic\PromoLists\Api\Data\PromotionInterface;
     use Marvelic\PromoLists\Block\Promotion\PromotionList;
-
+    $imgDefault = "http://dev.magento.abc/static/version1672116995/frontend/Magento/luma/en_US/images/logo.svg";
     $collection = $block->getPromotionCollection();
     $collection->setOrder('expire_at', 'ASC');
     $objectManager = ObjectManager::getInstance();
@@ -163,47 +163,94 @@
 ?>
 
 <!-- container -->
-
+<div class="toolbar toolbar-products">
+    <?= $block->getViewModeHtml($collection); ?>
+    <?= $block->getTotalAmountHtml($collection); ?>
+    <?= $block->getSorterHtml($collection); ?>
+</div>
 <div class="home-blog-section container px-md-0 pt-4 pb-4">
-<?php if ($collection->count()): ?>
-    <div class="row">
-        <div class="content flex flex-wrap">
-            <?php /** @var PromotionInterface $promotion */ ?>
-            <?php foreach ($collection as $promotion): ?>
-            <div class="col-6 pb-2">
-                <div class="blog-item flex ha-center va-center">
-                    <div class="col-lg-4 col-4">
-                        <?php if ($promotion->getCoverImageUrl()): ?>
-                            <a class="blog-img" href="<?= $promotion->getUrl() ?>">
-                            <img src="<?= $promotion->getCoverImageUrl() ?>" alt="<?= $block->getFeaturedAlt($promotion) ?>" >
-                            </a>
-                        <?php endif ?>
-                    </div>
-                    <div class="col-lg-8 col-8">
-                        <h4 class='max-line-3'>
-                            <a class ="text-secondary" href="<?= $promotion->getUrl() ?>" rel="bookmark">
-                                <?= $promotion->getName() ?>
-                            </a>
-                        </h4>
-                        <p>
-                        <?=  $dayUpdate = $promotion->getData('updated_at');
-                            //echo $helper->DateThai("D/M/Y", $dayUpdate);
-                        ?>
-                        </p>
+    <div class="products wrapper list products-list">
+        <?php if ($collection->count()): ?>
+            <?php if ($block->getToolbarBlock()->getCurrentMode() === "list"): ?>
+                <ol class="products list items product-items">
+                    <?php /** @var PromotionInterface $promotion */ ?>
+                    <?php foreach ($collection as $promotion): ?>
+                        <li class="item product product-item" >
+                            <div class="product-item-info">
+                                <?php if ($promotion->getCoverImageUrl()): ?>
+                                    <a href="<?= $promotion->getUrl() ?>" class="product photo product-item-photo">
+                                    <span class="product-image-container product-image-container-1220" style="width: 240px;">
+                                        <span class="product-image-wrapper" style="padding-bottom: 125%;">
+                                            <img class="product-image-photo" src="<?= ($promotion->getCoverImageUrl()) ?>" alt="<?= $block->getFeaturedAlt($promotion) ?>" loading="lazy" width="240" height="300">
+                                        </span>
+                                    </span>
+                                    </a>
+                                <?php else:  ?>
+                                    <a href="<?= $promotion->getUrl() ?>" class="product photo product-item-photo">
+                                    <span class="product-image-container product-image-container-1220" style="width: 240px;">
+                                        <span class="product-image-wrapper" style="padding-bottom: 125%;">
+                                            <img class="product-image-photo" src="<?= ($promotion->getCoverImageUrl()) ?: $imgDefault ?>" alt="<?= $block->getFeaturedAlt($promotion) ?>" loading="lazy" width="240" height="300">
+                                        </span>
+                                    </span>
+                                    </a>
+                                <?php endif; ?>
+                                <div class="product details product-item-details">
+                                    <h4 class='max-line-3'>
+                                        <a class ="text-secondary" href="<?= $promotion->getUrl() ?>" rel="bookmark">
+                                            <?= $promotion->getName() ?>
+                                        </a>
+                                    </h4>
+                                    <p><?=  $dayUpdate = $promotion->getExpirationOn();?> </p>
+                                </div>
+                            </div>
+                        </li>
+                    <?php endforeach ?>
+                </ol>
+            <?php else: ?>
+                <div class="row">
+                    <div class="content flex flex-wrap">
+                        <?php /** @var PromotionInterface $promotion */ ?>
+                        <?php foreach ($collection as $promotion): ?>
+                            <div class="col-6 pb-2">
+                                <div class="blog-item flex ha-center va-center">
+                                    <div class="col-lg-4 col-4 mr-2">
+                                        <?php if ($promotion->getCoverImageUrl()): ?>
+                                            <a class="blog-img" href="<?= $promotion->getUrl() ?>">
+                                                <img src="<?= $promotion->getCoverImageUrl() ?>" alt="<?= $block->getFeaturedAlt($promotion) ?>" >
+                                            </a>
+                                        <?php else: ?>
+                                            <a class="blog-img" href="<?= $promotion->getUrl() ?>">
+                                                <img src="<?= ($promotion->getCoverImageUrl()) ?: $imgDefault ?>" alt="<?= $block->getFeaturedAlt($promotion) ?>" >
+                                            </a>
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="col-lg-8 col-8">
+                                        <h4 class='max-line-3'>
+                                            <a class ="text-secondary" href="<?= $promotion->getUrl() ?>" rel="bookmark">
+                                                <?= $promotion->getName() ?>
+                                            </a>
+                                        </h4>
+                                        <p>
+                                            <?=  $dayUpdate = $promotion->getExpirationOn();
+                                            //echo $helper->DateThai("D/M/Y", $dayUpdate);
+                                            ?>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endforeach ?>
                     </div>
                 </div>
+            <?php endif ?>
+            <?php if ($block->getPagerHtml()): ?>
+                <div class="order-products-toolbar toolbar bottom"><?= $block->getChildBlock('pager')->setIsBottom(true)->toHtml(); ?></div>
+            <?php endif ?>
+        <?php else: ?>
+            <div class="message notice">
+                <div><?= __('There are no promotions available for this category.') ?></div>
             </div>
-            <?php endforeach ?>
-        </div>
+        <?php endif ?>
     </div>
-<?php if ($block->getPagerHtml()): ?>
-    <div class="order-products-toolbar toolbar bottom"><?php echo $block->getPagerHtml(); ?></div>
-<?php endif ?>
-
-<?php else: ?>
-    <div class="message notice">
-        <div><?= __('There are no promotions available for this category.') ?></div>
-    </div>
-<?php endif ?>
 </div>
 <!-- end container -->
+

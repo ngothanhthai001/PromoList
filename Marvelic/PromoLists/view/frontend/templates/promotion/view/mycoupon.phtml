@@ -1,0 +1,52 @@
+<?php
+/**
+ * @var Marvelic\PromoLists\Block\MyCoupon\Index $block
+ */
+$collection = $block->getAllCoupon();
+?>
+
+<div class="toolbar toolbar-products">
+    <?= $block->getTotalAmountHtml($collection); ?>
+</div>
+<div class="promotion-view-related-products products">
+     <div class="content grid flex-wrap grid-column-2">
+            <?php foreach ($collection as $coupon): ?>
+              <div class="coupon-item">
+                  <div class="counpon-item_detail">
+                        <h4 class='max-line-3'>
+                            <?= $coupon->getName() ?>
+                        </h4>
+                        <h4 class='max-line-3'>
+                            <?= $coupon->getDescription() ?>
+                        </h4>
+                        <div class="coupon-item_style flex-wrap">
+                            <div class="coupon_date">
+                                <span class="prefix_date"><?= date_format(date_create($coupon->getFromDate()), "Y/m/d") ?></span>
+                                <span><?= date_format(date_create($coupon->getToDate()), "Y/m/d")  ?></span>
+                            </div>
+
+                            <div class="coupon_code">
+                                <span class="coupon-item_code"><?= $coupon->getCode() ?></span>
+                            </div>
+                        </div>
+                    </div>
+                  <form class="discount-coupon-form" action="<?= $block->escapeHtml($block->getUrl('checkout/cart/couponPost')); ?>" method="post">
+                      <div class="fieldset coupon">
+                          <input type="hidden" name="remove" id="remove-coupon" value="0">
+                          <input type="hidden" name="coupon_code" value="<?= $coupon->getCode(); ?>">
+                          <div class="actions-toolbar">
+                              <div class="primary">
+                                  <button class="action apply primary" type="submit" value="Apply Discount" <?= ($block->usedCoupon()) ? 'disabled' : ''?>>
+                                      <span>Apply Discount</span>
+                                  </button>
+                              </div>
+                          </div>
+                      </div>
+                  </form>
+              </div>
+            <?php endforeach ?>
+     </div>
+</div>
+<?php if ($block->getPagerHtml()): ?>
+    <div class="order-products-toolbar toolbar bottom"><?= $block->getChildBlock('applied_coupon_pager')->setIsBottom(true)->toHtml(); ?></div>
+<?php endif ?>

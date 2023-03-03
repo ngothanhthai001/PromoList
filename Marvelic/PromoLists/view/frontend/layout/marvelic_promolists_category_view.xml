@@ -22,7 +22,6 @@
         </referenceContainer>
         <referenceContainer name="content">
             <block name="promolist.category.view" class="Marvelic\PromoLists\Block\Category\View" template="category/view.phtml">
-
                 <block class="Marvelic\PromoLists\Block\Promotion\PromotionList" name="promolist.promotion.list" template="promotion/list.phtml">
                     <container name="promolist.promotion.list.additional"/>
 

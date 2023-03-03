@@ -1,0 +1,56 @@
+<?php
+/** @var $block Discount */
+
+use Marvelic\PromoLists\Block\Product\Discount;
+$collection = $block->getPromotionByProduct();
+?>
+<style>
+    .product-discount .promolist-dicount{
+        display: flex;
+    }
+    .product-discount .promolist-dicount .promolist-discount-list{
+        display: flex;
+        align-items: end;
+        gap: 20px;
+        margin-left: 2rem;
+    }
+    .product-discount .promolist-dicount .promolist-discount-list .promolist-discount-item{
+        padding: 5px 10px;
+        border: 1px solid;
+        border-radius: 10px;
+        background: gray;
+        cursor: pointer;
+        color: white;
+    }
+</style>
+<!--<div data-bind="scope: 'discount-listing'" class="scalable">-->
+<!--</div>-->
+<!--<div id="modal-content">-->
+<!--    <div class="display-coupon-list">-->
+<!--        <div class="information-container">-->
+<!--            <span data-bind="text: discountListArray().length"></span>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<div class="promolist-dicount">
+    <div class="promolist-discount-title">
+        <h3>Discount: </h3>
+    </div>
+    <div data-bind="scope: 'discount-listing'" class="promolist-discount-list scalable">
+        <!-- ko template: getTemplate() --><!-- /ko -->
+    </div>
+</div>
+<script type="text/x-magento-init">
+             {
+                 "*": {
+                     "Magento_Ui/js/core/app": {
+                         "components": {
+                             "discount-listing": {
+                                 "component": "Marvelic_PromoLists/js/product-detail-discount",
+                                 "discountList": <?= json_encode($block->getConfigurationDiscount()); ?>
+                             }
+                         }
+                     }
+                 }
+             }
+</script>

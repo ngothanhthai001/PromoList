@@ -1,0 +1,44 @@
+<?php
+/**
+ * @var Marvelic\PromoLists\Block\Wishlist\Index $block
+ */
+$collection = $block->getCouponWishlist();
+?>
+<div class="promotion-view-related-products products">
+     <div class="content grid flex-wrap grid-column-2">
+            <?php foreach ($collection as $coupon): ?>
+              <div class="coupon-item">
+                    <div class="counpon-item_detail">
+                        <h4 class='max-line-3'>
+                            <?= $coupon->getCouponTitle() ?>
+                        </h4>
+                        <h4 class='max-line-3'>
+                            <?= $coupon->getCouponDescription() ?>
+                        </h4>
+                        <div class="coupon-item_style flex-wrap">
+                            <div class="coupon_date">
+                                <span class="prefix_date"><?= date_format(date_create($coupon->getFromDate()), "Y/m/d") ?></span>
+                                <span><?= date_format(date_create($coupon->getToDate()), "Y/m/d")  ?></span>
+                            </div>
+
+                            <div class="coupon_code">
+                                <span class="coupon-item_code"><?= $coupon->getCode() ?></span>
+                            </div>
+                        </div>
+                    </div>
+                  <div class="product actions product-item-actions">
+                      <div data-role="add-to-links" class="actions-secondary">
+                          <a href="#" class="action towishlist" title="Remove to Wish List" aria-label="Remove to Wish List"
+                             data-post='<?= $block->getUrlRemoveFavoriteCoupon($coupon->getWishlistItemId()) ?>'
+                             data-action="remove-to-wishlist" role="button">
+                              <span>Remove to Wish List</span>
+                          </a>
+                      </div>
+                  </div>
+              </div>
+            <?php endforeach ?>
+        </div>
+</div>
+<?php if ($block->getPagerHtml()): ?>
+    <div class="order-products-toolbar toolbar bottom"><?= $block->getPagerHtml(); ?></div>
+<?php endif ?>

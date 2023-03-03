@@ -14,11 +14,12 @@ define([
             modeControl: '[data-role="mode-switcher"]',
             directionControl: '[data-role="direction-switcher"]',
             orderControl: '[data-role="sorter"]',
-            mode: 'product_list_mode',
+            mode: 'promotion_list_mode',
             direction: 'promotion_list_dir',
             order: 'promotion_list_order',
             limit: 'promotion_list_limit',
             page: 'p',
+            modeDefault: 'grid',
             directionDefault: 'desc',
             orderDefault: 'position',
             limitDefault: '10',
@@ -28,6 +29,11 @@ define([
         },
         /** @inheritdoc */
         _create: function () {
+            this._bind(
+                $(this.options.modeControl, this.element),
+                this.options.mode,
+                this.options.modeDefault
+            );
             this._bind(
                 $(this.options.directionControl, this.element),
                 this.options.direction,

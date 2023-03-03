@@ -1,0 +1,11 @@
+<page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="catalog_product_opengraph" />
+    <update handle="page_calendar"/>
+    <body>
+        <referenceContainer name="product.info.main">
+            <container name="product.info.discount" after="product.info.price" before="alert.urls" htmlTag="div" htmlClass="product-discount">
+                <block class="Marvelic\PromoLists\Block\Product\Discount" name="product.info.discount.campaign" template="Marvelic_PromoLists::product/discount.phtml"/>
+            </container>
+        </referenceContainer>
+    </body>
+</page>

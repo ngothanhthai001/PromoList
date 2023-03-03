@@ -1,0 +1,8 @@
+<!-- ko foreach: { data: discountListArray(), as: 'item' } -->
+<p class="promolist-discount-item" data-bind="text: item.name, click: function(data,event){return $parent.showPopupDiscount(data,event)}, attr:{'data-promo-id': item.entity_id}" ></p>
+<!-- /ko -->
+<div id="modal-content">
+    <!-- ko foreach: { data: contentPopupCoupon(), as: 'coupon' } -->
+        <span data-bind="text: coupon.name"></span>
+    <!-- /ko -->
+</div>
