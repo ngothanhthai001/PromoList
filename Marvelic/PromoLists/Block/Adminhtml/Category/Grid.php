@@ -7,6 +7,7 @@ use Magento\Backend\Block\Widget\Context;
 use Magento\Backend\Block\Widget\Grid\Extended as ExtendedGrid;
 use Magento\Backend\Helper\Data as BackendHelper;
 use Marvelic\PromoLists\Model\Category;
+use Marvelic\PromoLists\Model\CategoryRepository;
 use Marvelic\PromoLists\Model\ResourceModel\Category\CollectionFactory as CategoryCollectionFactory;
 
 class Grid extends ExtendedGrid
@@ -17,19 +18,33 @@ class Grid extends ExtendedGrid
     protected $categoryCollectionFactory;
 
     /**
-     * @param CategoryCollectionFactory $promotionCollectionFactory
+     * @var Category
+     */
+    protected $category;
+
+    /**
+     * @var CategoryRepository
+     */
+    protected $categoryRepository;
+
+    /**
+     * @param CategoryCollectionFactory $categoryCollectionFactory
+     * @param CategoryRepository        $categoryRepository
      * @param Context                   $context
      * @param BackendHelper             $backendHelper
      * @param array                     $data
      */
     public function __construct(
-        CategoryCollectionFactory $promotionCollectionFactory,
+        CategoryCollectionFactory $categoryCollectionFactory,
+        Category $category,
+        CategoryRepository $categoryRepository,
         Context $context,
         BackendHelper $backendHelper,
         array $data = []
     ) {
-        $this->categoryCollectionFactory = $promotionCollectionFactory;
-
+        $this->categoryCollectionFactory = $categoryCollectionFactory;
+        $this->category = $category;
+        $this->categoryRepository = $categoryRepository;
         parent::__construct($context, $backendHelper, $data);
     }
 
@@ -62,11 +77,11 @@ class Grid extends ExtendedGrid
     protected function _prepareCollection()
     {
         $collection = $this->categoryCollectionFactory->create();
-
-        $collection = $collection->addAttributeToSelect('*');
-
+        $collection = $collection->addAttributeToSelect('*')->setOrder('path', "asc");
+//        $this->categoryRepository->getCollection()->setOrder('path','asc');
+//        $collection= $this->categoryCollectionFactory->create()->setOrder('path', 'asc');
+//        $collection = $collection->getItems();
         $this->setCollection($collection);
-
         return parent::_prepareCollection();
     }
 

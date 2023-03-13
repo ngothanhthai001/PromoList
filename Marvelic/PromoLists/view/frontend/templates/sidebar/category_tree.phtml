@@ -38,11 +38,17 @@ use Marvelic\PromoLists\Block\Navigation\Category;
                     <div data-role="content" class="filter-options-content" role="tabpanel" aria-hidden="false" style="">
                         <ol class="items">
                             <?php foreach ($block->getCategoryPromotion() as $category): ?>
-                                <li class="item">
-                                    <a href="<?= $category->getUrl() ?>" rel="nofollow"><?= $category->getName() ?><span class="count">
-                                <?= $category->getResource()->getCountPromotionById($category) ?><span class="filter-count-label">item</span></span>
-                                    </a>
-                                </li>
+                                <?php $count = $block->getPromotionByCatagory($category); ?>
+                                    <?php if ($count->count()): ?>
+                                    <li class="item">
+                                        <a href="<?= $block->getUrlFilterAttributeCatePromotion($category->getId()) ?>" rel="nofollow"><?= $category->getName() ?>
+                                            <span class="count">
+                                                 <?= $count->count() ?>
+                                                <span class="filter-count-label">item</span>
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <?php endif; ?>
                             <?php endforeach ?>
                         </ol>
                     </div>

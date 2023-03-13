@@ -10,6 +10,7 @@ use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
 use Magento\SalesRule\Api\RuleRepositoryInterface;
 use Magento\SalesRule\Model\ResourceModel\Coupon\Collection as CouponCollection;
+use Marvelic\PromoLists\Model\ResourceModel\Wishlist\CollectionFactory as WishlistFactory;
 use Marvelic\PromoLists\Model\ResourceModel\WishlistItem\CollectionFactory as WishlistItemFactory;
 
 class CouponPromotion extends Template
@@ -55,6 +56,11 @@ class CouponPromotion extends Template
     protected WishlistItemFactory $wishlistItemFactory;
 
     /**
+     * @var WishlistFactory
+     */
+    protected WishlistFactory $wishlistFactory;
+
+    /**
      * @param Registry $registry
      * @param RuleRepositoryInterface $ruleRepository
      * @param PostHelper $postHelper
@@ -62,6 +68,7 @@ class CouponPromotion extends Template
      * @param Context $context
      * @param Session $customerSession
      * @param WishlistItemFactory $wishlistItemFactory
+     * @param WishlistFactory $wishlistFactory
      * @param array $data
      */
     public function __construct(
@@ -72,6 +79,7 @@ class CouponPromotion extends Template
         Template\Context $context,
         Session $customerSession,
         WishlistItemFactory $wishlistItemFactory,
+        WishlistFactory $wishlistFactory,
         array $data = []
     ) {
         $this->registry              = $registry;
@@ -80,6 +88,7 @@ class CouponPromotion extends Template
         $this->escaper               = $escaper;
         $this->customerSession       = $customerSession;
         $this->wishlistItemFactory   = $wishlistItemFactory;
+        $this->wishlistFactory       = $wishlistFactory;
         parent::__construct($context, $data);
     }
 
@@ -182,9 +191,15 @@ class CouponPromotion extends Template
         }
         return $this->postHelper->getPostData($this->escaper->escapeUrl($url), $data);
     }
-    public function isFavoriteCoupon($couponId)
+    public function isFavoriteCoupon($couponId, $promoId)
     {
-        if ($this->wishlistItemFactory->create()->addFieldToFilter('coupon_id', $couponId)->getSize()) {
+        $customerId = $this->customerSession->getCustomerId();
+        $promoWishlistId =  $this->wishlistFactory->create()->addFieldToFilter('customer_id', $customerId)->getFirstItem()->getWishlistId();
+        if ($this->wishlistItemFactory->create()
+            ->addFieldToFilter('coupon_id', $couponId)
+            ->addFieldToFilter('promo_wishlist_id', $promoWishlistId)
+            ->addFieldToFilter('promotion_id', $promoId)
+            ->getSize()) {
             return true;
         }
         return false;

@@ -33,7 +33,7 @@ $collection = $block->getCouponPromotion();
                             </div>
                         </div>
                     </div>
-                  <?php if ($block->isLoggin() && !$block->isFavoriteCoupon($coupon->getId())): ?>
+                  <?php if ($block->isLoggin() && !$block->isFavoriteCoupon($coupon->getId(), $block->getCurrentPromotion()->getId())): ?>
                   <?php $dataPostWishlist = ['coupon_id' => $coupon->getId(), 'promotion_id' => $block->getCurrentPromotion()->getId()]?>
                   <div class="product actions product-item-actions">
                       <div data-role="add-to-links" class="actions-secondary">

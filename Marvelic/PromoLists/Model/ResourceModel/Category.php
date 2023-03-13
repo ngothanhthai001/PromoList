@@ -9,6 +9,7 @@ use Magento\Framework\DataObject;
 use Magento\Framework\Filter\FilterManager;
 use Marvelic\PromoLists\Api\Data\CategoryInterface;
 use Marvelic\PromoLists\Model\Config;
+use Marvelic\PromoLists\Api\PromotionRepositoryInterface;
 use Zend_Db_Expr;
 
 /**
@@ -28,18 +29,26 @@ class Category extends AbstractEntity
     protected $filter;
 
     /**
+     * @var PromotionRepositoryInterface
+     */
+    private $promotionRepository;
+
+    /**
      * @param Config        $config
      * @param FilterManager $filter
+     * @param PromotionRepositoryInterface $promotionRepository
      * @param Context       $context
      * @param array         $data
      */
     public function __construct(
         Config $config,
         FilterManager $filter,
+        PromotionRepositoryInterface $promotionRepository,
         Context $context,
         $data = []
     ) {
         $this->config = $config;
+        $this->promotionRepository = $promotionRepository;
         $this->filter = $filter;
 
         parent::__construct($context, $data);
@@ -417,6 +426,8 @@ class Category extends AbstractEntity
             'category_id = ?',
             (int)$model->getId()
         );
-        return count($connection->fetchCol($select));
+        $promotionEnable =  $this->promotionRepository->getCollection()->addVisibilityFilter()->getItems();
+        return count(array_intersect(array_keys($promotionEnable), $connection->fetchCol($select)));
     }
+
 }

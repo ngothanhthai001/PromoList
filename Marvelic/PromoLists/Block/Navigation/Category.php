@@ -96,6 +96,7 @@ class Category extends AbstractBlock
      */
     public function getCategoryPromotion($parentId = null)
     {
+        $promotion = [0];
         $categoryTree = $this->categoryFactory->create();
         $currentPromolistCategory = $this->getCurrentCategory();
         if ($currentPromolistCategory) {
@@ -114,7 +115,16 @@ class Category extends AbstractBlock
                 ->excludeRoot()
                 ->setOrder(CategoryInterface::LEVEL, self::ORDER_ASC);
         }
-
+        $categoryRequest = $this->getRequest()->getParam('attr_cat');
+        if (!empty($categoryRequest)) {
+            $parents->addFieldToFilter(CategoryInterface::ID, ['nin'=> $categoryRequest]);
+        }
+        foreach ($parents as $item) {
+            $promotionItem = $this->promotionFactory->create()->addCategoryFilter($item)->addVisibilityFilter()->count();
+            if (!$promotionItem) {
+                $parents->removeItemByKey($item->getId());
+            }
+        }
         return $parents;
     }
     public function getAttributeAllow()
@@ -201,6 +211,14 @@ class Category extends AbstractBlock
         $url = $this->pager->getUrlNotCurrent($addParam);
         return substr($url, strpos($url, "?"));
     }
+    public function getUrlFilterAttributeCatePromotion($promoId)
+    {
+        $addParam = [
+            "attr_cat" => $promoId
+        ];
+        $url = $this->pager->getUrlNotCurrent($addParam);
+        return substr($url, strpos($url, "?"));
+    }
     public function isAttributeFilter($attribute)
     {
         $urlOld = $this->pager->getUrlNotCurrent();
@@ -216,5 +234,10 @@ class Category extends AbstractBlock
             }
         }
         return $count;
+    }
+    public function getPromotionByCatagory(CategoryInterface $model)
+    {
+        $promotion = $this->promotionFactory->create()->addCategoryFilter($model)->addVisibilityFilter();
+        return $promotion;
     }
 }
