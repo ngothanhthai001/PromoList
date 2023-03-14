@@ -5,10 +5,13 @@ namespace Marvelic\PromoLists\Model\ResourceModel\Category;
 use Magento\Eav\Model\Entity\Collection\AbstractCollection;
 use Magento\Framework\App\ObjectManager;
 use Marvelic\PromoLists\Model\Category;
+use Marvelic\PromoLists\Model\ResourceModel\Promotion\CollectionFactory as PromotionFactory;
 
 class Collection extends AbstractCollection
 {
+    protected PromotionFactory $promotionFactory;
     /**
+     * @param PromotionFactory $promotionFactory
      * @param \Magento\Framework\Data\Collection\EntityFactory $entityFactory
      * @param \Psr\Log\LoggerInterface $logger
      * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
@@ -21,6 +24,7 @@ class Collection extends AbstractCollection
      * @param \Magento\Framework\DB\Adapter\AdapterInterface|null $connection
      */
     public function __construct(
+        PromotionFactory $promotionFactory,
         \Magento\Framework\Data\Collection\EntityFactory $entityFactory,
         \Psr\Log\LoggerInterface $logger,
         \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
@@ -32,8 +36,19 @@ class Collection extends AbstractCollection
         \Magento\Framework\Validator\UniversalFactory $universalFactory,
         \Magento\Framework\DB\Adapter\AdapterInterface $connection = null
     ) {
-        parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $eavConfig, $resource,
-            $eavEntityFactory, $resourceHelper, $universalFactory, $connection);
+        $this->promotionFactory = $promotionFactory;
+        parent::__construct(
+            $entityFactory,
+            $logger,
+            $fetchStrategy,
+            $eventManager,
+            $eavConfig,
+            $resource,
+            $eavEntityFactory,
+            $resourceHelper,
+            $universalFactory,
+            $connection
+        );
     }
 
     /**
@@ -135,9 +150,7 @@ class Collection extends AbstractCollection
     protected function _initSelect()
     {
         parent::_initSelect();
-
-//        $this->getSelect()->order('sort_order');
-
+        $this->getSelect()->order('e.path asc');
         return $this;
     }
 }

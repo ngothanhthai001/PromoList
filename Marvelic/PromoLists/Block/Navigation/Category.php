@@ -5,6 +5,7 @@ namespace Marvelic\PromoLists\Block\Navigation;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Registry;
 use Magento\Framework\View\Element\Template\Context;
+use Marvelic\PromoLists\Api\CategoryRepositoryInterface;
 use Marvelic\PromoLists\Api\Data\CategoryInterface;
 use Marvelic\PromoLists\Api\Data\PromotionInterface;
 use Marvelic\PromoLists\Block\Html\Pager;
@@ -20,6 +21,7 @@ class Category extends AbstractBlock
 {
     const STATUS_ENABLE = 1;
     const STATUS_DISABLE = 0;
+    const FILTER_CATEGORY = 'attr_cat';
 
     const ORDER_DESC = "DESC";
 
@@ -59,6 +61,12 @@ class Category extends AbstractBlock
      * @var PromotionHelper
      */
     protected PromotionHelper $promotionHelper;
+
+    /**
+     * @var CategoryRepositoryInterface
+     */
+    protected CategoryRepositoryInterface $categoryRepository;
+
     /**
      * @param CategoryFactory $categoryFactory
      * @param CategoryCollection $categoryCollection
@@ -66,6 +74,7 @@ class Category extends AbstractBlock
      * @param PromotionCollection $promotionCollection
      * @param Pager $pager
      * @param PromotionHelper $promotionHelper
+     * @param CategoryRepositoryInterface $categoryRepository
      * @param Config   $config
      * @param Registry $registry
      * @param Context  $context
@@ -79,6 +88,7 @@ class Category extends AbstractBlock
         Pager $pager,
         Config $config,
         PromotionHelper $promotionHelper,
+        CategoryRepositoryInterface $categoryRepository,
         Registry $registry,
         Context $context
     ) {
@@ -88,6 +98,7 @@ class Category extends AbstractBlock
         $this->promotionCollection = $promotionCollection;
         $this->pager = $pager;
         $this->promotionHelper = $promotionHelper;
+        $this->categoryRepository = $categoryRepository;
         parent::__construct($config, $registry, $context);
     }
 
@@ -115,7 +126,7 @@ class Category extends AbstractBlock
                 ->excludeRoot()
                 ->setOrder(CategoryInterface::LEVEL, self::ORDER_ASC);
         }
-        $categoryRequest = $this->getRequest()->getParam('attr_cat');
+        $categoryRequest = $this->getRequest()->getParam(self::FILTER_CATEGORY);
         if (!empty($categoryRequest)) {
             $parents->addFieldToFilter(CategoryInterface::ID, ['nin'=> $categoryRequest]);
         }
@@ -134,9 +145,18 @@ class Category extends AbstractBlock
         $promotionFactory = $this->promotionFactory->create();
         $mergeAttribute = [];
         if (empty($currentPromolistCategory)) {
-            $allPromotions = $promotionFactory
-                ->addVisibilityFilter()
-                ->setOrder(PromotionInterface::ID, self::ORDER_DESC);
+            $cateId = $this->getRequest()->getParam(self::FILTER_CATEGORY);
+            if (!empty($cateId)) {
+                $category  = $this->categoryRepository->get($cateId);
+                $allPromotions = $promotionFactory
+                    ->addCategoryFilter($category)
+                    ->addVisibilityFilter()
+                    ->setOrder(PromotionInterface::ID, self::ORDER_DESC);
+            } else {
+                $allPromotions = $promotionFactory
+                    ->addVisibilityFilter()
+                    ->setOrder(PromotionInterface::ID, self::ORDER_DESC);
+            }
             foreach ($allPromotions as $promotion) {
                 if ($promotion->getAttributeAllow()) {
                     $arrayAttribute[] = explode(',', $promotion->getAttributeAllow());
@@ -156,6 +176,13 @@ class Category extends AbstractBlock
                 ->addCategoryFilter($currentPromolistCategory)
                 ->addVisibilityFilter()
                 ->setOrder(PromotionInterface::ID, self::ORDER_DESC);
+            if ($cateId = $this->getRequest()->getParam(self::FILTER_CATEGORY)) {
+                $category  = $this->categoryRepository->get($cateId);
+                $allPromotions = $promotionFactory
+                    ->addCategoryFilter($category)
+                    ->addVisibilityFilter()
+                    ->setOrder(PromotionInterface::ID, self::ORDER_DESC);
+            }
             foreach ($allPromotions as $promotion) {
                 if ($promotion->getAttributeAllow()) {
                     $arrayAttribute[] = explode(',', $promotion->getAttributeAllow());
@@ -178,11 +205,11 @@ class Category extends AbstractBlock
 //      ksort by key => query like in db
         $url =  $this->pager->trimSuffixAttr($this->getRequest()->getParams());
         unset($url[PromotionInterface::ID]);
+        unset($url['cat']);
         $url[$attribute->getAttributeCode()] =  $attribute->getId();
         $sortKey = array_keys($url);
         ksort($sortKey);
         $attributeAdd = implode("%", $sortKey);
-
         $promotionFactory = $this->promotionFactory->create();
         $currentPromolistCategory = $this->getCurrentCategory();
         if ($currentPromolistCategory) {
@@ -192,10 +219,19 @@ class Category extends AbstractBlock
                 ->addVisibilityFilter()
                 ->setOrder(PromotionInterface::ID, self::ORDER_DESC);
         } else {
-            $allPromotions = $promotionFactory
-                ->addFieldToFilter(PromotionInterface::ATTRIBUTE_ALLOW, ['like' => '%' . $attributeAdd . '%' ])
-                ->addVisibilityFilter()
-                ->setOrder(PromotionInterface::ID, self::ORDER_DESC);
+            if ($cateId = $this->getRequest()->getParam(self::FILTER_CATEGORY)) {
+                $categoryFactory = $this->categoryFactory->create()->getItemById($cateId);
+                $allPromotions = $promotionFactory
+                    ->addCategoryFilter($categoryFactory)
+                    ->addFieldToFilter(PromotionInterface::ATTRIBUTE_ALLOW, ['like' => '%' . $attributeAdd . '%' ])
+                    ->addVisibilityFilter()
+                    ->setOrder(PromotionInterface::ID, self::ORDER_DESC);
+            } else {
+                $allPromotions = $promotionFactory
+                    ->addFieldToFilter(PromotionInterface::ATTRIBUTE_ALLOW, ['like' => '%' . $attributeAdd . '%' ])
+                    ->addVisibilityFilter()
+                    ->setOrder(PromotionInterface::ID, self::ORDER_DESC);
+            }
         }
         return $allPromotions->count();
     }
@@ -237,7 +273,89 @@ class Category extends AbstractBlock
     }
     public function getPromotionByCatagory(CategoryInterface $model)
     {
-        $promotion = $this->promotionFactory->create()->addCategoryFilter($model)->addVisibilityFilter();
+        $params = $this->getRequest()->getParams();
+        if ($params) {
+            $attribute = [];
+            foreach ($params as $key => $value) {
+                if (str_contains($key, 'attr_') && $key != "attr_cat") {
+                    $attribute[] = str_replace('attr_', "", $key);
+                }
+            }
+        }
+        if (!empty($attribute)) {
+            $promotion = $this->promotionFactory->create()
+                ->addFieldToFilter(PromotionInterface::ATTRIBUTE_ALLOW, ['like' => '%' . implode('%', $attribute) . '%' ])
+                ->addCategoryFilter($model)->addVisibilityFilter();
+        } else {
+            $promotion = $this->promotionFactory->create()->addCategoryFilter($model)->addVisibilityFilter();
+        }
         return $promotion;
+    }
+    public function getCategoryFilter()
+    {
+        $params = $this->getRequest()->getParams();
+        $categoryTree = $this->categoryFactory->create();
+        $currentPromolistCategory = $this->getCurrentCategory();
+        if ($currentPromolistCategory) {
+            $filterCategory =  $categoryTree
+                ->addAttributeToSelect([CategoryInterface::NAME,CategoryInterface::URL_KEY])
+                ->addVisibilityFilter()
+                ->addFieldToFilter(CategoryInterface::PARENT_ID, $currentPromolistCategory->getId())
+                ->excludeRoot()
+                ->setOrder(CategoryInterface::LEVEL, self::ORDER_ASC);
+        } else {
+            $rootId = $this->categoryCollection->getRootId();
+            $params = $this->getRequest()->getParams();
+            $attributes = $this->convertFilterParams($params);
+            $filterCategory =  $categoryTree
+                ->addAttributeToSelect([CategoryInterface::NAME,CategoryInterface::URL_KEY])
+                ->addVisibilityFilter()
+                ->addFieldToFilter(CategoryInterface::PARENT_ID, $rootId)
+                ->excludeRoot()
+                ->setOrder(CategoryInterface::LEVEL, self::ORDER_ASC);
+//            if (!empty($attributes)) {
+//                $filterCategory->removeItemByKey($this->getRequest()->getParam('attr_cat'));
+////                $categoryFilter = $this->categoryRepository->get($this->getRequest()->getParam('attr_cat'));
+////                $t = $this->filterPromotionAttr($categoryFilter);
+//            }
+        }
+        return $filterCategory;
+    }
+    public function convertFilterParams($params)
+    {
+        $attribute = [];
+        foreach ($params as $key => $value) {
+            if (str_contains($key, 'attr_') && $key != "attr_cat") {
+                $attribute[] = str_replace('attr_', "", $key);
+            }
+        }
+        return $attribute;
+    }
+    public function filterPromotionAttr(CategoryInterface $model)
+    {
+        $params = $this->getRequest()->getParams();
+        if ($params) {
+            $attribute = [];
+            foreach ($params as $key => $value) {
+                if (str_contains($key, 'attr_') && $key != "attr_cat") {
+                    $attribute[] = str_replace('attr_', "", $key);
+                }
+            }
+        }
+        if (!empty($attribute)) {
+            $promotion = $this->promotionFactory->create()
+                ->addFieldToFilter(PromotionInterface::ATTRIBUTE_ALLOW, ['like' => '%' . implode('%', $attribute) . '%' ])
+                ->addCategoryFilter($model)->addVisibilityFilter();
+        } else {
+            $promotion = $this->promotionFactory->create()->addCategoryFilter($model)->addVisibilityFilter();
+        }
+        return $promotion;
+    }
+    public function isFilterCategory()
+    {
+        if ($this->getRequest()->getParam('attr_cat')) {
+            return true;
+        }
+        return false;
     }
 }

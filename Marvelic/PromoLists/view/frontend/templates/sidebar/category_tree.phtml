@@ -32,12 +32,12 @@ use Marvelic\PromoLists\Block\Navigation\Category;
              data-mage-init='{"accordion":{"openedState": "active", "collapsible": true, "active": "0", "multipleCollapsible": true}}'
         >
             <!-- Sidebar Category   -->
-            <?php if ($block->getCategoryPromotion()->count()): ?>
-                <div data-role="collapsible" class="filter-options-item allow" role="presentation" data-collapsible="true">
+            <?php if ($block->getCategoryFilter()->count() && !$block->isFilterCategory()): ?>
+                <div data-role="collapsible" class="filter-options-item allow" role="presentation" data-collapsible="true" id="category_collapsible_hidden">
                     <div data-role="title" class="filter-options-title" role="tab" aria-selected="false" aria-expanded="false" tabindex="0">Category</div>
-                    <div data-role="content" class="filter-options-content" role="tabpanel" aria-hidden="false" style="">
+                    <div data-role="content" class="filter-options-content attribute_collapsible" role="tabpanel" aria-hidden="false" style="">
                         <ol class="items">
-                            <?php foreach ($block->getCategoryPromotion() as $category): ?>
+                            <?php foreach ($block->getCategoryFilter() as $category): ?>
                                 <?php $count = $block->getPromotionByCatagory($category); ?>
                                     <?php if ($count->count()): ?>
                                     <li class="item">

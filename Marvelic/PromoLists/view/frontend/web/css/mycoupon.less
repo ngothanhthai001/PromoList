@@ -1,0 +1,203 @@
+
+.marvelic_promolists-mycoupon-index{
+    .grid{
+        display: grid;
+    }
+    .d-none{
+        display: none;
+    }
+    .d-block{
+        display: block;
+    }
+    .grid-column-2{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-column-gap: 20px;
+        grid-row-gap: 20px;
+    }
+    .float-r{
+        float: right;
+    }
+    .flex {
+        display: flex;
+    }
+    .flex-wrap {
+        flex-wrap: wrap;
+    }
+    .ha-center {
+        justify-content: center;
+    }
+    .va-center {
+        align-items: center;
+    }
+    .col-6{
+        flex-basis: 50%;
+        max-width: 50%;
+    }
+    .col-4{
+        flex-basis: 30%;
+        max-width: 30%;
+    }
+    .p-3{
+        padding: 1.5rem;
+    }
+    .p-2{
+        padding: 1rem;
+    }
+    .blog-img img{
+        object-fit: contain;
+    }
+    .pb-2{
+        padding-bottom: 1rem;
+    }
+    .mb-2{
+        margin-bottom: 4rem;
+    }
+    .mr-2{
+        margin-right: 1rem;
+    }
+    .mt-2{
+        margin-top: 2rem;
+    }
+    .hidden{
+        display: none;
+        visibility: visible;
+    }
+    .home-blog-section{
+        .toolbar {
+            .pages {
+                margin: 0;
+            }
+            .blog-promotion-list__toolbar {
+                .pages{
+                    float: right;
+                }
+            }
+            &::after,&::before{
+                content: none;
+            }
+        }
+    }
+    .promotion-view-related-products{
+        .coupon-item{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0px 20px;
+            background: #dedede;
+            border: 1px solid #dedede;
+            border-radius: 15px;
+            &_style{
+                display: flex;
+                justify-content: space-between;
+                .coupon-item_code{
+                    background: white;
+                    border: 1px solid white;
+                    padding: 0px 10px;
+                    border-radius: 10px;
+                }
+                .prefix_date::after{
+                    content: " -";
+                }
+            }
+            .product-item-actions{
+                .actions-secondary{
+                    a{
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        &:before{
+                            content: '\e604';
+                        }
+                    }
+                }
+            }
+            &:hover{
+                .product-item-actions {
+                    visibility: visible;
+                    opacity: 1;
+                }
+            }
+            .product-item-actions {
+                visibility: hidden;
+                opacity: 0;
+                transition: 300ms all;
+            }
+            .discount-coupon-form{
+                margin-top: 2rem;
+            }
+        }
+
+    }
+    .coupon-section{
+
+        .order-products-toolbar{
+            .blog-promotion-list__toolbar{
+                .pages{
+                    float: right;
+                }
+            }
+        }
+    }
+    .pager{
+        .toolbar-amount, .limiter{
+            display: none!important;
+        }
+    }
+}
+@media only screen and (max-width: 639px){
+    .marvelic_promolists-mycoupon-index{
+        .coupon-section{
+            .promotion-view-related-products{
+                .coupon-item{
+                    &_style{
+                        display: flex;
+                        flex-direction: column;
+                        .prefix_date::after{
+                            content: none;
+                        }
+                        .coupon_code{
+                            text-align: center;
+                            margin-top: 1rem;
+                        }
+                    }
+                }
+            }
+        }
+        .home-blog-section{
+            .toolbar{
+                .blog-promotion-list__toolbar{
+                    .pages{
+                        float: none;
+                    }
+                }
+            }
+        }
+        .columns{
+            position: relative;
+            padding-top: 60px;
+        }
+        .toolbar-sorter{
+            position: absolute;
+            right: 0;
+            top: 0;
+            z-index: 1;
+        }
+    }
+}
+@media only screen and (max-width: 950px){
+    .marvelic_promolists-mycoupon-index{
+        .promotion-view-related-products{
+            .coupon-item{
+                &_style{
+                    .coupon_code{
+                        width: 100%;
+                        text-align: center;
+                        margin-top: 1rem;
+                    }
+                }
+            }
+        }
+    }
+}
+

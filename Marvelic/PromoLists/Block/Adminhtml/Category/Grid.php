@@ -6,6 +6,7 @@ use Exception;
 use Magento\Backend\Block\Widget\Context;
 use Magento\Backend\Block\Widget\Grid\Extended as ExtendedGrid;
 use Magento\Backend\Helper\Data as BackendHelper;
+use Marvelic\PromoLists\Api\Data\CategoryInterface;
 use Marvelic\PromoLists\Model\Category;
 use Marvelic\PromoLists\Model\CategoryRepository;
 use Marvelic\PromoLists\Model\ResourceModel\Category\CollectionFactory as CategoryCollectionFactory;
@@ -76,11 +77,7 @@ class Grid extends ExtendedGrid
      */
     protected function _prepareCollection()
     {
-        $collection = $this->categoryCollectionFactory->create();
-        $collection = $collection->addAttributeToSelect('*')->setOrder('path', "asc");
-//        $this->categoryRepository->getCollection()->setOrder('path','asc');
-//        $collection= $this->categoryCollectionFactory->create()->setOrder('path', 'asc');
-//        $collection = $collection->getItems();
+        $collection = $this->categoryRepository->getCollection()->addAttributeToSelect('*');
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -114,6 +111,13 @@ class Grid extends ExtendedGrid
      */
     protected function _prepareColumns()
     {
+        $this->addColumn(CategoryInterface::ID, [
+            'header'   => __('ID'),
+            'index'    => CategoryInterface::ID,
+            'sortable' => false,
+            'filter'   => false,
+        ]);
+
         $this->addColumn('name', [
             'header'   => __('Title'),
             'index'    => 'name',
