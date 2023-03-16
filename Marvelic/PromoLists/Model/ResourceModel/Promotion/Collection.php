@@ -3,11 +3,9 @@
 namespace Marvelic\PromoLists\Model\ResourceModel\Promotion;
 
 use Magento\Catalog\Model\Product;
-use Magento\SalesRule\Model\Rule;
 use Magento\Eav\Model\Entity\Collection\AbstractCollection;
 use Marvelic\PromoLists\Api\Data\PromotionInterface;
 use Marvelic\PromoLists\Model\Category;
-use Marvelic\PromoLists\Model\Promotion;
 
 class Collection extends AbstractCollection
 {
@@ -109,6 +107,22 @@ class Collection extends AbstractCollection
 
         return $this;
     }
+
+    /**
+     * @param array $category
+     *
+     * @return $this
+     */
+    public function addArrayCategoryFilter($category)
+    {
+        $this->getSelect()
+            ->where("EXISTS (SELECT * FROM `{$this->getTable('promolist_category_promotion')}`
+                AS `category_promotion`
+                WHERE e.entity_id = category_promotion.promotion_id
+                AND category_promotion.category_id in (?))", $category);
+        return $this;
+    }
+
     /**
      * {@inheritdoc}
      */

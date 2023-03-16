@@ -37,4 +37,13 @@ class Category extends AbstractHelper
 
         return $category;
     }
+    public function getAllCategoryIds($categoryId)
+    {
+        $categoryIds = null;
+        if (!empty($categoryId)) {
+            $categoryIds = array_keys($this->categoryCollectionFactory->create()->getTree($categoryId));
+            $categoryIds[] = (int)$categoryId;
+        }
+        return $categoryIds;
+    }
 }

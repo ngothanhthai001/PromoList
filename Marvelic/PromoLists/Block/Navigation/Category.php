@@ -10,6 +10,8 @@ use Marvelic\PromoLists\Api\Data\CategoryInterface;
 use Marvelic\PromoLists\Api\Data\PromotionInterface;
 use Marvelic\PromoLists\Block\Html\Pager;
 use Marvelic\PromoLists\Block\Promotion\AbstractBlock;
+use Marvelic\PromoLists\Block\Promotion\PromotionList;
+use Marvelic\PromoLists\Helper\Category as HelperCategory;
 use Marvelic\PromoLists\Helper\PromotionHelper;
 use Marvelic\PromoLists\Model\Config;
 use Marvelic\PromoLists\Model\ResourceModel\Category\Collection as CategoryCollection;
@@ -68,6 +70,16 @@ class Category extends AbstractBlock
     protected CategoryRepositoryInterface $categoryRepository;
 
     /**
+     * @var PromotionList
+     */
+    protected PromotionList $promotionList;
+
+    /**
+     * @var HelperCategory
+     */
+    protected HelperCategory $helperCategory;
+
+    /**
      * @param CategoryFactory $categoryFactory
      * @param CategoryCollection $categoryCollection
      * @param PromotionFactory $promotionFactory
@@ -75,6 +87,8 @@ class Category extends AbstractBlock
      * @param Pager $pager
      * @param PromotionHelper $promotionHelper
      * @param CategoryRepositoryInterface $categoryRepository
+     * @param PromotionList $promotionList
+     * @param HelperCategory $helperCategory
      * @param Config   $config
      * @param Registry $registry
      * @param Context  $context
@@ -89,6 +103,8 @@ class Category extends AbstractBlock
         Config $config,
         PromotionHelper $promotionHelper,
         CategoryRepositoryInterface $categoryRepository,
+        PromotionList $promotionList,
+        HelperCategory $helperCategory,
         Registry $registry,
         Context $context
     ) {
@@ -99,6 +115,8 @@ class Category extends AbstractBlock
         $this->pager = $pager;
         $this->promotionHelper = $promotionHelper;
         $this->categoryRepository = $categoryRepository;
+        $this->promotionList = $promotionList;
+        $this->helperCategory = $helperCategory;
         parent::__construct($config, $registry, $context);
     }
 
@@ -107,7 +125,6 @@ class Category extends AbstractBlock
      */
     public function getCategoryPromotion($parentId = null)
     {
-        $promotion = [0];
         $categoryTree = $this->categoryFactory->create();
         $currentPromolistCategory = $this->getCurrentCategory();
         if ($currentPromolistCategory) {
@@ -140,65 +157,16 @@ class Category extends AbstractBlock
     }
     public function getAttributeAllow()
     {
-        $data = [];
-        $currentPromolistCategory = $this->getCurrentCategory();
-        $promotionFactory = $this->promotionFactory->create();
-        $mergeAttribute = [];
-        if (empty($currentPromolistCategory)) {
-            $cateId = $this->getRequest()->getParam(self::FILTER_CATEGORY);
-            if (!empty($cateId)) {
-                $category  = $this->categoryRepository->get($cateId);
-                $allPromotions = $promotionFactory
-                    ->addCategoryFilter($category)
-                    ->addVisibilityFilter()
-                    ->setOrder(PromotionInterface::ID, self::ORDER_DESC);
-            } else {
-                $allPromotions = $promotionFactory
-                    ->addVisibilityFilter()
-                    ->setOrder(PromotionInterface::ID, self::ORDER_DESC);
-            }
-            foreach ($allPromotions as $promotion) {
-                if ($promotion->getAttributeAllow()) {
-                    $arrayAttribute[] = explode(',', $promotion->getAttributeAllow());
-                }
-            }
-            if (!empty($arrayAttribute)) {
-                foreach ($arrayAttribute as $attribute) {
-                    $mergeAttribute = array_merge($mergeAttribute, $attribute);
-                }
-            }
-            foreach (array_unique($mergeAttribute) as $item) {
-                $codeAttribute = $this->promotionHelper->getEavAttributeByCode(self::EAV_ATTRIBUTE_PRODUCT, $item);
-                $data[] = $codeAttribute;
-            }
-        } else {
-            $allPromotions = $promotionFactory
-                ->addCategoryFilter($currentPromolistCategory)
-                ->addVisibilityFilter()
-                ->setOrder(PromotionInterface::ID, self::ORDER_DESC);
-            if ($cateId = $this->getRequest()->getParam(self::FILTER_CATEGORY)) {
-                $category  = $this->categoryRepository->get($cateId);
-                $allPromotions = $promotionFactory
-                    ->addCategoryFilter($category)
-                    ->addVisibilityFilter()
-                    ->setOrder(PromotionInterface::ID, self::ORDER_DESC);
-            }
-            foreach ($allPromotions as $promotion) {
-                if ($promotion->getAttributeAllow()) {
-                    $arrayAttribute[] = explode(',', $promotion->getAttributeAllow());
-                }
-            }
-            if (!empty($arrayAttribute)) {
-                foreach ($arrayAttribute as $promotion) {
-                    $mergeAttribute = array_merge($mergeAttribute, $promotion);
-                }
-            }
-            foreach (array_unique($mergeAttribute) as $item) {
-                $codeAttribute = $this->promotionHelper->getEavAttributeByCode(self::EAV_ATTRIBUTE_PRODUCT, $item);
-                $data[] = $codeAttribute;
-            }
+        $cateId = $this->getRequest()->getParam(self::FILTER_CATEGORY);
+        if (!empty($cateId)) {
+            $categoryIds = $this->helperCategory->getAllCategoryIds($cateId);
         }
-        return $data;
+        $promotionCollection = $this->promotionList->getPromotionCollection();
+        $allPromotions = clone $promotionCollection;
+        if (!empty($categoryIds)) {
+            $allPromotions->clear()->addArrayCategoryFilter($categoryIds);
+        }
+        return $this->getAttributeAllowFilter($allPromotions);
     }
     public function getCountAttributeByItem($attribute)
     {
@@ -208,29 +176,27 @@ class Category extends AbstractBlock
         unset($url['cat']);
         $url[$attribute->getAttributeCode()] =  $attribute->getId();
         $sortKey = array_keys($url);
-        ksort($sortKey);
+        sort($sortKey);
         $attributeAdd = implode("%", $sortKey);
         $promotionFactory = $this->promotionFactory->create();
         $currentPromolistCategory = $this->getCurrentCategory();
         if ($currentPromolistCategory) {
-            $allPromotions = $promotionFactory
-                ->addCategoryFilter($currentPromolistCategory)
-                ->addFieldToFilter(PromotionInterface::ATTRIBUTE_ALLOW, ['like' => '%' . $attributeAdd . '%' ])
-                ->addVisibilityFilter()
-                ->setOrder(PromotionInterface::ID, self::ORDER_DESC);
+            $promotionCollection = $this->promotionList->getPromotionCollection();
+            $allPromotions = clone $promotionCollection;
+            $allPromotions->clear()->addFieldToFilter(PromotionInterface::ATTRIBUTE_ALLOW, ['like' => '%' . $attributeAdd . '%' ]);
         } else {
             if ($cateId = $this->getRequest()->getParam(self::FILTER_CATEGORY)) {
-                $categoryFactory = $this->categoryFactory->create()->getItemById($cateId);
-                $allPromotions = $promotionFactory
-                    ->addCategoryFilter($categoryFactory)
-                    ->addFieldToFilter(PromotionInterface::ATTRIBUTE_ALLOW, ['like' => '%' . $attributeAdd . '%' ])
-                    ->addVisibilityFilter()
-                    ->setOrder(PromotionInterface::ID, self::ORDER_DESC);
+                $categoryIds = array_keys($this->categoryFactory->create()->getTree($cateId));
+                $categoryIds[] = (int)$cateId;
+                $promotionCollection = $this->promotionList->getPromotionCollection();
+                $allPromotions = clone $promotionCollection;
+                $allPromotions->clear()->addFieldToFilter(PromotionInterface::ATTRIBUTE_ALLOW, ['like' => '%' . $attributeAdd . '%' ]);
             } else {
-                $allPromotions = $promotionFactory
-                    ->addFieldToFilter(PromotionInterface::ATTRIBUTE_ALLOW, ['like' => '%' . $attributeAdd . '%' ])
-                    ->addVisibilityFilter()
-                    ->setOrder(PromotionInterface::ID, self::ORDER_DESC);
+                $categoryIds = array_keys($this->categoryFactory->create()->getTree($cateId));
+                $categoryIds[] = (int)$cateId;
+                $promotionCollection = $this->promotionList->getPromotionCollection();
+                $allPromotions = clone $promotionCollection;
+                $allPromotions->clear()->addFieldToFilter(PromotionInterface::ATTRIBUTE_ALLOW, ['like' => '%' . $attributeAdd . '%' ]);
             }
         }
         return $allPromotions->count();
@@ -271,29 +237,24 @@ class Category extends AbstractBlock
         }
         return $count;
     }
-    public function getPromotionByCatagory(CategoryInterface $model)
+    public function getCountPromotionByCatagory(CategoryInterface $model)
     {
+        $promotion = null;
         $params = $this->getRequest()->getParams();
-        if ($params) {
-            $attribute = [];
-            foreach ($params as $key => $value) {
-                if (str_contains($key, 'attr_') && $key != "attr_cat") {
-                    $attribute[] = str_replace('attr_', "", $key);
-                }
-            }
+        $categoryIds = $this->helperCategory->getAllCategoryIds($model->getId());
+        $attribute = $this->convertFilterParams($params);
+        if (!empty($categoryIds)) {
+            $allPromotion = $this->promotionList->getPromotionCollection();
+            $promotion = clone $allPromotion;
+            $promotion->addArrayCategoryFilter($categoryIds);
         }
         if (!empty($attribute)) {
-            $promotion = $this->promotionFactory->create()
-                ->addFieldToFilter(PromotionInterface::ATTRIBUTE_ALLOW, ['like' => '%' . implode('%', $attribute) . '%' ])
-                ->addCategoryFilter($model)->addVisibilityFilter();
-        } else {
-            $promotion = $this->promotionFactory->create()->addCategoryFilter($model)->addVisibilityFilter();
+            $promotion->addFieldToFilter(PromotionInterface::ATTRIBUTE_ALLOW, ['like' => '%' . implode('%', $attribute) . '%' ]);
         }
         return $promotion;
     }
     public function getCategoryFilter()
     {
-        $params = $this->getRequest()->getParams();
         $categoryTree = $this->categoryFactory->create();
         $currentPromolistCategory = $this->getCurrentCategory();
         if ($currentPromolistCategory) {
@@ -305,8 +266,6 @@ class Category extends AbstractBlock
                 ->setOrder(CategoryInterface::LEVEL, self::ORDER_ASC);
         } else {
             $rootId = $this->categoryCollection->getRootId();
-            $params = $this->getRequest()->getParams();
-            $attributes = $this->convertFilterParams($params);
             $filterCategory =  $categoryTree
                 ->addAttributeToSelect([CategoryInterface::NAME,CategoryInterface::URL_KEY])
                 ->addVisibilityFilter()
@@ -324,9 +283,11 @@ class Category extends AbstractBlock
     public function convertFilterParams($params)
     {
         $attribute = [];
-        foreach ($params as $key => $value) {
-            if (str_contains($key, 'attr_') && $key != "attr_cat") {
-                $attribute[] = str_replace('attr_', "", $key);
+        if (!empty($params)) {
+            foreach ($params as $key => $value) {
+                if (str_contains($key, 'attr_') && $key != "attr_cat") {
+                    $attribute[] = str_replace('attr_', "", $key);
+                }
             }
         }
         return $attribute;
@@ -358,4 +319,26 @@ class Category extends AbstractBlock
         }
         return false;
     }
+
+    public function getAttributeAllowFilter($allPromotions)
+    {
+        $data = [];
+        $mergeAttribute = [];
+        foreach ($allPromotions as $promotion) {
+            if ($promotion->getAttributeAllow()) {
+                $arrayAttribute[] = explode(',', $promotion->getAttributeAllow());
+            }
+        }
+        if (!empty($arrayAttribute)) {
+            foreach ($arrayAttribute as $promotion) {
+                $mergeAttribute = array_merge($mergeAttribute, $promotion);
+            }
+        }
+        foreach (array_unique($mergeAttribute) as $item) {
+            $codeAttribute = $this->promotionHelper->getEavAttributeByCode(self::EAV_ATTRIBUTE_PRODUCT, $item);
+            $data[] = $codeAttribute;
+        }
+        return $data;
+    }
+
 }

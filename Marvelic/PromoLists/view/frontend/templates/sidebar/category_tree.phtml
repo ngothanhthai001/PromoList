@@ -38,7 +38,7 @@ use Marvelic\PromoLists\Block\Navigation\Category;
                     <div data-role="content" class="filter-options-content attribute_collapsible" role="tabpanel" aria-hidden="false" style="">
                         <ol class="items">
                             <?php foreach ($block->getCategoryFilter() as $category): ?>
-                                <?php $count = $block->getPromotionByCatagory($category); ?>
+                                <?php $count = $block->getCountPromotionByCatagory($category); ?>
                                     <?php if ($count->count()): ?>
                                     <li class="item">
                                         <a href="<?= $block->getUrlFilterAttributeCatePromotion($category->getId()) ?>" rel="nofollow"><?= $category->getName() ?>
@@ -60,7 +60,7 @@ use Marvelic\PromoLists\Block\Navigation\Category;
                 <div data-role="content" class="filter-options-content attribute_collapsible" role="tabpanel" aria-hidden="true" style="">
                     <ol class="items">
                         <?php foreach ($block->getAttributeAllow() as $attribute): ?>
-                            <?php if (!$block->isAttributeFilter($attribute) && !empty($block->getCountAttributeByItem($attribute))): ?>
+                            <?php if (!$block->isAttributeFilter($attribute)): ?>
                                 <li class="item">
                                     <a href="<?= $block->getUrlFilterAttribute($attribute); ?>"
                                        rel="nofollow"><?= $attribute->getFrontendLabel() ?><span class="count">

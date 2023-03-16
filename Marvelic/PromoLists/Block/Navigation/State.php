@@ -8,8 +8,8 @@ use Magento\Framework\View\Element\Template\Context;
 use Marvelic\PromoLists\Api\Data\PromotionInterface;
 use Marvelic\PromoLists\Block\Html\Pager;
 use Marvelic\PromoLists\Block\Promotion\PromotionList;
-use Marvelic\PromoLists\Helper\PromotionHelper;
 use Marvelic\PromoLists\Helper\Category as CategoryHelper;
+use Marvelic\PromoLists\Helper\PromotionHelper;
 use Marvelic\PromoLists\Model\CategoryRepository;
 
 class State extends \Magento\Framework\View\Element\Template
@@ -141,18 +141,26 @@ class State extends \Magento\Framework\View\Element\Template
         $suffix = "attr_";
         $params = $this->getRequest()->getParams();
         unset($params[$suffix . $attribute->getAttributeCode()]);
+        unset($params[PromotionInterface::ID]);
         if (count($params)) {
+            unset($params[PromotionInterface::ID]);
             $url = $this->pager->getPagerUrl($params);
+        } elseif (!empty($this->promotionList->getCategory())) {
+            $url = $this->promotionList->getCategory()->getUrl();
         } else {
             $url = $this->pager->getPagerUrl();
         }
+
         return substr($url, strpos($url, "?"));
     }
     public function getUrlClearAll()
     {
         $url =  $this->pager->getPagerUrl();
-        if (!empty($this->promotionList->getCategory()) && $this->promotionList->getCategory()->getParentId() != $this->categoryHelper->getRootCategory()->getId()) {
-            $url = $this->categoryRepository->get($this->promotionList->getCategory()->getParentId())->getUrl();
+//        if (!empty($this->promotionList->getCategory()) && $this->promotionList->getCategory()->getParentId() != $this->categoryHelper->getRootCategory()->getId()) {
+//            $url = $this->categoryRepository->get($this->promotionList->getCategory()->getParentId())->getUrl();
+//        }
+        if (!empty($this->promotionList->getCategory())) {
+            $url = $this->promotionList->getCategory()->getUrl();
         }
         return $url;
     }
@@ -167,10 +175,16 @@ class State extends \Magento\Framework\View\Element\Template
             $pager = $this->pager;
             $url = $data->getUrl() . $this->promotionHelper->getParamsByUrl($pager->getPagerUrl());
             if (!$data->getParentId()) {
-                $url = $pager->getUrlNotCurrent($params);
+                $url = $pager->getPagerUrl($params);
             }
             return $url;
         }
         return null;
+    }
+
+    public function getCategoryFilter()
+    {
+        $cateId = $this->getRequest()->getParam('attr_cat');
+        return $this->categoryRepository->get($cateId)->getName();
     }
 }
